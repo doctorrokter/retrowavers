@@ -50,6 +50,7 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/cassette-body.png) \
         $$quote($$BASEDIR/assets/images/cogwheel.png) \
         $$quote($$BASEDIR/assets/images/cover.jpg) \
+        $$quote($$BASEDIR/assets/images/ic_feedback.png) \
         $$quote($$BASEDIR/assets/images/ic_next.png) \
         $$quote($$BASEDIR/assets/images/ic_pause.png) \
         $$quote($$BASEDIR/assets/images/ic_pause_2.png) \
@@ -59,7 +60,8 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/ic_reload.png) \
         $$quote($$BASEDIR/assets/images/logo.png) \
         $$quote($$BASEDIR/assets/images/palms-bg.png) \
-        $$quote($$BASEDIR/assets/main.qml)
+        $$quote($$BASEDIR/assets/main.qml) \
+        $$quote($$BASEDIR/assets/pages/HelpPage.qml)
 }
 
 config_pri_source_group1 {
@@ -117,7 +119,10 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../assets/fonts/*.qs) \
         $$quote($$BASEDIR/../assets/images/*.qml) \
         $$quote($$BASEDIR/../assets/images/*.js) \
-        $$quote($$BASEDIR/../assets/images/*.qs)
+        $$quote($$BASEDIR/../assets/images/*.qs) \
+        $$quote($$BASEDIR/../assets/pages/*.qml) \
+        $$quote($$BASEDIR/../assets/pages/*.js) \
+        $$quote($$BASEDIR/../assets/pages/*.qs)
 
     HEADERS += \
         $$quote($$BASEDIR/../src/*.h) \
@@ -127,4 +132,5 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../src/*.hxx)
 }
 
-TRANSLATIONS = $$quote($${TARGET}.ts)
+TRANSLATIONS = $$quote($${TARGET}_ru.ts) \
+    $$quote($${TARGET}.ts)

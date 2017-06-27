@@ -1,5 +1,5 @@
 1
-24
+26
 components/Cassette.qml
 components/Cover.qml
 components/List.qml
@@ -14,6 +14,7 @@ images/blur.jpg
 images/cassette-body.png
 images/cogwheel.png
 images/cover.jpg
+images/ic_feedback.png
 images/ic_next.png
 images/ic_pause.png
 images/ic_pause_2.png
@@ -24,3 +25,4 @@ images/ic_reload.png
 images/logo.png
 images/palms-bg.png
 main.qml
+pages/HelpPage.qml
