@@ -126,6 +126,24 @@ Page {
                     track: cover.track
                     imageUrl: cover.imageUrl
                 }
+            },
+            
+            NowPlayingConnection {
+                id: nowplaying
+                
+                connectionName: "Retrowavers"
+                                
+                onPause: {
+                    player.pause();
+                }
+                
+                onPlay: {
+                    player.play();
+                }
+                
+                onRevoked: {
+                    player.stop();
+                }
             }
         ]
     }
@@ -140,6 +158,12 @@ Page {
         if (Application.isThumbnailed()) {
             Application.setCover(cover);
         }
+        nowplaying.iconUrl = track.imagePath;
+        nowplaying.duration = track.duration;
+        nowplaying.position = 0;
+        nowplaying.mediaState = MediaState.Started;
+        nowplaying.setMetaData({"artist": track.title});
+        nowplaying.acquire();
     }
     
     onCreationCompleted: {

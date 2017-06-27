@@ -59,7 +59,7 @@ void ApiController::onLoad() {
     foreach(QVariant var, tracks) {
         QVariantMap trMap = var.toMap();
         QString imageUrl = trMap.value("artworkUrl").toString();
-        trMap["artworkUrl"] = ROOT_IMAGE_ENDPOINT + imageUrl;
+        trMap["artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(imageUrl);
         trMap["b_artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(".rsz.io").append(imageUrl).append("?blur=65");
         trMap["streamUrl"] = ROOT_ENDPOINT + trMap.value("streamUrl").toString();
         updatedTracks.append(trMap);
@@ -83,6 +83,8 @@ void ApiController::loadImage(const QString& id, const QString& path) {
     QNetworkRequest req;
 
     QUrl url(path);
+    req.setUrl(url);
+
     QString filename = path.split("/").last();
     QString filepath = QDir::currentPath() + IMAGES + "/" + filename;
     QFile file(filepath);
@@ -99,6 +101,7 @@ void ApiController::loadImage(const QString& id, const QString& path) {
         reply->setProperty("filepath", filepath);
         bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onImageLoad()));
         Q_ASSERT(res);
+        res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onImageError(QNetworkReply::NetworkError)));
         Q_UNUSED(res);
     }
 }
@@ -112,19 +115,31 @@ void ApiController::onImageLoad() {
 
     QByteArray data = reply->readAll();
 
-    QString imagesPath = QDir::currentPath() + IMAGES;
-    QDir images(imagesPath);
-    if (!images.exists()) {
-        images.mkpath(imagesPath);
+    if (data.size() != 0) {
+        QString imagesPath = QDir::currentPath() + IMAGES;
+        QDir images(imagesPath);
+        if (!images.exists()) {
+            images.mkpath(imagesPath);
+        }
+
+        QString imagePath = filepath;
+        QFile image(imagePath);
+        if (image.open(QIODevice::WriteOnly)) {
+            image.write(data);
+            image.close();
+            m_tracks->setImagePath(id, imagePath);
+        } else {
+            qDebug() << "===>>> ERROR OPEN FILE: " << filepath << " " << image.errorString() << endl;
+        }
     }
 
-    QString imagePath = filepath;
-    QFile image(imagePath);
-    image.open(QIODevice::WriteOnly);
-    image.write(data);
-    image.close();
+    reply->deleteLater();
+}
 
-    m_tracks->setImagePath(id, imagePath);
+void ApiController::onImageError(QNetworkReply::NetworkError e) {
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    qDebug() << "ApiController#onError: " << e << endl;
+    qDebug() << "ApiController#onError: " << reply->errorString() << endl;
     reply->deleteLater();
 }
 
@@ -132,6 +147,8 @@ void ApiController::loadBlurImage(const QString& id, const QString& path) {
     QNetworkRequest req;
 
     QUrl url(path);
+    req.setUrl(url);
+
     QString filename = "b_" + (path.split("/").last().split("?").first());
     QString filepath = QDir::currentPath() + IMAGES + "/" + filename;
     QFile file(filepath);
@@ -148,6 +165,7 @@ void ApiController::loadBlurImage(const QString& id, const QString& path) {
         reply->setProperty("filepath", filepath);
         bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onBlurImageLoad()));
         Q_ASSERT(res);
+        res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onImageError(QNetworkReply::NetworkError)));
         Q_UNUSED(res);
     }
 }
@@ -161,18 +179,19 @@ void ApiController::onBlurImageLoad() {
 
     QByteArray data = reply->readAll();
 
-    QString imagesPath = QDir::currentPath() + IMAGES;
-    QDir images(imagesPath);
-    if (!images.exists()) {
-        images.mkpath(imagesPath);
+    if (data.size() != 0) {
+        QString imagesPath = QDir::currentPath() + IMAGES;
+        QDir images(imagesPath);
+        if (!images.exists()) {
+            images.mkpath(imagesPath);
+        }
+
+        QString imagePath = filepath;
+        QFile image(imagePath);
+        image.open(QIODevice::WriteOnly);
+        image.write(data);
+        image.close();
+        m_tracks->setBlurImagePath(id, imagePath);
     }
-
-    QString imagePath = filepath;
-    QFile image(imagePath);
-    image.open(QIODevice::WriteOnly);
-    image.write(data);
-    image.close();
-
-    m_tracks->setBlurImagePath(id, imagePath);
     reply->deleteLater();
 }

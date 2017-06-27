@@ -8,12 +8,14 @@ Container {
     property bool playing: false
     
     margin.topOffset: ui.du(10)
+    
     preferredHeight: ui.du(35)
     preferredWidth: ui.du(55)
-
+    
     layout: DockLayout {}
     
     ImageView {
+        id: cassetteCover
         imageSource: root.cover
         preferredHeight: ui.du(31)
         preferredWidth: ui.du(49)

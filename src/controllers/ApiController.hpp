@@ -29,6 +29,7 @@ private slots:
     void onLoad();
     void onImageLoad();
     void onBlurImageLoad();
+    void onImageError(QNetworkReply::NetworkError e);
 
 private:
     QNetworkAccessManager* m_network;

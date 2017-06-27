@@ -8,7 +8,9 @@ Container {
     
     horizontalAlignment: HorizontalAlignment.Fill
     verticalAlignment: VerticalAlignment.Fill
-        
+    
+    background: ui.palette.background
+    
         layout: DockLayout {}
         
         ImageView {
@@ -24,7 +26,11 @@ Container {
             verticalAlignment: VerticalAlignment.Center
             horizontalAlignment: HorizontalAlignment.Center
             textStyle.base: textStyle.style
-            textStyle.fontSize: FontSize.XLarge
+            textStyle.fontSize: FontSize.Medium
+            multiline: true
+            
+            leftPadding: ui.du(1)
+            rightPadding: ui.du(1)
             
             attachedObjects: [
                 TextStyleDefinition {
