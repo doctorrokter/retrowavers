@@ -90,6 +90,10 @@
 
     <!--  The icon for the application, which should be 114x114. -->
     <icon>
+        <image>icon_144_x_144.png</image>
+        <image>icon_110_x_110.png</image>
+        <image>icon_96_x_96.png</image>
+        <image>icon_90_x_90.png</image>
         <image>icon.png</image>
     </icon>
 
@@ -106,6 +110,10 @@
     <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/Splashscreens/splash_720_x_1280.png">splash_720_x_1280.png</asset>
     <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/Splashscreens/splash_1280_x_768.png">splash_1280_x_768.png</asset>
     <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/Splashscreens/splash_1280_720.png">splash_1280_720.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/icons/icon_144_x_144.png">icon_144_x_144.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/icons/icon_110_x_110.png">icon_110_x_110.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/icons/icon_96_x_96.png">icon_96_x_96.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/icons/icon_90_x_90.png">icon_90_x_90.png</asset>
 
     <!-- Request permission to execute native code.  Required for native applications. -->
     <permission system="true">run_native</permission>
