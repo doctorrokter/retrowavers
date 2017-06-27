@@ -23,13 +23,30 @@
 #include <QtCore/QTimer>
 #include <Qt/qdeclarativedebug.h>
 #include "models/Track.hpp"
+#include "vendor/Console.hpp"
 
 using namespace bb::cascades;
+
+void myMessageOutput(QtMsgType type, const char* msg) {  // <-- ADD THIS
+    Q_UNUSED(type);
+    fprintf(stdout, "%s\n", msg);
+    fflush(stdout);
+
+    QSettings settings;
+    if (settings.value("sendToConsoleDebug", true).toBool()) {
+        Console* console = new Console();
+        console->sendMessage("ConsoleThis$$" + QString(msg));
+        console->deleteLater();
+    }
+}
+
 
 Q_DECL_EXPORT int main(int argc, char **argv) {
     qmlRegisterType<QTimer>("chachkouski.util", 1, 0, "Timer");
     qRegisterMetaType<Track*>("Track*");
     qmlRegisterUncreatableType<Track>("chachkouski.type", 1, 0, "track", "test");
+
+    qInstallMsgHandler(myMessageOutput);
 
     Application app(argc, argv);
     ApplicationUI appui;
