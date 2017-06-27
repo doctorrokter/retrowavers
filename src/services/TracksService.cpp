@@ -12,7 +12,12 @@
 
 TracksService::TracksService(QObject* parent) : QObject(parent), m_active(NULL) {}
 
-TracksService::~TracksService() {}
+TracksService::~TracksService() {
+    m_active->deleteLater();
+    foreach(Track* track, m_tracks) {
+        track->deleteLater();
+    }
+}
 
 QVariantList TracksService::getTracks() const {
     QVariantList tracks;

@@ -1,6 +1,7 @@
 1
-23
+24
 components/Cassette.qml
+components/Cover.qml
 components/List.qml
 components/Player.qml
 components/PlayerBottom.qml

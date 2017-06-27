@@ -41,7 +41,7 @@ class ApplicationUI : public QObject {
     Q_OBJECT
 public:
     ApplicationUI();
-    virtual ~ApplicationUI() {}
+    virtual ~ApplicationUI();
 
 private slots:
     void onSystemLanguageChanged();

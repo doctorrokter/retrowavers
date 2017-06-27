@@ -37,6 +37,7 @@ simulator {
 config_pri_assets {
     OTHER_FILES += \
         $$quote($$BASEDIR/assets/components/Cassette.qml) \
+        $$quote($$BASEDIR/assets/components/Cover.qml) \
         $$quote($$BASEDIR/assets/components/List.qml) \
         $$quote($$BASEDIR/assets/components/Player.qml) \
         $$quote($$BASEDIR/assets/components/PlayerBottom.qml) \

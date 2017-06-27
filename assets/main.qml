@@ -42,7 +42,6 @@ Page {
         }
         
         ImageView {
-            id: webView
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
             
@@ -115,15 +114,31 @@ Page {
             
             MediaPlayer {
                 id: player
+            },
+            
+            SceneCover {
+                id: cover
+                
+                property string track: "Retrowavers"
+                property string imageUrl: "asset:///images/blur.jpg"
+                
+                content: Cover {
+                    track: cover.track
+                    imageUrl: cover.imageUrl
+                }
             }
         ]
     }
     
     function updateImageUrl() {
         var track = _tracksService.active;
-        console.debug(track.bImagePath);
         if (_tracksService.active.bImagePath !== undefined) {
             root.imageUrl = track.bImagePath;
+            cover.imageUrl = track.bImagePath;
+        }
+        cover.track = track.title;
+        if (Application.isThumbnailed()) {
+            Application.setCover(cover);
         }
     }
     
@@ -135,5 +150,9 @@ Page {
         
         _api.load();
         _tracksService.activeChanged.connect(root.updateImageUrl);
+        
+        Application.thumbnail.connect(function() {
+            Application.setCover(cover);    
+        });
     }
 }

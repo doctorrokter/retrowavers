@@ -49,6 +49,15 @@ ApplicationUI::ApplicationUI() : QObject() {
     Application::instance()->setScene(root);
 }
 
+ApplicationUI::~ApplicationUI() {
+    m_pTranslator->deleteLater();
+    m_pLocaleHandler->deleteLater();
+
+    m_api->deleteLater();
+    m_tracks->deleteLater();
+    m_tracksController->deleteLater();
+}
+
 void ApplicationUI::onSystemLanguageChanged() {
     QCoreApplication::instance()->removeTranslator(m_pTranslator);
     QString locale_string = QLocale().name();
