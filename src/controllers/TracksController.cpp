@@ -36,7 +36,7 @@ void TracksController::pause() {
 }
 
 bool TracksController::next() {
-    if (m_index < m_tracks->count()) {
+    if (m_index < (m_tracks->count() -1)) {
         m_index++;
         play(m_tracks->getTracks().at(m_index).toMap());
         return true;

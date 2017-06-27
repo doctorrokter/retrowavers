@@ -26,7 +26,6 @@ Container {
             horizontalAlignment: HorizontalAlignment.Left
             verticalAlignment: VerticalAlignment.Center
             imageSource: "asset:///images/ic_previous.png"
-            margin.leftOffset: ui.du(10)
             
             gestureHandlers: [
                 TapHandler {
@@ -59,18 +58,28 @@ Container {
         }
         
         ImageView {
+            id: nextButton
+            
             horizontalAlignment: HorizontalAlignment.Right
             verticalAlignment: VerticalAlignment.Center
             imageSource: "asset:///images/ic_next.png"
-            margin.rightOffset: ui.du(10)
             
             gestureHandlers: [
                 TapHandler {
                     onTapped: {
-                        _tracksController.next();
+                        var result = _tracksController.next();
+                        if (!result) {
+                            _api.loaded.connect(nextButton.nextAfterLoad);
+                            _api.load();
+                        }
                     }
                 }
             ]
+            
+            function nextAfterLoad() {
+                _tracksController.next();
+                _api.loaded.disconnect(nextButton.nextAfterLoad);
+            }
         }
     }
     

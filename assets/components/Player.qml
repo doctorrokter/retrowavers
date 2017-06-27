@@ -18,6 +18,7 @@ Container {
     
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
+        verticalAlignment: VerticalAlignment.Top
         
         ImageView {
             imageSource: "asset:///images/logo.png"
@@ -27,13 +28,33 @@ Container {
             preferredWidth: ui.du(70)
             preferredHeight: ui.du(18)
         }
+    }
+    
+    Cassette {
+        id: cassette
+        cover: root.cover
+        playing: root.playing
         
-        Cassette {
-            id: cassette
-            cover: root.cover
+        verticalAlignment: VerticalAlignment.Center
+        horizontalAlignment: HorizontalAlignment.Fill
+    }
+    
+    Container {
+        verticalAlignment: VerticalAlignment.Center
+        horizontalAlignment: HorizontalAlignment.Fill
+        PlayerBottom {
+            id: playerBottom
             playing: root.playing
+            
+            margin.bottomOffset: ui.du(3.5)
         }
+    }
+    
+    Container {
+        horizontalAlignment: HorizontalAlignment.Center
+        verticalAlignment: VerticalAlignment.Bottom
         
+        margin.bottomOffset: ui.du(2)
         Container {
             margin.topOffset: ui.du(5)
             horizontalAlignment: HorizontalAlignment.Center
@@ -75,14 +96,7 @@ Container {
         }
     }
     
-    Container {
-        verticalAlignment: VerticalAlignment.Bottom
-        horizontalAlignment: HorizontalAlignment.Fill
-        PlayerBottom {
-            id: playerBottom
-            playing: root.playing
-        }
-    }
+    
     
     attachedObjects: [
         TextStyleDefinition {
@@ -99,8 +113,17 @@ Container {
         MediaPlayer {
             id: player
             
+            function nextAfterLoad() {
+                _tracksController.next();
+                _api.loaded.disconnect(player.nextAfterLoad);
+            }
+            
             onPlaybackCompleted: {
-                _tracksController.next();        
+                var result = _tracksController.next();       
+                if (!result) {
+                    _api.loaded.connect(player.nextAfterLoad);
+                    _api.load();
+                }  
             }
             
             onPositionChanged: {

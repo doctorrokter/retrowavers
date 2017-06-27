@@ -10,8 +10,7 @@ Container {
     margin.topOffset: ui.du(10)
     preferredHeight: ui.du(35)
     preferredWidth: ui.du(55)
-    horizontalAlignment: HorizontalAlignment.Center
-    
+
     layout: DockLayout {}
     
     ImageView {
