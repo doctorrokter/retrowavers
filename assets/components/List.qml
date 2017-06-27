@@ -5,6 +5,8 @@ Container {
     
     horizontalAlignment: HorizontalAlignment.Fill
     
+    layout: DockLayout {}
+    
     ListView {
         id: songsList
         
@@ -18,6 +20,25 @@ Container {
             var data = songsDataModel.data(indexPath);
             _tracksController.play(data);
         }
+        
+        function loaded() {
+            spinner.stop();
+            _api.loaded.disconnect(songsList.loaded);
+        }
+        
+        attachedObjects: [
+            ListScrollStateHandler {
+                onScrollingChanged: {
+                    if (atEnd) {
+                        if (!spinner.running) {
+                            spinner.start();
+                            _api.loaded.connect(songsList.loaded);
+                            _api.load();
+                        }
+                    }
+                }
+            }
+        ]
         
         listItemComponents: [
             ListItemComponent {
@@ -75,6 +96,15 @@ Container {
         ]
     }
     
+    ActivityIndicator {
+        id: spinner
+        
+        verticalAlignment: VerticalAlignment.Center
+        horizontalAlignment: HorizontalAlignment.Center
+        
+        minWidth: ui.du(20)
+    }
+    
     function addTracks(tracks) {
         songsDataModel.append(tracks);
     }
@@ -100,11 +130,11 @@ Container {
     }
     
     onCreationCompleted: {
-        var data = [];
-        data.push({title: "OGRE – Flex In", duration: 60000});
-        data.push({title: "Waveshaper - Dominator", duration: 125000});
-        data.push({title: "Oscillian - Ad Astra", duration: 350000});
-        songsDataModel.append(data);
+//        var data = [];
+//        data.push({title: "OGRE – Flex In", duration: 60000});
+//        data.push({title: "Waveshaper - Dominator", duration: 125000});
+//        data.push({title: "Oscillian - Ad Astra", duration: 350000});
+//        songsDataModel.append(data);
         songsDataModel.clear();
         _api.loaded.connect(addTracks);
         _tracksService.activeChanged.connect(root.onPlayed);

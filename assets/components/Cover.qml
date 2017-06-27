@@ -29,9 +29,6 @@ Container {
             textStyle.fontSize: FontSize.Medium
             multiline: true
             
-            leftPadding: ui.du(1)
-            rightPadding: ui.du(1)
-            
             attachedObjects: [
                 TextStyleDefinition {
                     id: textStyle
