@@ -154,8 +154,10 @@ NavigationPane {
         function updateImageUrl() {
             var track = _tracksService.active;
             if (_tracksService.active.bImagePath !== undefined) {
-                root.imageUrl = track.bImagePath;
-                cover.imageUrl = track.bImagePath;
+                if (track.bImagePath !== "") {
+                    root.imageUrl = track.bImagePath;
+                    cover.imageUrl = track.bImagePath;
+                }
             }
             cover.track = track.title;
             if (Application.isThumbnailed()) {
