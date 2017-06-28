@@ -171,8 +171,10 @@ Container {
     }
     
     function play(track) {
-        if (root.trackId !== track.id && !root.asleep) {
-            root.setData(track);
+        if (root.trackId !== track.id) {
+            if (!root.asleep) {
+                root.setData(track);
+            }
             player.sourceUrl = track.streamUrl;
         }
         player.play();
@@ -189,13 +191,18 @@ Container {
     
     function resumeRendering() {
         root.asleep = false;
-        root.setData(_tracksService.active.toMap());
+        var track = _tracksService.active;
+        if (track !== null && track !== undefined) {
+            root.setData(track.toMap());
+        }
     }
     
     function setData(track) {
+        root.trackId = track.id;
         root.playing = true;
         root.title = track.title;
-        root.currentTime = "00:00";
+//        root.currentTime = "00:00";
+        root.currentTime = getMediaTime(player.position);
         root.duration = getMediaTime(track.duration);
         root.cover = track.imagePath;
         //            nowplaying.iconUrl = track.imagePath;
