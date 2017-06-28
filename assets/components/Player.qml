@@ -11,6 +11,7 @@ Container {
     property string title: ""
     property string currentTime: ""
     property string duration: ""
+    property bool asleep: false
     
     horizontalAlignment: HorizontalAlignment.Fill
     verticalAlignment: VerticalAlignment.Fill
@@ -34,7 +35,7 @@ Container {
     Cassette {
         id: cassette
         cover: root.cover
-        playing: root.playing
+        playing: root.playing && !root.asleep
         
         verticalAlignment: VerticalAlignment.Center
         horizontalAlignment: HorizontalAlignment.Fill
@@ -128,7 +129,9 @@ Container {
             }
             
             onPositionChanged: {
-                root.currentTime = getMediaTime(position);
+                if (root.playing && !root.asleep) {
+                    root.currentTime = getMediaTime(position);
+                }
             }
         }
         
@@ -167,23 +170,42 @@ Container {
         return m + ':' + s;
     }
     
+    function play(track) {
+        if (root.trackId !== track.id && !root.asleep) {
+            root.setData(track);
+            player.sourceUrl = track.streamUrl;
+        }
+        player.play();
+    }
+    
+    function pause() {
+        root.playing = false;
+        player.pause();
+    }
+    
+    function stopRendering() {
+        root.asleep = true;
+    }
+    
+    function resumeRendering() {
+        root.asleep = false;
+        root.setData(_tracksService.active.toMap());
+    }
+    
+    function setData(track) {
+        root.playing = true;
+        root.title = track.title;
+        root.currentTime = "00:00";
+        root.duration = getMediaTime(track.duration);
+        root.cover = track.imagePath;
+        //            nowplaying.iconUrl = track.imagePath;
+        //            nowplaying.acquire();
+    }
+    
     onCreationCompleted: {
-        _tracksController.played.connect(function(track) {
-            if (root.trackId !== track.id) {
-                root.playing = true;
-                root.title = track.title;
-                root.currentTime = "00:00";
-                root.duration = getMediaTime(track.duration);
-                root.cover = track.imagePath;
-                //            nowplaying.iconUrl = track.imagePath;
-                //            nowplaying.acquire();
-                player.sourceUrl = track.streamUrl;
-            }
-            player.play();
-        });
-        _tracksController.paused.connect(function() {
-            root.playing = false;
-            player.pause();
-        });
+        _tracksController.played.connect(root.play);
+        _tracksController.paused.connect(root.pause);
+        Application.asleep.connect(root.stopRendering);
+        Application.awake.connect(root.resumeRendering);
     }    
 }

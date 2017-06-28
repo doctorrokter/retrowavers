@@ -153,15 +153,15 @@ NavigationPane {
     
         function updateImageUrl() {
             var track = _tracksService.active;
-            if (_tracksService.active.bImagePath !== undefined) {
-                if (track.bImagePath !== "") {
-                    root.imageUrl = track.bImagePath;
-                    cover.imageUrl = track.bImagePath;
-                }
-            }
+            var bImg = _tracksService.active.bImagePath;
+            var blurBg = bImg !== undefined && bImg !== "" ? bImg : root.imageUrl;
+
             cover.track = track.title;
+            cover.imageUrl = blurBg;
             if (Application.isThumbnailed()) {
                 Application.setCover(cover);
+            } else {
+                root.imageUrl = blurBg;
             }
         }
     
@@ -176,9 +176,6 @@ NavigationPane {
         
             Application.thumbnail.connect(function() {
                 Application.setCover(cover);    
-            });
-            Application.asleep.connect(function() {
-                console.debug("SLEEEEEEP");    
             });
         }
     }
