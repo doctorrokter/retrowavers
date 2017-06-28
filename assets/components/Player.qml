@@ -6,6 +6,7 @@ Container {
     id: root
     
     property bool playing: false
+    property string trackId: ""
     property string cover: "asset:///images/cover.jpg"
     property string title: ""
     property string currentTime: ""
@@ -168,14 +169,16 @@ Container {
     
     onCreationCompleted: {
         _tracksController.played.connect(function(track) {
-            root.playing = true;
-            root.title = track.title;
-            root.currentTime = "00:00";
-            root.duration = getMediaTime(track.duration);
-            root.cover = track.imagePath;
-//            nowplaying.iconUrl = track.imagePath;
-//            nowplaying.acquire();
-            player.sourceUrl = track.streamUrl;
+            if (root.trackId !== track.id) {
+                root.playing = true;
+                root.title = track.title;
+                root.currentTime = "00:00";
+                root.duration = getMediaTime(track.duration);
+                root.cover = track.imagePath;
+                //            nowplaying.iconUrl = track.imagePath;
+                //            nowplaying.acquire();
+                player.sourceUrl = track.streamUrl;
+            }
             player.play();
         });
         _tracksController.paused.connect(function() {

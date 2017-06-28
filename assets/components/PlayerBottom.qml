@@ -91,7 +91,12 @@ Container {
     
     onPlayingChanged: {
         if (playing) {
-            _tracksController.play(_tracksService.active);
+            if (_tracksService.active !== null && _tracksService.active !== undefined) {
+                var tr = _tracksService.active.toMap();
+                _tracksController.play(tr);
+            } else {
+                _tracksController.play({});
+            }
         } else {
             _tracksController.pause();
         }

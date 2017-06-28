@@ -52,7 +52,7 @@ public:
     Q_INVOKABLE const QString& getBImagePath() const;
     Q_INVOKABLE void setBImagePath(const QString& bImagePath);
 
-    QVariantMap toMap();
+    Q_INVOKABLE QVariantMap toMap();
     void fromMap(const QVariantMap& map);
 
     Q_SIGNALS:
