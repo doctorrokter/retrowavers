@@ -130,6 +130,32 @@ Container {
                 root.currentTime = getMediaTime(position);
             }
         }
+        
+//        NowPlayingConnection {
+//            id: nowplaying
+//            
+//            connectionName: "Retrowavers"
+//            
+//            onAcquired: {
+//                var track = _tracksService.active;
+//                duration = track.duration;
+//                position = 0;
+//                mediaState = MediaState.Started;
+//                nowplaying.setMetaData({"artist": track.title});
+//            }
+//            
+//            onPause: {
+//                player.pause();
+//            }
+//            
+//            onPlay: {
+//                player.play();
+//            }
+//            
+//            onRevoked: {
+//                player.stop();
+//            }
+//        }
     ]
     
     function getMediaTime(time) {
@@ -147,6 +173,8 @@ Container {
             root.currentTime = "00:00";
             root.duration = getMediaTime(track.duration);
             root.cover = track.imagePath;
+//            nowplaying.iconUrl = track.imagePath;
+//            nowplaying.acquire();
             player.sourceUrl = track.streamUrl;
             player.play();
         });

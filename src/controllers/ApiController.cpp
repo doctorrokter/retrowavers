@@ -92,7 +92,7 @@ void ApiController::loadImage(const QString& id, const QString& path) {
         qDebug() << "===>>> ApiController#loadImage - file exists: " << filepath << endl;
         m_tracks->setImagePath(id, filepath);
     } else {
-        qDebug() << "===>>> ApiController#loadImage " << url << endl;
+//        qDebug() << "===>>> ApiController#loadImage " << url << endl;
 
         QNetworkReply* reply = m_network->get(req);
         reply->setProperty("id", id);
@@ -115,7 +115,7 @@ void ApiController::onImageLoad() {
 
     QByteArray data = reply->readAll();
 
-    if (data.size() != 0) {
+    if (data.size() != 0 && reply->error() == QNetworkReply::NoError) {
         QString imagesPath = QDir::currentPath() + IMAGES;
         QDir images(imagesPath);
         if (!images.exists()) {
@@ -140,6 +140,7 @@ void ApiController::onImageError(QNetworkReply::NetworkError e) {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
     qDebug() << "ApiController#onError: " << e << endl;
     qDebug() << "ApiController#onError: " << reply->errorString() << endl;
+    qDebug() << "ApiController#onError: " << reply->property("path").toString() << endl;
     reply->deleteLater();
 }
 
@@ -156,7 +157,7 @@ void ApiController::loadBlurImage(const QString& id, const QString& path) {
         qDebug() << "===>>> ApiController#loadBlurImage - file exists: " << filepath << endl;
         m_tracks->setBlurImagePath(id, filepath);
     } else {
-        qDebug() << "===>>> ApiController#loadBlurImage " << url << endl;
+//        qDebug() << "===>>> ApiController#loadBlurImage " << url << endl;
 
         QNetworkReply* reply = m_network->get(req);
         reply->setProperty("id", id);
@@ -179,7 +180,7 @@ void ApiController::onBlurImageLoad() {
 
     QByteArray data = reply->readAll();
 
-    if (data.size() != 0) {
+    if (data.size() != 0  && reply->error() == QNetworkReply::NoError) {
         QString imagesPath = QDir::currentPath() + IMAGES;
         QDir images(imagesPath);
         if (!images.exists()) {
