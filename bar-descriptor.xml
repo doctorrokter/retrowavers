@@ -125,6 +125,7 @@
     <permission system="true">run_native</permission>
     <permission system="true">_sys_run_headless</permission>
     <permission>run_when_backgrounded</permission>
+    <permission>post_notification</permission>
     <env var="LD_LIBRARY_PATH" value="app/native/lib:/usr/lib/qt4/lib"/>
     <env var="CASCADES_THEME" value="dark?primaryColor=0xFF3333&amp;primaryBase=0xCC3333"/>
 

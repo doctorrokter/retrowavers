@@ -11,6 +11,11 @@
 #include <QObject>
 #include <QVariantMap>
 #include "../services/TracksService.hpp"
+#include <bb/platform/Notification>
+#include <bb/platform/NotificationType>
+
+
+using namespace bb::platform;
 
 class TracksController: public QObject {
     Q_OBJECT
@@ -30,6 +35,10 @@ public:
 private:
     TracksService* m_tracks;
     int m_index;
+
+    Notification* m_pNotification;
+
+    void notify(Track* track);
 };
 
 #endif /* TRACKSCONTROLLER_HPP_ */

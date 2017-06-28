@@ -7,9 +7,19 @@
 
 #include "TracksController.hpp"
 
-TracksController::TracksController(TracksService* tracks, QObject* parent) : QObject(parent), m_tracks(tracks), m_index(0) {}
+#define NOTIFICATION_KEY "Retrowavers"
 
-TracksController::~TracksController() {}
+TracksController::TracksController(TracksService* tracks, QObject* parent) : QObject(parent), m_tracks(tracks), m_index(0) {
+    m_pNotification = new Notification(this);
+    m_pNotification->setTitle(NOTIFICATION_KEY);
+    m_pNotification->setType(NotificationType::AllAlertsOff);
+    m_pNotification->deleteAllFromInbox();
+}
+
+TracksController::~TracksController() {
+    m_pNotification->deleteAllFromInbox();
+    m_pNotification->deleteLater();
+}
 
 void TracksController::play(const QVariantMap& track) {
     m_index = 0;
@@ -21,12 +31,14 @@ void TracksController::play(const QVariantMap& track) {
 
                 Track* pTrack = m_tracks->findById(id);
                 m_tracks->setActive(pTrack);
+                notify(pTrack);
                 emit played(pTrack->toMap());
             }
         }
     } else {
         Track* pTrack = m_tracks->getTracksList().at(m_index);
         m_tracks->setActive(pTrack);
+        notify(pTrack);
         emit played(pTrack->toMap());
     }
 }
@@ -51,4 +63,9 @@ bool TracksController::prev() {
         return true;
     }
     return false;
+}
+
+void TracksController::notify(Track* track) {
+    m_pNotification->setBody(track->getTitle());
+    m_pNotification->notify();
 }

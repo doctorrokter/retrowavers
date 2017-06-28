@@ -1,7 +1,7 @@
 APP_NAME = Retrowavers
 
 CONFIG += qt warn_on cascades10
-LIBS   += -lbbdata -lbbnetwork -lbbmultimedia -lbb
+LIBS   += -lbbdata -lbbnetwork -lbbmultimedia -lbb -lbbplatform
 
 QT += network
 

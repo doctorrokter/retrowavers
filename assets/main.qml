@@ -175,6 +175,9 @@ NavigationPane {
             Application.thumbnail.connect(function() {
                 Application.setCover(cover);    
             });
+            Application.asleep.connect(function() {
+                console.debug("SLEEEEEEP");    
+            });
         }
     }
     
