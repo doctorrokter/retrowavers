@@ -1,5 +1,5 @@
 1
-26
+30
 components/Cassette.qml
 components/Cover.qml
 components/List.qml
@@ -22,7 +22,11 @@ images/ic_play.png
 images/ic_play_2.png
 images/ic_previous.png
 images/ic_reload.png
+images/ic_sign_out.png
+images/Lastfm_logo.png
 images/logo.png
 images/palms-bg.png
 main.qml
 pages/HelpPage.qml
+pages/LastFMAuth.qml
+style/RetroTextStyleDefinition.qml

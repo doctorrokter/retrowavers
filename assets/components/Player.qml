@@ -1,5 +1,6 @@
 import bb.cascades 1.4
 import bb.multimedia 1.4
+import "../style"
 
 Container {
     
@@ -101,15 +102,8 @@ Container {
     
     
     attachedObjects: [
-        TextStyleDefinition {
+        RetroTextStyleDefinition {
             id: textStyle
-            fontFamily: "Newtown"
-            rules: [
-                FontFaceRule {
-                    source: "asset:///fonts/NEWTOW_I.ttf"
-                    fontFamily: "Newtown"
-                }
-            ]
         },
         
         MediaPlayer {
@@ -118,6 +112,14 @@ Container {
             function nextAfterLoad() {
                 _tracksController.next();
                 _api.loaded.disconnect(player.nextAfterLoad);
+            }
+            
+            onMediaStateChanged: {
+                if (mediaState === MediaState.Started) {
+                    var track = _tracksService.active.toMap();
+                    var parts = track.title.split(" – ");
+                    _lastFM.track.updateNowPlaying(parts[0].trim(), parts[1].trim());
+                }
             }
             
             onPlaybackCompleted: {

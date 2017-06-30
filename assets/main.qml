@@ -33,6 +33,16 @@ NavigationPane {
         
         actions: [
             ActionItem {
+                title: qsTr("LastFM account") + Retranslate.onLocaleOrLanguageChanged
+                imageSource: "asset:///images/ic_sign_out.png"
+                
+                onTriggered: {
+                    var fm = lastFm.createObject();
+                    navigation.push(fm);
+                }
+            },
+            
+            ActionItem {
                 title: qsTr("Send feedback") + Retranslate.onLocaleOrLanguageChanged
                 imageSource: "asset:///images/ic_feedback.png"
                 
@@ -181,6 +191,9 @@ NavigationPane {
     }
     
     onPopTransitionEnded: {
+        if (page.cleanUp !== undefined) {
+            page.cleanUp();
+        }
         page.destroy();
         Application.menuEnabled = true;
     }
@@ -189,6 +202,11 @@ NavigationPane {
         ComponentDefinition {
             id: helpPage
             HelpPage {}
+        },
+        
+        ComponentDefinition {
+            id: lastFm
+            LastFMAuth {}    
         },
         
         Invocation {

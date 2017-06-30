@@ -4,15 +4,46 @@
 <context>
     <name>HelpPage</name>
     <message>
-        <location filename="../assets/pages/HelpPage.qml" line="10"/>
+        <location filename="../assets/pages/HelpPage.qml" line="11"/>
         <source>About</source>
         <translation type="unfinished">О приложении</translation>
+    </message>
+</context>
+<context>
+    <name>LastFMAuth</name>
+    <message>
+        <location filename="../assets/pages/LastFMAuth.qml" line="50"/>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/LastFMAuth.qml" line="61"/>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/LastFMAuth.qml" line="75"/>
+        <source>Sign in</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LastFMController</name>
+    <message>
+        <location filename="../src/controllers/lastfm/LastFMController.cpp" line="66"/>
+        <source>Logged in as </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <location filename="../assets/main.qml" line="36"/>
+        <source>LastFM account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="46"/>
         <source>Send feedback</source>
         <translation type="unfinished">Обратная связь</translation>
     </message>

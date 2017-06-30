@@ -20,7 +20,9 @@
 #include <QObject>
 #include "controllers/ApiController.hpp"
 #include "controllers/TracksController.hpp"
+#include "controllers/lastfm/LastFMController.hpp"
 #include "services/TracksService.hpp"
+#include "config/AppConfig.hpp"
 
 namespace bb
 {
@@ -51,7 +53,9 @@ private:
 
     ApiController* m_api;
     TracksController* m_tracksController;
+    LastFMController* m_lastFM;
     TracksService* m_tracks;
+    AppConfig* m_pAppConfig;
 };
 
 #endif /* ApplicationUI_HPP_ */

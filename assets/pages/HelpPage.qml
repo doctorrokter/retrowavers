@@ -2,6 +2,7 @@ import bb.cascades 1.4
 import bb.system 1.2
 import bb.platform 1.3
 import "../components"
+import "../style"
 
 Page {
     id: root
@@ -84,15 +85,8 @@ Page {
             id: platform
         },
         
-        TextStyleDefinition {
+        RetroTextStyleDefinition {
             id: textStyle
-            fontFamily: "Newtown"
-            rules: [
-                FontFaceRule {
-                    source: "asset:///fonts/NEWTOW_I.ttf"
-                    fontFamily: "Newtown"
-                }
-            ]
         }
     ]
 }

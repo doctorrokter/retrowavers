@@ -9,9 +9,35 @@
     </message>
 </context>
 <context>
+    <name>LastFMAuth</name>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign in</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LastFMController</name>
+    <message>
+        <source>Logged in as </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <source>Send feedback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LastFM account</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -46,6 +46,7 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/fonts/NEWTOW_I.ttf) \
         $$quote($$BASEDIR/assets/fonts/NEWTOW_I.woff) \
         $$quote($$BASEDIR/assets/fonts/Newtown_Italic.woff) \
+        $$quote($$BASEDIR/assets/images/Lastfm_logo.png) \
         $$quote($$BASEDIR/assets/images/blur.jpg) \
         $$quote($$BASEDIR/assets/images/cassette-body.png) \
         $$quote($$BASEDIR/assets/images/cogwheel.png) \
@@ -58,17 +59,23 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/ic_play_2.png) \
         $$quote($$BASEDIR/assets/images/ic_previous.png) \
         $$quote($$BASEDIR/assets/images/ic_reload.png) \
+        $$quote($$BASEDIR/assets/images/ic_sign_out.png) \
         $$quote($$BASEDIR/assets/images/logo.png) \
         $$quote($$BASEDIR/assets/images/palms-bg.png) \
         $$quote($$BASEDIR/assets/main.qml) \
-        $$quote($$BASEDIR/assets/pages/HelpPage.qml)
+        $$quote($$BASEDIR/assets/pages/HelpPage.qml) \
+        $$quote($$BASEDIR/assets/pages/LastFMAuth.qml) \
+        $$quote($$BASEDIR/assets/style/RetroTextStyleDefinition.qml)
 }
 
 config_pri_source_group1 {
     SOURCES += \
         $$quote($$BASEDIR/src/applicationui.cpp) \
+        $$quote($$BASEDIR/src/config/AppConfig.cpp) \
         $$quote($$BASEDIR/src/controllers/ApiController.cpp) \
         $$quote($$BASEDIR/src/controllers/TracksController.cpp) \
+        $$quote($$BASEDIR/src/controllers/lastfm/LastFMController.cpp) \
+        $$quote($$BASEDIR/src/controllers/lastfm/TrackController.cpp) \
         $$quote($$BASEDIR/src/main.cpp) \
         $$quote($$BASEDIR/src/models/Track.cpp) \
         $$quote($$BASEDIR/src/services/TracksService.cpp) \
@@ -77,8 +84,12 @@ config_pri_source_group1 {
     HEADERS += \
         $$quote($$BASEDIR/src/Common.hpp) \
         $$quote($$BASEDIR/src/applicationui.hpp) \
+        $$quote($$BASEDIR/src/config/AppConfig.hpp) \
         $$quote($$BASEDIR/src/controllers/ApiController.hpp) \
         $$quote($$BASEDIR/src/controllers/TracksController.hpp) \
+        $$quote($$BASEDIR/src/controllers/lastfm/LastFMCommon.hpp) \
+        $$quote($$BASEDIR/src/controllers/lastfm/LastFMController.hpp) \
+        $$quote($$BASEDIR/src/controllers/lastfm/TrackController.hpp) \
         $$quote($$BASEDIR/src/models/Track.hpp) \
         $$quote($$BASEDIR/src/services/TracksService.hpp) \
         $$quote($$BASEDIR/src/vendor/Console.hpp)
@@ -95,11 +106,21 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../src/*.cc) \
         $$quote($$BASEDIR/../src/*.cpp) \
         $$quote($$BASEDIR/../src/*.cxx) \
+        $$quote($$BASEDIR/../src/config/*.c) \
+        $$quote($$BASEDIR/../src/config/*.c++) \
+        $$quote($$BASEDIR/../src/config/*.cc) \
+        $$quote($$BASEDIR/../src/config/*.cpp) \
+        $$quote($$BASEDIR/../src/config/*.cxx) \
         $$quote($$BASEDIR/../src/controllers/*.c) \
         $$quote($$BASEDIR/../src/controllers/*.c++) \
         $$quote($$BASEDIR/../src/controllers/*.cc) \
         $$quote($$BASEDIR/../src/controllers/*.cpp) \
         $$quote($$BASEDIR/../src/controllers/*.cxx) \
+        $$quote($$BASEDIR/../src/controllers/lastfm/*.c) \
+        $$quote($$BASEDIR/../src/controllers/lastfm/*.c++) \
+        $$quote($$BASEDIR/../src/controllers/lastfm/*.cc) \
+        $$quote($$BASEDIR/../src/controllers/lastfm/*.cpp) \
+        $$quote($$BASEDIR/../src/controllers/lastfm/*.cxx) \
         $$quote($$BASEDIR/../src/models/*.c) \
         $$quote($$BASEDIR/../src/models/*.c++) \
         $$quote($$BASEDIR/../src/models/*.cc) \
@@ -129,7 +150,10 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../assets/images/*.qs) \
         $$quote($$BASEDIR/../assets/pages/*.qml) \
         $$quote($$BASEDIR/../assets/pages/*.js) \
-        $$quote($$BASEDIR/../assets/pages/*.qs)
+        $$quote($$BASEDIR/../assets/pages/*.qs) \
+        $$quote($$BASEDIR/../assets/style/*.qml) \
+        $$quote($$BASEDIR/../assets/style/*.js) \
+        $$quote($$BASEDIR/../assets/style/*.qs)
 
     HEADERS += \
         $$quote($$BASEDIR/../src/*.h) \

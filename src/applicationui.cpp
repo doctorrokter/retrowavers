@@ -29,7 +29,9 @@ ApplicationUI::ApplicationUI() : QObject() {
 
     m_tracks = new TracksService(this);
     m_tracksController = new TracksController(m_tracks, this);
+    m_lastFM = new LastFMController(this);
     m_api = new ApiController(m_tracks, this);
+    m_pAppConfig = new AppConfig(this);
 
     bool res = QObject::connect(m_pLocaleHandler, SIGNAL(systemLanguageChanged()), this, SLOT(onSystemLanguageChanged()));
     Q_ASSERT(res);
@@ -44,6 +46,8 @@ ApplicationUI::ApplicationUI() : QObject() {
     rootContext->setContextProperty("_api", m_api);
     rootContext->setContextProperty("_tracksService", m_tracks);
     rootContext->setContextProperty("_tracksController", m_tracksController);
+    rootContext->setContextProperty("_lastFM", m_lastFM);
+    rootContext->setContextProperty("_appConfig", m_pAppConfig);
 
     AbstractPane *root = qml->createRootObject<AbstractPane>();
     Application::instance()->setScene(root);
@@ -56,6 +60,8 @@ ApplicationUI::~ApplicationUI() {
     m_api->deleteLater();
     m_tracks->deleteLater();
     m_tracksController->deleteLater();
+    m_lastFM->deleteLater();
+    m_pAppConfig->deleteLater();
 }
 
 void ApplicationUI::onSystemLanguageChanged() {
