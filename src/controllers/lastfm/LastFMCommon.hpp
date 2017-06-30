@@ -18,5 +18,6 @@
 #define AUTH_METHOD "auth.getMobileSession"
 
 #define TRACK_UPDATE_NOW_PLAYING "track.updateNowPlaying"
+#define TRACK_SCROBBLE "track.scrobble"
 
 #endif /* LASTFMCOMMON_HPP_ */

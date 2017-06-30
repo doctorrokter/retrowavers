@@ -20,12 +20,15 @@ public:
     virtual ~TrackController();
 
     Q_INVOKABLE void updateNowPlaying(const QString& artist, const QString& track);
+    Q_INVOKABLE void scrobble(const QString& artist, const QString& track, const int& timestamp);
 
     Q_SIGNALS:
         void nowPlayingUpdated();
+        void scrobbled();
 
 private slots:
     void onNowPlayingUpdated();
+    void onScrobbled();
     void onError(QNetworkReply::NetworkError e);
 
 private:

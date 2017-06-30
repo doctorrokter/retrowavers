@@ -64,6 +64,50 @@ void TrackController::onNowPlayingUpdated() {
     reply->deleteLater();
 }
 
+void TrackController::scrobble(const QString& artist, const QString& track, const int& timestamp) {
+    QNetworkRequest req;
+
+    QUrl url(API_ROOT);
+    req.setUrl(url);
+    req.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    QUrl body;
+    QString sk = AppConfig::getStatic(LAST_FM_KEY).toString();
+    QString sig = QString("api_key").append(API_KEY)
+                    .append("artist").append(artist.toUtf8())
+                    .append("method").append(TRACK_SCROBBLE)
+                    .append("sk").append(sk)
+                    .append("timestamp").append(QString::number(timestamp))
+                    .append("track").append(track.toUtf8())
+                    .append(SECRET);
+    QString hash = QCryptographicHash::hash(sig.toAscii(), QCryptographicHash::Md5).toHex();
+
+    body.addQueryItem("method", TRACK_SCROBBLE);
+    body.addQueryItem("artist", artist.toUtf8());
+    body.addQueryItem("track", track.toUtf8());
+    body.addQueryItem("timestamp", QString::number(timestamp));
+    body.addQueryItem("api_key", API_KEY);
+    body.addQueryItem("sk", sk);
+    body.addQueryItem("api_sig", hash);
+
+    QNetworkReply* reply = m_pNetwork->post(req, body.encodedQuery());
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onScrobbled()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void TrackController::onScrobbled() {
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+
+    if (reply->error() == QNetworkReply::NoError) {
+        qDebug() << reply->readAll() << endl;
+    }
+
+    reply->deleteLater();
+}
+
 void TrackController::onError(QNetworkReply::NetworkError e) {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
     qDebug() << "===>>> TrackController#onError " << e << endl;

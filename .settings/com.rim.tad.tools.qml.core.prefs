@@ -2,6 +2,7 @@ config-pri.hash=9B16C8838496B8F62A79960D117D8B2D
 config-pri.version=2.0
 eclipse.preferences.version=1
 white-list._api=
+white-list._appConfig=
 white-list._lastFM=
 white-list._tracksController=
 white-list._tracksService=

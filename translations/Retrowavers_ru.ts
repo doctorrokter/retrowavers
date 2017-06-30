@@ -12,17 +12,22 @@
 <context>
     <name>LastFMAuth</name>
     <message>
-        <location filename="../assets/pages/LastFMAuth.qml" line="50"/>
+        <location filename="../assets/pages/LastFMAuth.qml" line="73"/>
+        <source>Sign out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/LastFMAuth.qml" line="94"/>
         <source>Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/LastFMAuth.qml" line="61"/>
+        <location filename="../assets/pages/LastFMAuth.qml" line="105"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/LastFMAuth.qml" line="75"/>
+        <location filename="../assets/pages/LastFMAuth.qml" line="119"/>
         <source>Sign in</source>
         <translation type="unfinished"></translation>
     </message>

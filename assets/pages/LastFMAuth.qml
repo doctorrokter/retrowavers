@@ -6,6 +6,8 @@ Page {
     id: root
     
     property bool success: true
+    property bool signedIn: false
+    property string signedInUser: "user"
     
     titleBar: TitleBar {
         kind: TitleBarKind.FreeForm
@@ -37,10 +39,52 @@ Page {
                 horizontalAlignment: HorizontalAlignment.Fill
                 verticalAlignment: VerticalAlignment.Fill
                 scalingMethod: ScalingMethod.AspectFill
-                opacity: 0.4
+                opacity: 0.3
             }
             
             Container {
+                id: signOut
+                    
+                verticalAlignment: VerticalAlignment.Center
+                horizontalAlignment: HorizontalAlignment.Center
+                
+                maxWidth: ui.du(75)
+                
+                visible: root.signedIn
+                
+                Label {
+                    text: "Signed in as"
+                    textStyle.base: textStyle.style
+                    textStyle.fontSize: FontSize.Large
+                    horizontalAlignment: HorizontalAlignment.Center
+                }
+                
+                Label {
+                    text: root.signedInUser
+                    textStyle.base: textStyle.style
+                    textStyle.fontSize: FontSize.Large
+                    textStyle.color: ui.palette.primaryDark
+                    horizontalAlignment: HorizontalAlignment.Center
+                }
+                
+                Button {
+                    margin.topOffset: ui.du(7)
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    text: qsTr("Sign out") + Retranslate.onLocaleOrLanguageChanged
+                    color: ui.palette.primaryDark
+                    
+                    onClicked: {
+                        _appConfig.set("lastfm_key", "");
+                        _appConfig.set("lastfm_name", "");
+                    }
+                }
+            }
+            
+            Container {
+                id: signIn
+                
+                visible: !root.signedIn
+                
                 verticalAlignment: VerticalAlignment.Center
                 horizontalAlignment: HorizontalAlignment.Center
                 
@@ -110,10 +154,20 @@ Page {
     
     onCreationCompleted: {
         _lastFM.authenticationFinished.connect(root.onAuth);
+        _appConfig.settingsChanged.connect(root.updateSettings);
+        updateSettings();
     }
     
     function cleanUp() {
         _lastFM.authenticationFinished.disconnect(root.onAuth);
+        _appConfig.settingsChanged.disconnect(root.updateSettings);
+    }
+    
+    function updateSettings() {
+        var lastFMKey = _appConfig.get("lastfm_key");
+        var lastFMName = _appConfig.get("lastfm_name");
+        root.signedIn = lastFMKey !== undefined && lastFMKey !== "";
+        root.signedInUser = lastFMName;
     }
     
     function onAuth(message, success) {

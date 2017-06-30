@@ -27,11 +27,11 @@ ApplicationUI::ApplicationUI() : QObject() {
     m_pTranslator = new QTranslator(this);
     m_pLocaleHandler = new LocaleHandler(this);
 
+    m_pAppConfig = new AppConfig(this);
     m_tracks = new TracksService(this);
     m_tracksController = new TracksController(m_tracks, this);
-    m_lastFM = new LastFMController(this);
+    m_lastFM = new LastFMController(m_pAppConfig, this);
     m_api = new ApiController(m_tracks, this);
-    m_pAppConfig = new AppConfig(this);
 
     bool res = QObject::connect(m_pLocaleHandler, SIGNAL(systemLanguageChanged()), this, SLOT(onSystemLanguageChanged()));
     Q_ASSERT(res);

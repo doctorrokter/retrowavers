@@ -10,14 +10,14 @@
 #include <QDebug>
 #include <bb/data/JsonDataAccess>
 #include <QVariantMap>
-#include "../../config/AppConfig.hpp"
 #include "LastFMCommon.hpp"
 
 using namespace bb::data;
 
-LastFMController::LastFMController(QObject* parent) : QObject(parent) {
+LastFMController::LastFMController(AppConfig* appConfig, QObject* parent) : QObject(parent) {
     m_pNetwork = new QNetworkAccessManager(this);
     m_pTrack = new TrackController(this);
+    m_pAppConfig = appConfig;
 }
 
 LastFMController::~LastFMController() {
@@ -61,8 +61,8 @@ void LastFMController::onAuthenticate() {
         QString name = session.value("name").toString();
         QString key = session.value("key").toString();
 
-        AppConfig::setStatic(LAST_FM_NAME, name);
-        AppConfig::setStatic(LAST_FM_KEY, key);
+        m_pAppConfig->set(LAST_FM_NAME, name);
+        m_pAppConfig->set(LAST_FM_KEY, key);
         emit authenticationFinished(tr("Logged in as ") + name, true);
     }
 

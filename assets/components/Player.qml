@@ -12,7 +12,16 @@ Container {
     property string title: ""
     property string currentTime: ""
     property string duration: ""
+    
     property bool asleep: false
+    property bool scrobbled: false
+    property int startTime: 0
+    property int durationMillis: 0
+    property string artistName: ""
+    property string trackName: ""
+    property bool scrobblerEnabled: false
+    
+    property int fourMinutes: 60000 * 4
     
     horizontalAlignment: HorizontalAlignment.Fill
     verticalAlignment: VerticalAlignment.Fill
@@ -116,9 +125,9 @@ Container {
             
             onMediaStateChanged: {
                 if (mediaState === MediaState.Started) {
-                    var track = _tracksService.active.toMap();
-                    var parts = track.title.split(" – ");
-                    _lastFM.track.updateNowPlaying(parts[0].trim(), parts[1].trim());
+                    if (root.scrobblerEnabled) {
+                        _lastFM.track.updateNowPlaying(root.artistName, root.trackName);
+                    }
                 }
             }
             
@@ -133,6 +142,15 @@ Container {
             onPositionChanged: {
                 if (root.playing && !root.asleep) {
                     root.currentTime = getMediaTime(position);
+                }
+                
+                if (root.scrobblerEnabled) {
+                    if (!root.scrobbled) {
+                        if (position >= (root.durationMillis / 2) || position >= root.fourMinutes) {
+                            root.scrobbled = true;
+                            _lastFM.track.scrobble(root.artistName, root.trackName, root.startTime);
+                        }
+                    }
                 }
             }
         }
@@ -178,6 +196,13 @@ Container {
                 root.setData(track);
             }
             player.sourceUrl = track.streamUrl;
+            root.scrobbled = false;
+            root.startTime = new Date().getTime() / 1000;
+            root.durationMillis = track.duration;
+            
+            var parts = getArtistAndTrack(track.title);
+            root.artistName = parts.artist;
+            root.trackName = parts.track;
         }
         player.play();
     }
@@ -203,7 +228,6 @@ Container {
         root.trackId = track.id;
         root.playing = true;
         root.title = track.title;
-//        root.currentTime = "00:00";
         root.currentTime = getMediaTime(player.position);
         root.duration = getMediaTime(track.duration);
         root.cover = track.imagePath;
@@ -211,10 +235,25 @@ Container {
         //            nowplaying.acquire();
     }
     
+    function getArtistAndTrack(title) {
+        var track = _tracksService.active.toMap();
+        var parts = track.title.split(" – ");
+        return {artist: parts[0].trim(), track: parts[1].trim()};
+    }
+    
+    function updateSettings() {
+        console.debug("update settings ins player");
+        var lastFMKey = _appConfig.get("lastfm_key");
+        root.scrobblerEnabled = lastFMKey !== undefined && lastFMKey !== "";
+        console.debug("scrobbled enabled: ", root.scrobblerEnabled);
+    }
+    
     onCreationCompleted: {
         _tracksController.played.connect(root.play);
         _tracksController.paused.connect(root.pause);
         Application.asleep.connect(root.stopRendering);
         Application.awake.connect(root.resumeRendering);
+        _appConfig.settingsChanged.connect(root.updateSettings);
+        updateSettings();
     }    
 }

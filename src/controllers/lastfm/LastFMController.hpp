@@ -13,12 +13,13 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "TrackController.hpp"
+#include "../../config/AppConfig.hpp"
 
 class LastFMController: public QObject {
     Q_OBJECT
     Q_PROPERTY(TrackController* track READ getTrackController)
 public:
-    LastFMController(QObject* parent = 0);
+    LastFMController(AppConfig* appConfig, QObject* parent = 0);
     virtual ~LastFMController();
 
     Q_INVOKABLE void authenticate(const QString& username, const QString& password);
@@ -36,6 +37,7 @@ private:
     QNetworkAccessManager* m_pNetwork;
 
     TrackController* m_pTrack;
+    AppConfig* m_pAppConfig;
 };
 
 #endif /* LASTFMCONTROLLER_HPP_ */

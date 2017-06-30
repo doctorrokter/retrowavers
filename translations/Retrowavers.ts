@@ -11,6 +11,10 @@
 <context>
     <name>LastFMAuth</name>
     <message>
+        <source>Sign out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Login</source>
         <translation type="unfinished"></translation>
     </message>
