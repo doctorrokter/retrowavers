@@ -31,6 +31,11 @@
         <source>Sign in</source>
         <translation type="unfinished">Войти</translation>
     </message>
+    <message>
+        <location filename="../assets/pages/LastFMAuth.qml" line="179"/>
+        <source>Error login. Check your credentials.</source>
+        <translation type="unfinished">Ошибка входа. Проверьте логин/пароль и повторите вход.</translation>
+    </message>
 </context>
 <context>
     <name>LastFMController</name>

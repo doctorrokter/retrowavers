@@ -173,7 +173,12 @@ Page {
     function onAuth(message, success) {
         spinner.stop();
         root.success = success;
-        toast.body = message;
+        if (success) {
+            toast.body = message;
+        } else {
+            toast.body = qsTr("Error login. Check your credentials.") + Retranslate.onLocaleOrLanguageChanged
+        }
+        
         toast.show();
     }
 }
