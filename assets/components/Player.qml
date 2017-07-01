@@ -56,9 +56,37 @@ Container {
         horizontalAlignment: HorizontalAlignment.Fill
         PlayerBottom {
             id: playerBottom
-            playing: root.playing
             
+            playing: root.playing
             margin.bottomOffset: ui.du(3.5)
+            
+            onPlay: {
+                if (_tracksService.active !== null && _tracksService.active !== undefined) {
+                    var tr = _tracksService.active.toMap();
+                    _tracksController.play(tr);
+                } else {
+                    _tracksController.play({});
+                }
+                root.playing = true;
+            }
+            
+            onPause: {
+                root.playing = false;
+                nowplaying.pause();
+            }
+            
+            onNext: {
+                root.next();
+            }
+            
+            onPrev: {
+                root.prev();
+            }
+            
+            function nextAfterLoad() {
+                _tracksController.next();
+                _api.loaded.disconnect(playerBottom.nextAfterLoad);
+            }
         }
     }
     
@@ -108,8 +136,6 @@ Container {
         }
     }
     
-    
-    
     attachedObjects: [
         RetroTextStyleDefinition {
             id: textStyle
@@ -132,11 +158,7 @@ Container {
             }
             
             onPlaybackCompleted: {
-                var result = _tracksController.next();       
-                if (!result) {
-                    _api.loaded.connect(player.nextAfterLoad);
-                    _api.load();
-                }  
+                root.next();  
             }
             
             onPositionChanged: {
@@ -153,34 +175,60 @@ Container {
                     }
                 }
             }
-        }
+        },
         
-//        NowPlayingConnection {
-//            id: nowplaying
-//            
-//            connectionName: "Retrowavers"
-//            
-//            onAcquired: {
-//                var track = _tracksService.active;
-//                duration = track.duration;
-//                position = 0;
-//                mediaState = MediaState.Started;
-//                nowplaying.setMetaData({"artist": track.title});
-//            }
-//            
-//            onPause: {
-//                player.pause();
-//            }
-//            
-//            onPlay: {
-//                player.play();
-//            }
-//            
-//            onRevoked: {
-//                player.stop();
-//            }
-//        }
+        NowPlayingConnection {
+            id: nowplaying
+            
+            overlayStyle: OverlayStyle.Fancy
+            duration: player.duration
+            position: player.position
+            mediaState: player.mediaState
+            
+            onAcquired: {
+                var track = _tracksService.active;
+                nowplaying.iconUrl = track.imagePath;
+                nowplaying.setMetaData({"artist": root.artistName, "track": root.trackName});
+                player.play();
+            }
+            
+            onPause: {
+                root.playing = false;
+                player.pause();
+            }
+            
+            onPlay: {
+                root.playing = true;
+                player.play();
+            }
+            
+            onNext: {
+                root.next();
+            }
+            
+            onPrevious: {
+                root.prev();
+            }
+            
+            onRevoked: {
+                player.stop();
+            }
+        }
     ]
+    
+    function next() {
+        nowplaying.revoke();
+        var result = _tracksController.next();
+        if (!result) {
+            _api.loaded.connect(playerBottom.nextAfterLoad);
+            _api.load();
+        }
+    }
+    
+    function prev() {
+        nowplaying.revoke();
+        _tracksController.prev();
+    }
     
     function getMediaTime(time) {
         var seconds = Math.round(time / 1000);
@@ -192,6 +240,7 @@ Container {
     
     function play(track) {
         if (root.trackId !== track.id) {
+            nowplaying.revoke();
             if (!root.asleep) {
                 root.setData(track);
             }
@@ -204,12 +253,16 @@ Container {
             root.artistName = parts.artist;
             root.trackName = parts.track;
         }
-        player.play();
+        if (player.mediaState === MediaState.Paused) {
+            nowplaying.play();
+        } else {
+            nowplaying.acquire();
+        }
     }
     
     function pause() {
         root.playing = false;
-        player.pause();
+        nowplaying.pause();
     }
     
     function stopRendering() {
@@ -222,6 +275,7 @@ Container {
         if (track !== null && track !== undefined) {
             root.setData(track.toMap());
         }
+        root.playing = nowplaying.mediaState === MediaState.Started;
     }
     
     function setData(track) {
@@ -231,8 +285,6 @@ Container {
         root.currentTime = getMediaTime(player.position);
         root.duration = getMediaTime(track.duration);
         root.cover = track.imagePath;
-        //            nowplaying.iconUrl = track.imagePath;
-        //            nowplaying.acquire();
     }
     
     function getArtistAndTrack(title) {
@@ -242,15 +294,12 @@ Container {
     }
     
     function updateSettings() {
-        console.debug("update settings ins player");
         var lastFMKey = _appConfig.get("lastfm_key");
         root.scrobblerEnabled = lastFMKey !== undefined && lastFMKey !== "";
-        console.debug("scrobbled enabled: ", root.scrobblerEnabled);
     }
     
     onCreationCompleted: {
         _tracksController.played.connect(root.play);
-        _tracksController.paused.connect(root.pause);
         Application.asleep.connect(root.stopRendering);
         Application.awake.connect(root.resumeRendering);
         _appConfig.settingsChanged.connect(root.updateSettings);

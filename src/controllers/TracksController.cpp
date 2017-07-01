@@ -43,10 +43,6 @@ void TracksController::play(const QVariantMap& track) {
     }
 }
 
-void TracksController::pause() {
-    emit paused();
-}
-
 bool TracksController::next() {
     if (m_index < (m_tracks->count() -1)) {
         m_index++;

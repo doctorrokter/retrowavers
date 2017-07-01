@@ -24,13 +24,11 @@ public:
     virtual ~TracksController();
 
     Q_INVOKABLE void play(const QVariantMap& track);
-    Q_INVOKABLE void pause();
     Q_INVOKABLE bool next();
     Q_INVOKABLE bool prev();
 
     Q_SIGNALS:
         void played(const QVariantMap& track);
-        void paused();
 
 private:
     TracksService* m_tracks;

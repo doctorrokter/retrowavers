@@ -1,7 +1,12 @@
 import bb.cascades 1.4
 
 Container {
-    id: playerBottom
+    id: root
+    
+    signal play();
+    signal pause();
+    signal next();
+    signal prev();
     
     property int height: bottomLUH.layoutFrame.height
     property bool playing: false
@@ -30,7 +35,7 @@ Container {
             gestureHandlers: [
                 TapHandler {
                     onTapped: {
-                        _tracksController.prev();
+                        root.prev();
                     }
                 }
             ]
@@ -41,17 +46,33 @@ Container {
             verticalAlignment: VerticalAlignment.Center
             horizontalAlignment: HorizontalAlignment.Center
             
-            imageSource: {
-                if (playing) {
-                    return "asset:///images/ic_pause.png";
-                }
-                return "asset:///images/ic_play.png";
-            }
+            visible: !root.playing
+            
+            imageSource: "asset:///images/ic_play.png"
             
             gestureHandlers: [
                 TapHandler {
                     onTapped: {
-                        playing = !playing;
+                        root.play();
+                    }
+                }
+            ]                    
+        }
+        
+        ImageView {
+            id: pauseButton
+            
+            verticalAlignment: VerticalAlignment.Center
+            horizontalAlignment: HorizontalAlignment.Center
+            
+            visible: root.playing
+            
+            imageSource: "asset:///images/ic_pause.png"
+            
+            gestureHandlers: [
+                TapHandler {
+                    onTapped: {
+                        root.pause();
                     }
                 }
             ]                    
@@ -67,19 +88,10 @@ Container {
             gestureHandlers: [
                 TapHandler {
                     onTapped: {
-                        var result = _tracksController.next();
-                        if (!result) {
-                            _api.loaded.connect(nextButton.nextAfterLoad);
-                            _api.load();
-                        }
+                        root.next();
                     }
                 }
             ]
-            
-            function nextAfterLoad() {
-                _tracksController.next();
-                _api.loaded.disconnect(nextButton.nextAfterLoad);
-            }
         }
     }
     
@@ -88,17 +100,4 @@ Container {
             id: bottomLUH
         }
     ]
-    
-    onPlayingChanged: {
-        if (playing) {
-            if (_tracksService.active !== null && _tracksService.active !== undefined) {
-                var tr = _tracksService.active.toMap();
-                _tracksController.play(tr);
-            } else {
-                _tracksController.play({});
-            }
-        } else {
-            _tracksController.pause();
-        }
-    }
 }

@@ -14,7 +14,7 @@
     <message>
         <location filename="../assets/pages/LastFMAuth.qml" line="73"/>
         <source>Sign out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выйти</translation>
     </message>
     <message>
         <location filename="../assets/pages/LastFMAuth.qml" line="94"/>
@@ -29,7 +29,7 @@
     <message>
         <location filename="../assets/pages/LastFMAuth.qml" line="119"/>
         <source>Sign in</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Войти</translation>
     </message>
 </context>
 <context>
@@ -37,7 +37,7 @@
     <message>
         <location filename="../src/controllers/lastfm/LastFMController.cpp" line="66"/>
         <source>Logged in as </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выполнен вход как </translation>
     </message>
 </context>
 <context>
