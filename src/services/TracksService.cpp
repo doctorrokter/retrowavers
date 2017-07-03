@@ -45,6 +45,18 @@ void TracksService::appendTracks(const QList<Track*>& tracks) {
     emit tracksChanged(tracksMaps);
 }
 
+void TracksService::addFavourite(Track* track) {
+    bool exists = false;
+    foreach(Track* t, m_favouriteTracks) {
+        exists = t == track;
+    }
+
+    if (!exists) {
+        m_favouriteTracks.append(track);
+        emit favouriteTracksChanged(getFavouriteTracks());
+    }
+}
+
 Track* TracksService::findById(const QString& id) {
     for (int i = 0; i < m_tracks.size(); i++) {
         Track* track = m_tracks.at(i);
@@ -64,6 +76,14 @@ void TracksService::setActive(Track* track) {
         m_active = track;
         emit activeChanged(m_active);
     }
+}
+
+QVariantList TracksService::getFavouriteTracks() const {
+    QVariantList tracks;
+    foreach(Track* track, m_favouriteTracks) {
+        tracks.append(track->toMap());
+    }
+    return tracks;
 }
 
 int TracksService::count() const {
@@ -90,4 +110,8 @@ void TracksService::setBlurImagePath(const QString& id, const QString& imagePath
 
 QList<Track*>& TracksService::getTracksList() {
     return m_tracks;
+}
+
+QList<Track*>& TracksService::getFavouriteTracksList() {
+    return m_favouriteTracks;
 }

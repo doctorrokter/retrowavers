@@ -46,6 +46,19 @@
     </message>
 </context>
 <context>
+    <name>List</name>
+    <message>
+        <location filename="../assets/components/List.qml" line="123"/>
+        <source>Playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/components/List.qml" line="124"/>
+        <source>Favourite</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <location filename="../assets/main.qml" line="36"/>

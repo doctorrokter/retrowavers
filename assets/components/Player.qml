@@ -1,5 +1,6 @@
 import bb.cascades 1.4
 import bb.multimedia 1.4
+import bb.device 1.4
 import "../style"
 
 Container {
@@ -12,6 +13,7 @@ Container {
     property string title: ""
     property string currentTime: ""
     property string duration: ""
+    property bool favourite: false
     
     property bool asleep: false
     property bool scrobbled: false
@@ -22,6 +24,9 @@ Container {
     property bool scrobblerEnabled: false
     
     property int fourMinutes: 60000 * 4
+    
+    property int screenWidth: 1440
+    property int screenHeight: 1440
     
     horizontalAlignment: HorizontalAlignment.Fill
     verticalAlignment: VerticalAlignment.Fill
@@ -47,6 +52,9 @@ Container {
         cover: root.cover
         playing: root.playing && !root.asleep
         
+        screenWidth: root.screenWidth
+        screenHeight: root.screenHeight
+        
         verticalAlignment: VerticalAlignment.Center
         horizontalAlignment: HorizontalAlignment.Fill
     }
@@ -58,7 +66,17 @@ Container {
             id: playerBottom
             
             playing: root.playing
-            margin.bottomOffset: ui.du(3.5)
+            screenWidth: root.screenWidth
+            screenHeight: root.screenHeight
+            
+            margin.bottomOffset: {
+                if (deviceIsSmall()) {
+                    return ui.du(0.5);
+                } else if (deviceIsBig()) {
+                    return ui.du(6);
+                }
+                return ui.du(2.5);
+            }
             
             onPlay: {
                 if (_tracksService.active !== null && _tracksService.active !== undefined) {
@@ -94,15 +112,38 @@ Container {
         horizontalAlignment: HorizontalAlignment.Center
         verticalAlignment: VerticalAlignment.Bottom
         
-        margin.bottomOffset: ui.du(2)
+        margin.bottomOffset: ui.du(1)
+                
+        LikeButton {
+            screenWidth: root.screenWidth
+            screenHeight: root.screenHeight
+            
+            favourite: root.favourite
+            
+            visible: _tracksService.active !== undefined && _tracksService.active !== null
+            horizontalAlignment: HorizontalAlignment.Center
+            
+            onLike: {
+                root.favourite = true;
+                _tracksController.like();
+            }
+        }
+        
         Container {
-            margin.topOffset: ui.du(5)
+            margin.topOffset: ui.du(1)
             horizontalAlignment: HorizontalAlignment.Center
             Label {
                 text: root.title
                 textStyle.base: textStyle.style
-                textStyle.fontSize: FontSize.XLarge
                 textFormat: TextFormat.Html
+                textStyle.fontSize: {
+                    if (deviceIsSmall()) {
+                        return FontSize.Small;
+                    } else if (deviceIsBig()) {
+                        return FontSize.XLarge;
+                    }
+                    return FontSize.Large;
+                }
                 multiline: true
             }    
         }
@@ -117,21 +158,42 @@ Container {
             Label {
                 text: root.currentTime
                 textStyle.base: textStyle.style
-                textStyle.fontSize: FontSize.Medium
+                textStyle.fontSize: {
+                    if (deviceIsSmall()) {
+                        return FontSize.XXSmall;
+                    } else if (deviceIsBig()) {
+                        return FontSize.Large;
+                    }
+                    return FontSize.Small;
+                }
             }
             
             Label {
                 text: "/"
                 visible: root.currentTime !== ""
                 textStyle.base: textStyle.style
-                textStyle.fontSize: FontSize.Medium
+                textStyle.fontSize: {
+                    if (deviceIsSmall()) {
+                        return FontSize.XXSmall;
+                    } else if (deviceIsBig()) {
+                        return FontSize.Large;
+                    }
+                    return FontSize.Small;
+                }
             }
             
             Label {
                 text: root.duration
                 textStyle.base: textStyle.style
-                textStyle.fontSize: FontSize.Medium
                 textStyle.color: ui.palette.primary
+                textStyle.fontSize: {
+                    if (deviceIsSmall()) {
+                        return FontSize.XXSmall;
+                    } else if (deviceIsBig()) {
+                        return FontSize.Large;
+                    }
+                    return FontSize.Small;
+                }
             }
         }
     }
@@ -213,6 +275,10 @@ Container {
             onRevoked: {
                 player.stop();
             }
+        },
+        
+        DisplayInfo {
+            id: display
         }
     ]
     
@@ -285,6 +351,7 @@ Container {
         root.currentTime = getMediaTime(player.position);
         root.duration = getMediaTime(track.duration);
         root.cover = track.imagePath;
+        root.favourite = track.favourite;
     }
     
     function getArtistAndTrack(title) {
@@ -298,7 +365,18 @@ Container {
         root.scrobblerEnabled = lastFMKey !== undefined && lastFMKey !== "";
     }
     
+    function deviceIsSmall() {
+        return root.screenWidth === 720 && root.screenHeight === 720;
+    }
+    
+    function deviceIsBig() {
+        return root.screenWidth === 1440 && root.screenHeight === 1440;
+    }
+    
     onCreationCompleted: {
+        root.screenWidth = display.pixelSize.width;
+        root.screenHeight = display.pixelSize.height;
+        
         _tracksController.played.connect(root.play);
         Application.asleep.connect(root.stopRendering);
         Application.awake.connect(root.resumeRendering);

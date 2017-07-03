@@ -12,5 +12,6 @@
 #define ROOT_ENDPOINT "https://retrowave.ru"
 #define API_ENDPOINT "https://retrowave.ru/api/v1"
 #define IMAGES "/data/images"
+#define TRACKS "/data/tracks"
 
 #endif /* COMMON_HPP_ */

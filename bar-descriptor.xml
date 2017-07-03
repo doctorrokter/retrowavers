@@ -48,14 +48,14 @@
     <!-- The name that is displayed in the BlackBerry 10 application installer.
          May have multiple values for each language. See samples or xsd schema file. Optional. -->
     <name>
-       Retrowavers
+       Retrowavers: The Legacy
        <text xml:lang="ru">Retrowavers</text>
     </name>
 
     <!-- A string value of the format <0-999>.<0-999>.<0-999> that represents application version which can be used to check for application upgrade.
          Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
          An updated version of application must have a versionNumber value higher than the previous version. Required. -->
-    <versionNumber>1.1.0</versionNumber>
+    <versionNumber>1.2.0</versionNumber>
 
     <!-- Fourth digit segment of the package version. First three segments are taken from the
          <versionNumber> element.  Must be an integer from 0 to 2^16-1 -->
@@ -65,19 +65,19 @@
 
     <!-- Description, displayed in the BlackBerry 10 application installer.
          May have multiple values for each language. See samples or xsd schema file. Optional. -->
-    <description>The Retrowavers application</description>
+    <description>The Retrowavers: The Legacy application</description>
 
     <!-- Copyright information. Optional. -->
     <!-- <copyright></copyright> -->
 
     <!--  Name of author which is used for signing. Must match the developer name of your development certificate. -->
     <splashScreens>
-       <image>splash_1440_x_1440.png</image>
        <image>splash_720_x_720.png</image>
-       <image>splash_768_x_1280.png</image>
        <image>splash_720_x_1280.png</image>
+       <image>splash_768_x_1280.png</image>
+       <image>splash_1280_x_720.png</image>
        <image>splash_1280_x_768.png</image>
-       <image>splash_1280_720.png</image>
+       <image>splash_1440_x_1440.png</image>
     </splashScreens>
     <category>core.media</category>
     <authorId>gYAAgJBERbiwoSHtjskM8WvopKU</authorId>
@@ -110,16 +110,18 @@
     <asset path="translations" dest="qm">
         <include name="*.qm"/>
     </asset>
-    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/Splashscreens/splash_1440_x_1440.png">splash_1440_x_1440.png</asset>
-    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/Splashscreens/splash_720_x_720.png">splash_720_x_720.png</asset>
-    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/Splashscreens/splash_768_x_1280.png">splash_768_x_1280.png</asset>
-    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/Splashscreens/splash_720_x_1280.png">splash_720_x_1280.png</asset>
-    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/Splashscreens/splash_1280_x_768.png">splash_1280_x_768.png</asset>
     <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/Splashscreens/splash_1280_720.png">splash_1280_720.png</asset>
-    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/icons/icon_144_x_144.png">icon_144_x_144.png</asset>
-    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/icons/icon_110_x_110.png">icon_110_x_110.png</asset>
-    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/icons/icon_96_x_96.png">icon_96_x_96.png</asset>
-    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers/icons/icon_90_x_90.png">icon_90_x_90.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/Splashscreens/splash_1440_x_1440.png">splash_1440_x_1440.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/Splashscreens/splash_720_x_720.png">splash_720_x_720.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/Splashscreens/splash_720_x_1280.png">splash_720_x_1280.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/Splashscreens/splash_768_x_1280.png">splash_768_x_1280.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/Splashscreens/splash_1280_x_720.png">splash_1280_x_720.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/Splashscreens/splash_1280_x_768.png">splash_1280_x_768.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/icons/icon_144_x_144.png">icon_144_x_144.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/icons/icon_114_x_114.png">icon_114_x_114.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/icons/icon_110_x_110.png">icon_110_x_110.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/icons/icon_96_x_96.png">icon_96_x_96.png</asset>
+    <asset path="C:/Users/misha/YandexDisk/Dev/Retrowavers2/icons/icon_90_x_90.png">icon_90_x_90.png</asset>
 
     <!-- Request permission to execute native code.  Required for native applications. -->
     <permission system="true">run_native</permission>

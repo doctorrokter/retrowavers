@@ -1,15 +1,20 @@
 import bb.cascades 1.4
 import "../style"
+import "../components"
 
 Container {
     id: root 
     
-    horizontalAlignment: HorizontalAlignment.Fill
+    property int touchY: 0
     
+    horizontalAlignment: HorizontalAlignment.Fill
     layout: DockLayout {}
     
     ListView {
         id: songsList
+        
+        scrollRole: ScrollRole.Main
+        topPadding: subHeader.height
         
         dataModel: ArrayDataModel {
             id: songsDataModel
@@ -41,6 +46,20 @@ Container {
             }
         ]
         
+        onTouch: {
+            if (event.isDown()) {
+                root.touchY = event.windowY;
+            }
+            
+            if (event.isMove()) {
+                if (root.touchY > (event.windowY + 5)) { // scroll up
+                    subHeader.isShown = false;
+                } else if (root.touchY < (event.windowY - 5)) { // scroll down
+                    subHeader.isShown = true;
+                }
+            }
+        }
+        
         listItemComponents: [
             ListItemComponent {
                 CustomListItem {
@@ -62,6 +81,14 @@ Container {
                             layoutProperties: StackLayoutProperties {
                                 spaceQuota: 1
                             }
+                        }
+                        
+                        ImageView {
+                            visible: ListItemData.favourite
+                            imageSource: "asset:///images/heart_filled.png"
+                            maxWidth: ui.du(4)
+                            maxHeight: ui.du(4)
+                            verticalAlignment: VerticalAlignment.Center
                         }
                         
                         Label {
@@ -88,6 +115,23 @@ Container {
                 }
             }
         ]
+    }
+    
+    Subheader {
+        id: subHeader
+        
+        option1: qsTr("Playlist") + Retranslate.onLocaleOrLanguageChanged
+        option2: qsTr("Favourite") + Retranslate.onLocaleOrLanguageChanged
+        
+        onOption1Selected: {
+            //            filmsContainer.visible = true;
+            //            cinemasContainer.visible = false;
+        }
+        
+        onOption2Selected: {
+            //            filmsContainer.visible = false;
+            //            cinemasContainer.visible = true;
+        }
     }
     
     ActivityIndicator {
@@ -125,9 +169,10 @@ Container {
     
     onCreationCompleted: {
 //        var data = [];
-//        data.push({title: "OGRE – Flex In", duration: 60000});
-//        data.push({title: "Waveshaper - Dominator", duration: 125000});
-//        data.push({title: "Oscillian - Ad Astra", duration: 350000});
+//        data.push({title: "OGRE – Flex In", duration: 60000, favourite: false});
+//        data.push({title: "Waveshaper - Dominator sdfsdfs sdfsdf", duration: 125000, favourite: false});
+//        data.push({title: "Oscillian - Ad Astra", duration: 350000, favourite: false});
+//        data.push({title: "Oscillian - Tarakan", duration: 350000, favourite: true});
 //        songsDataModel.append(data);
         songsDataModel.clear();
         _api.loaded.connect(addTracks);

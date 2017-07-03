@@ -62,6 +62,11 @@ void ApiController::onLoad() {
         trMap["artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(imageUrl);
         trMap["b_artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(".rsz.io").append(imageUrl).append("?blur=65");
         trMap["streamUrl"] = ROOT_ENDPOINT + trMap.value("streamUrl").toString();
+        trMap["favourite"] = false;
+
+        QString filename = trMap.value("streamUrl").toString().split("/").last();
+        trMap["filename"] = filename;
+
         updatedTracks.append(trMap);
 
         Track* track = new Track(this);

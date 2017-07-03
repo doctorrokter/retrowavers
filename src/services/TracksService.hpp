@@ -17,6 +17,7 @@
 class TracksService: public QObject {
     Q_OBJECT
     Q_PROPERTY(QVariantList tracks READ getTracks WRITE setTracks NOTIFY tracksChanged)
+    Q_PROPERTY(QVariantList favouriteTracks READ getFavouriteTracks NOTIFY favouriteTracksChanged)
     Q_PROPERTY(Track* active READ getActive NOTIFY activeChanged)
 public:
     TracksService(QObject* parent = 0);
@@ -27,21 +28,27 @@ public:
     Q_INVOKABLE Track* findById(const QString& id);
     Q_INVOKABLE Track* getActive() const;
 
+    Q_INVOKABLE QVariantList getFavouriteTracks() const;
+
     void setActive(Track* track);
     int count() const;
     void appendTracks(const QList<Track*>& tracks);
+    void addFavourite(Track* track);
     void setImagePath(const QString& id, const QString& imagePath);
     void setBlurImagePath(const QString& id, const QString& imagePath);
     QList<Track*>& getTracksList();
+    QList<Track*>& getFavouriteTracksList();
 
     Q_SIGNALS:
         void tracksChanged(const QVariantList& tracks);
+        void favouriteTracksChanged(const QVariantList& favouriteTracks);
         void activeChanged(Track* track);
         void imageChanged(const QString& id, const QString& imagePath);
         void blurImageChanged(const QString& id, const QString& imagePath);
 
 private:
     QList<Track*> m_tracks;
+    QList<Track*> m_favouriteTracks;
     Track* m_active;
 };
 

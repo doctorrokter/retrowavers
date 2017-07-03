@@ -13,7 +13,8 @@
 #include "../services/TracksService.hpp"
 #include <bb/platform/Notification>
 #include <bb/platform/NotificationType>
-
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 using namespace bb::platform;
 
@@ -26,17 +27,27 @@ public:
     Q_INVOKABLE void play(const QVariantMap& track);
     Q_INVOKABLE bool next();
     Q_INVOKABLE bool prev();
+    Q_INVOKABLE void like();
 
     Q_SIGNALS:
         void played(const QVariantMap& track);
+        void liked(const QString& id);
+        void downloaded(const QString& id);
+
+private slots:
+    void onDownload();
+    void onDownloadError(QNetworkReply::NetworkError e);
+    void onDownloadProgress(qint64 sent, qint64 total);
 
 private:
     TracksService* m_tracks;
     int m_index;
 
     Notification* m_pNotification;
+    QNetworkAccessManager* m_pNetwork;
 
     void notify(Track* track);
+    void download(Track* track);
 };
 
 #endif /* TRACKSCONTROLLER_HPP_ */

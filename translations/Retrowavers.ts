@@ -39,6 +39,17 @@
     </message>
 </context>
 <context>
+    <name>List</name>
+    <message>
+        <source>Playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favourite</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <source>Send feedback</source>

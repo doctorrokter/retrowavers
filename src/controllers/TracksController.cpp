@@ -6,6 +6,11 @@
  */
 
 #include "TracksController.hpp"
+#include "../Common.hpp"
+#include <QNetworkRequest>
+#include <QUrl>
+#include <QDir>
+#include <QFile>
 
 #define NOTIFICATION_KEY "Retrowavers"
 
@@ -14,11 +19,14 @@ TracksController::TracksController(TracksService* tracks, QObject* parent) : QOb
     m_pNotification->setTitle(NOTIFICATION_KEY);
     m_pNotification->setType(NotificationType::AllAlertsOff);
     m_pNotification->deleteAllFromInbox();
+
+    m_pNetwork = new QNetworkAccessManager(this);
 }
 
 TracksController::~TracksController() {
     m_pNotification->deleteAllFromInbox();
     m_pNotification->deleteLater();
+    m_pNetwork->deleteLater();
 }
 
 void TracksController::play(const QVariantMap& track) {
@@ -61,7 +69,75 @@ bool TracksController::prev() {
     return false;
 }
 
+void TracksController::like() {
+    Track* track = m_tracks->getActive();
+    if (track != NULL && !track->isFavourite()) {
+        track->setFavourite(true);
+        m_tracks->addFavourite(track);
+        download(track);
+        emit liked(track->getId());
+    }
+}
+
 void TracksController::notify(Track* track) {
     m_pNotification->setBody(track->getTitle());
     m_pNotification->notify();
+}
+
+void TracksController::download(Track* track) {
+    QNetworkRequest req;
+
+    QUrl url(track->getStreamUrl());
+    req.setUrl(url);
+
+    QNetworkReply* reply = m_pNetwork->get(req);
+    reply->setProperty("id", track->getId());
+    bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onDownload()));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onDownloadError(QNetworkReply::NetworkError)));
+    Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)));
+    Q_ASSERT(res);
+    Q_UNUSED(res);
+}
+
+void TracksController::onDownload() {
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QString id = reply->property("id").toString();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QByteArray data = reply->readAll();
+
+        QString tracksDir = QDir::currentPath() + TRACKS;
+        QDir dir(tracksDir);
+        if (!dir.exists()) {
+            dir.mkpath(tracksDir);
+        }
+
+        Track* track = m_tracks->findById(id);
+        QString filepath = tracksDir + "/" + track->getFilename();
+        QFile file(filepath);
+        if (file.open(QIODevice::WriteOnly)) {
+            file.write(data);
+            file.close();
+            track->setLocalPath(filepath);
+        } else {
+            qDebug() << file.errorString() << endl;
+        }
+    }
+
+    reply->deleteLater();
+}
+
+void TracksController::onDownloadError(QNetworkReply::NetworkError e) {
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    qDebug() << "TracksController#onError: " << e << endl;
+    qDebug() << "TracksController#onError: " << reply->errorString() << endl;
+    reply->deleteLater();
+}
+
+void TracksController::onDownloadProgress(qint64 sent, qint64 total) {
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    QString trackId = reply->property("id").toString();
+    qDebug() << "SENT: " << sent << " TOTAL: " << total << endl;
 }

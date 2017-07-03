@@ -7,18 +7,59 @@ Container {
     property string cover: "asset:///images/cover.jpg"
     property bool playing: false
     
+    property int screenWidth: 1440
+    property int screenHeight: 1440
+    
+    property double cogwheelBigSize: 8.9
+    property double cogwheelSmallSize: 5.5
+    property double cogwheelStandardSize: 7
+    
+    property double cogwheelBigTopOffset: 14.8
+    property double cogwheelSmallOffset: 9.8
+    property double cogwheelStandardOffset: 11.5
+    
     margin.topOffset: ui.du(10)
     
-    preferredHeight: ui.du(35)
-    preferredWidth: ui.du(55)
+    preferredHeight: {
+        if (deviceIsSmall()) {
+            return ui.du(29);
+        } else if (deviceIsBig()) {
+            return ui.du(45);
+        }
+        return ui.du(35);
+    }
+    
+    preferredWidth: {
+        if (deviceIsSmall()) {
+            return ui.du(48);
+        } else if (deviceIsBig()) {
+            return ui.du(70);
+        }
+        return ui.du(55);
+    }
     
     layout: DockLayout {}
     
     ImageView {
         id: cassetteCover
         imageSource: root.cover
-        preferredHeight: ui.du(31)
-        preferredWidth: ui.du(49)
+        
+        preferredHeight: {
+            if (deviceIsSmall()) {
+                return parent.preferredHeight - ui.du(3.5);
+            } else if (deviceIsBig()) {
+                return parent.preferredHeight - ui.du(5);
+            }
+            return parent.preferredHeight - ui.du(3.9);
+        }
+        preferredWidth: {
+            if (deviceIsSmall()) {
+                return parent.preferredWidth - ui.du(1);
+            } else if (deviceIsBig()) {
+                return parent.preferredWidth - ui.du(1);
+            }
+            return parent.preferredWidth - ui.du(5);
+        }
         horizontalAlignment: HorizontalAlignment.Center
         scalingMethod: ScalingMethod.AspectFill
     }
@@ -39,21 +80,83 @@ Container {
         ImageView {
             id: leftWheel
             imageSource: "asset:///images/cogwheel.png"
-            maxWidth: ui.du(7)
-            maxHeight: ui.du(7)
-        
-            margin.topOffset: ui.du(11.5)
-            margin.leftOffset: ui.du(12.2)
+            
+            maxWidth: {
+                if (deviceIsSmall()) {
+                    return ui.du(root.cogwheelSmallSize);
+                } else if (deviceIsBig()) {
+                    return ui.du(root.cogwheelBigSize);
+                }
+                return ui.du(root.cogwheelStandardSize);
+            }
+            
+            maxHeight: {
+                if (deviceIsSmall()) {
+                    return ui.du(root.cogwheelSmallSize);
+                } else if (deviceIsBig()) {
+                    return ui.du(root.cogwheelBigSize);
+                }
+                return ui.du(root.cogwheelStandardSize);
+            }
+            
+            margin.topOffset: {
+                if (deviceIsSmall()) {
+                    return ui.du(root.cogwheelSmallOffset);
+                } else if (deviceIsBig()) {
+                    return ui.du(root.cogwheelBigTopOffset);
+                }
+                return ui.du(root.cogwheelStandardOffset);
+            }
+            
+            margin.leftOffset: {
+                if (deviceIsSmall()) {
+                    return ui.du(11);
+                } else if (deviceIsBig()) {
+                    return ui.du(15.5);
+                }
+                return ui.du(12.2);
+            }
         }
         
         ImageView {
             id: rightWheel
             imageSource: "asset:///images/cogwheel.png"
-            maxWidth: ui.du(7)
-            maxHeight: ui.du(7)
-        
-            margin.topOffset: ui.du(11.5)
-            margin.leftOffset: ui.du(35.6)
+            
+            maxWidth: {
+                if (deviceIsSmall()) {
+                    return ui.du(root.cogwheelSmallSize);
+                } else if (deviceIsBig()) {
+                    return ui.du(root.cogwheelBigSize);
+                }
+                return ui.du(root.cogwheelStandardSize);
+            }
+            
+            maxHeight: {
+                if (deviceIsSmall()) {
+                    return ui.du(root.cogwheelSmallSize);
+                } else if (deviceIsBig()) {
+                    return ui.du(root.cogwheelBigSize);
+                }
+                return ui.du(root.cogwheelStandardSize);
+            }
+            
+            margin.topOffset: {
+                if (deviceIsSmall()) {
+                    return ui.du(root.cogwheelSmallOffset);
+                } else if (deviceIsBig()) {
+                    return ui.du(root.cogwheelBigTopOffset);
+                }
+                return ui.du(root.cogwheelStandardOffset);
+            }
+            
+            margin.leftOffset: {
+                if (deviceIsSmall()) {
+                    return ui.du(31.5);
+                } else if (deviceIsBig()) {
+                    return ui.du(45.4);
+                }
+                return ui.du(35.6);
+            }
         }
     }
     
@@ -87,5 +190,13 @@ Container {
             leftWheelTimer.stop();
             rightWheelTimer.stop();
         }
+    }
+    
+    function deviceIsSmall() {
+        return root.screenWidth === 720 && root.screenHeight === 720;
+    }
+    
+    function deviceIsBig() {
+        return root.screenWidth === 1440 && root.screenHeight === 1440;
     }
 }

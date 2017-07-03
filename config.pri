@@ -38,19 +38,24 @@ config_pri_assets {
     OTHER_FILES += \
         $$quote($$BASEDIR/assets/components/Cassette.qml) \
         $$quote($$BASEDIR/assets/components/Cover.qml) \
+        $$quote($$BASEDIR/assets/components/LikeButton.qml) \
         $$quote($$BASEDIR/assets/components/List.qml) \
         $$quote($$BASEDIR/assets/components/Player.qml) \
         $$quote($$BASEDIR/assets/components/PlayerBottom.qml) \
+        $$quote($$BASEDIR/assets/components/Subheader.qml) \
         $$quote($$BASEDIR/assets/fonts/NEWTOW_I.eot) \
         $$quote($$BASEDIR/assets/fonts/NEWTOW_I.svg) \
         $$quote($$BASEDIR/assets/fonts/NEWTOW_I.ttf) \
         $$quote($$BASEDIR/assets/fonts/NEWTOW_I.woff) \
         $$quote($$BASEDIR/assets/fonts/Newtown_Italic.woff) \
+        $$quote($$BASEDIR/assets/fonts/still_time.ttf) \
         $$quote($$BASEDIR/assets/images/Lastfm_logo.png) \
         $$quote($$BASEDIR/assets/images/blur.jpg) \
         $$quote($$BASEDIR/assets/images/cassette-body.png) \
         $$quote($$BASEDIR/assets/images/cogwheel.png) \
         $$quote($$BASEDIR/assets/images/cover.jpg) \
+        $$quote($$BASEDIR/assets/images/heart_empty.png) \
+        $$quote($$BASEDIR/assets/images/heart_filled.png) \
         $$quote($$BASEDIR/assets/images/ic_feedback.png) \
         $$quote($$BASEDIR/assets/images/ic_next.png) \
         $$quote($$BASEDIR/assets/images/ic_pause.png) \

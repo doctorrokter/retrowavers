@@ -7,7 +7,8 @@
 
 #include "Track.hpp"
 
-Track::Track(QObject* parent) : QObject(parent), m_id(""), m_duration(0), m_artworkUrl(""), m_bArtworkUrl(""), m_streamUrl(""), m_title(""), m_imagePath(""), m_bImagePath("") {}
+Track::Track(QObject* parent) : QObject(parent), m_id(""), m_duration(0), m_artworkUrl(""), m_bArtworkUrl(""),
+m_streamUrl(""), m_title(""), m_imagePath(""), m_bImagePath(""), m_favourite(false), m_filename(""), m_localPath("") {}
 
 Track::Track(const Track& track) : QObject(track.parent()) {
     swap(track);
@@ -83,6 +84,30 @@ void Track::setBImagePath(const QString& bImagePath) {
     }
 }
 
+const bool& Track::isFavourite() const { return m_favourite; }
+void Track::setFavourite(const bool& favourite) {
+    if (m_favourite != favourite) {
+        m_favourite = favourite;
+        emit favouriteChanged(m_favourite);
+    }
+}
+
+const QString& Track::getFilename() const { return m_filename; }
+void Track::setFilename(const QString& filename) {
+    if (m_filename.compare(filename) != 0) {
+        m_filename = filename;
+        emit filenameChanged(m_filename);
+    }
+}
+
+const QString& Track::getLocalPath() const { return m_localPath ; }
+void Track::setLocalPath(const QString& localPath) {
+    if (m_localPath.compare(localPath) != 0) {
+        m_localPath = localPath;
+        emit localPathChanged(m_localPath);
+    }
+}
+
 QVariantMap Track::toMap() {
     QVariantMap map;
     map["id"] = m_id;
@@ -93,6 +118,9 @@ QVariantMap Track::toMap() {
     map["streamUrl"] = m_streamUrl;
     map["imagePath"] = m_imagePath;
     map["bImagePath"] = m_bImagePath;
+    map["favourite"] = m_favourite;
+    map["filename"] = m_filename;
+    map["localPath"] = m_localPath;
     return map;
 }
 
@@ -102,7 +130,10 @@ void Track::fromMap(const QVariantMap& map) {
     m_duration = map.value("duration").toInt();
     m_artworkUrl = map.value("artworkUrl").toString();
     m_bArtworkUrl = map.value("b_artworkUrl", "").toString();
+    m_favourite = map.value("favourite", false).toBool();
     m_streamUrl = map.value("streamUrl").toString();
+    m_filename = map.value("filename", "").toString();
+    m_localPath = map.value("localPath", "").toString();
 }
 
 void Track::swap(const Track& track) {
@@ -114,4 +145,7 @@ void Track::swap(const Track& track) {
     m_streamUrl = track.getStreamUrl();
     m_imagePath = track.getImagePath();
     m_bImagePath = track.getBImagePath();
+    m_favourite = track.isFavourite();
+    m_filename = track.getFilename();
+    m_localPath = track.getLocalPath();
 }
