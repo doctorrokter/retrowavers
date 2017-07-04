@@ -44,19 +44,21 @@ Container {
         id: cassetteCover
         imageSource: root.cover
         
+        margin.topOffset: ui.du(1)
+        
         preferredHeight: {
             if (deviceIsSmall()) {
-                return parent.preferredHeight - ui.du(3.5);
+                return parent.preferredHeight - ui.du(4.2);
             } else if (deviceIsBig()) {
-                return parent.preferredHeight - ui.du(5);
+                return parent.preferredHeight - ui.du(6);
             }
-            return parent.preferredHeight - ui.du(3.9);
+            return parent.preferredHeight - ui.du(5);
         }
         preferredWidth: {
             if (deviceIsSmall()) {
                 return parent.preferredWidth - ui.du(1);
             } else if (deviceIsBig()) {
-                return parent.preferredWidth - ui.du(1);
+                return parent.preferredWidth - ui.du(2);
             }
             return parent.preferredWidth - ui.du(5);
         }

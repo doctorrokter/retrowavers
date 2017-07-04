@@ -13,5 +13,6 @@
 #define API_ENDPOINT "https://retrowave.ru/api/v1"
 #define IMAGES "/data/images"
 #define TRACKS "/data/tracks"
+#define FAVORITE_TRACKS "/data/favourite.json"
 
 #endif /* COMMON_HPP_ */

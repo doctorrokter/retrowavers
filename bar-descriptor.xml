@@ -49,7 +49,7 @@
          May have multiple values for each language. See samples or xsd schema file. Optional. -->
     <name>
        Retrowavers: The Legacy
-       <text xml:lang="ru">Retrowavers</text>
+       <text xml:lang="ru">Retrowavers: The Legacy</text>
     </name>
 
     <!-- A string value of the format <0-999>.<0-999>.<0-999> that represents application version which can be used to check for application upgrade.
@@ -65,7 +65,10 @@
 
     <!-- Description, displayed in the BlackBerry 10 application installer.
          May have multiple values for each language. See samples or xsd schema file. Optional. -->
-    <description>The Retrowavers: The Legacy application</description>
+    <description>
+       The Retrowavers: The Legacy application
+       <text xml:lang="ru">The Retrowavers: The Legacy application</text>
+    </description>
 
     <!-- Copyright information. Optional. -->
     <!-- <copyright></copyright> -->

@@ -7,14 +7,35 @@
 
 #include "TracksService.hpp"
 #include <QDir>
+#include <QFile>
 #include "../Common.hpp"
 #include <QDebug>
+#include <QVariant>
+#include <QVariantList>
+#include <bb/data/JsonDataAccess>
 
-TracksService::TracksService(QObject* parent) : QObject(parent), m_active(NULL) {}
+using namespace bb::data;
+
+TracksService::TracksService(QObject* parent) : QObject(parent), m_active(NULL) {
+    QFile file(QDir::currentPath() + FAVORITE_TRACKS);
+    if (file.exists()) {
+        JsonDataAccess jda;
+        QVariantList list = jda.load(&file).toList();
+        foreach(QVariant var, list) {
+            Track* track = new Track();
+            track->fromMap(var.toMap());
+            m_favouriteTracks.append(track);
+        }
+        qDebug() << "Favourite tracks: " << m_favouriteTracks.size() << endl;
+    }
+}
 
 TracksService::~TracksService() {
     m_active->deleteLater();
     foreach(Track* track, m_tracks) {
+        track->deleteLater();
+    }
+    foreach(Track* track, m_favouriteTracks) {
         track->deleteLater();
     }
 }
@@ -54,6 +75,18 @@ void TracksService::addFavourite(Track* track) {
     if (!exists) {
         m_favouriteTracks.append(track);
         emit favouriteTracksChanged(getFavouriteTracks());
+
+        QVariantList list;
+        foreach(Track* track, m_favouriteTracks) {
+            list.append(track->toMap());
+        }
+
+        JsonDataAccess jda;
+        QFile file(QDir::currentPath() + FAVORITE_TRACKS);
+        if (file.open(QIODevice::WriteOnly)) {
+            jda.save(QVariant(list), &file);
+            qDebug() << "Save favourite tracks: " << QDir::currentPath() + FAVORITE_TRACKS << endl;
+        }
     }
 }
 

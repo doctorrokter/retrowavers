@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ru_RU">
 <context>
+    <name>ApiController</name>
+    <message>
+        <location filename="../src/controllers/ApiController.cpp" line="96"/>
+        <source>Service is unavailable. Try later.</source>
+        <translation type="unfinished">Сервис временно недоступен. Попробуйте позже.</translation>
+    </message>
+</context>
+<context>
     <name>HelpPage</name>
     <message>
         <location filename="../assets/pages/HelpPage.qml" line="11"/>
@@ -50,12 +58,22 @@
     <message>
         <location filename="../assets/components/List.qml" line="123"/>
         <source>Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Плейлист</translation>
     </message>
     <message>
         <location filename="../assets/components/List.qml" line="124"/>
         <source>Favourite</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Любимые</translation>
+    </message>
+</context>
+<context>
+    <name>TracksController</name>
+    <message>
+        <location filename="../src/controllers/TracksController.cpp" line="37"/>
+        <location filename="../src/controllers/TracksController.cpp" line="65"/>
+        <location filename="../src/controllers/TracksController.cpp" line="80"/>
+        <source>Nothing to play. Playlist is empty.</source>
+        <translation type="unfinished">Плейлист пуст.</translation>
     </message>
 </context>
 <context>

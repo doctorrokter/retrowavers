@@ -13,6 +13,9 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include "../services/TracksService.hpp"
+#include <bb/system/SystemToast>
+
+using namespace bb::system;
 
 class ApiController: public QObject {
     Q_OBJECT
@@ -27,6 +30,7 @@ public:
 
 private slots:
     void onLoad();
+    void onLoadError(QNetworkReply::NetworkError e);
     void onImageLoad();
     void onBlurImageLoad();
     void onImageError(QNetworkReply::NetworkError e);
@@ -36,6 +40,7 @@ private:
     int m_cursor;
 
     TracksService* m_tracks;
+    SystemToast* m_pToast;
 
     void loadImage(const QString& id, const QString& path);
     void loadBlurImage(const QString& id, const QString& path);

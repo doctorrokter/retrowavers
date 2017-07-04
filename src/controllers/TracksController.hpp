@@ -15,8 +15,10 @@
 #include <bb/platform/NotificationType>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <bb/system/SystemToast>
 
 using namespace bb::platform;
+using namespace bb::system;
 
 class TracksController: public QObject {
     Q_OBJECT
@@ -24,7 +26,7 @@ public:
     TracksController(TracksService* tracks, QObject* parent = 0);
     virtual ~TracksController();
 
-    Q_INVOKABLE void play(const QVariantMap& track);
+    Q_INVOKABLE bool play(const QVariantMap& track);
     Q_INVOKABLE bool next();
     Q_INVOKABLE bool prev();
     Q_INVOKABLE void like();
@@ -45,6 +47,7 @@ private:
 
     Notification* m_pNotification;
     QNetworkAccessManager* m_pNetwork;
+    SystemToast* m_pToast;
 
     void notify(Track* track);
     void download(Track* track);

@@ -21,16 +21,24 @@ TracksController::TracksController(TracksService* tracks, QObject* parent) : QOb
     m_pNotification->deleteAllFromInbox();
 
     m_pNetwork = new QNetworkAccessManager(this);
+    m_pToast = new SystemToast(this);
 }
 
 TracksController::~TracksController() {
     m_pNotification->deleteAllFromInbox();
     m_pNotification->deleteLater();
     m_pNetwork->deleteLater();
+    m_pToast->deleteLater();
 }
 
-void TracksController::play(const QVariantMap& track) {
+bool TracksController::play(const QVariantMap& track) {
     m_index = 0;
+    if (m_tracks->count() == 0) {
+        m_pToast->setBody(tr("Nothing to play. Playlist is empty."));
+        m_pToast->show();
+        return false;
+    }
+
     if (track.contains("id")) {
         for (int i = 0; i < m_tracks->count(); i++) {
             QString id = track.value("id").toString();
@@ -49,9 +57,16 @@ void TracksController::play(const QVariantMap& track) {
         notify(pTrack);
         emit played(pTrack->toMap());
     }
+    return true;
 }
 
 bool TracksController::next() {
+    if (m_tracks->count() == 0) {
+            m_pToast->setBody(tr("Nothing to play. Playlist is empty."));
+            m_pToast->show();
+            return false;
+        }
+
     if (m_index < (m_tracks->count() -1)) {
         m_index++;
         play(m_tracks->getTracks().at(m_index).toMap());
@@ -61,6 +76,12 @@ bool TracksController::next() {
 }
 
 bool TracksController::prev() {
+    if (m_tracks->count() == 0) {
+        m_pToast->setBody(tr("Nothing to play. Playlist is empty."));
+        m_pToast->show();
+        return false;
+    }
+
     if (m_index != 0) {
         m_index--;
         play(m_tracks->getTracks().at(m_index).toMap());
@@ -121,6 +142,7 @@ void TracksController::onDownload() {
             file.write(data);
             file.close();
             track->setLocalPath(filepath);
+            m_tracks->addFavourite(track);
         } else {
             qDebug() << file.errorString() << endl;
         }
@@ -139,5 +161,7 @@ void TracksController::onDownloadError(QNetworkReply::NetworkError e) {
 void TracksController::onDownloadProgress(qint64 sent, qint64 total) {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QString trackId = reply->property("id").toString();
-    qDebug() << "SENT: " << sent << " TOTAL: " << total << endl;
+//    qDebug() << "SENT: " << sent << " TOTAL: " << total << endl;
+    Q_UNUSED(sent);
+    Q_UNUSED(total);
 }

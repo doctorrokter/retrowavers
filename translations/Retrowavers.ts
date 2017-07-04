@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>ApiController</name>
+    <message>
+        <source>Service is unavailable. Try later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HelpPage</name>
     <message>
         <source>About</source>
@@ -46,6 +53,13 @@
     </message>
     <message>
         <source>Favourite</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TracksController</name>
+    <message>
+        <source>Nothing to play. Playlist is empty.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

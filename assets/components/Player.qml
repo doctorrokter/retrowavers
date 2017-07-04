@@ -125,6 +125,7 @@ Container {
             
             onLike: {
                 root.favourite = true;
+                _lastFM.track.love(root.artistName, root.trackName);
                 _tracksController.like();
             }
         }

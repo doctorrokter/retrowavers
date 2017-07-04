@@ -21,10 +21,13 @@
 
 using namespace bb::data;
 
-ApiController::ApiController(TracksService* tracks, QObject* parent) : QObject(parent), m_network(new QNetworkAccessManager(this)), m_cursor(1), m_tracks(tracks) {}
+ApiController::ApiController(TracksService* tracks, QObject* parent) : QObject(parent), m_network(new QNetworkAccessManager(this)), m_cursor(1), m_tracks(tracks) {
+    m_pToast = new SystemToast(this);
+}
 
 ApiController::~ApiController() {
     m_network->deleteLater();
+    m_pToast->deleteLater();
 }
 
 void ApiController::load() {
@@ -41,47 +44,59 @@ void ApiController::load() {
     QNetworkReply* reply = m_network->get(req);
     bool res = QObject::connect(reply, SIGNAL(finished()), this, SLOT(onLoad()));
     Q_ASSERT(res);
+    res = QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onLoadError(QNetworkReply::NetworkError)));
     Q_UNUSED(res);
 }
 
 void ApiController::onLoad() {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
 
-    JsonDataAccess jda;
-    QVariantMap response = jda.loadFromBuffer(reply->readAll()).toMap();
-    QVariantMap body = response.value("body").toMap();
-    m_cursor = body.value("cursor").toInt();
+    if (reply->error() == QNetworkReply::NoError) {
+        JsonDataAccess jda;
+            QVariantMap response = jda.loadFromBuffer(reply->readAll()).toMap();
+            QVariantMap body = response.value("body").toMap();
+            m_cursor = body.value("cursor").toInt();
 
-    QVariantList tracks = body.value("tracks").toList();
-    QVariantList updatedTracks;
-    QList<Track*> tracksList;
+            QVariantList tracks = body.value("tracks").toList();
+            QVariantList updatedTracks;
+            QList<Track*> tracksList;
 
-    foreach(QVariant var, tracks) {
-        QVariantMap trMap = var.toMap();
-        QString imageUrl = trMap.value("artworkUrl").toString();
-        trMap["artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(imageUrl);
-        trMap["b_artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(".rsz.io").append(imageUrl).append("?blur=65");
-        trMap["streamUrl"] = ROOT_ENDPOINT + trMap.value("streamUrl").toString();
-        trMap["favourite"] = false;
+            foreach(QVariant var, tracks) {
+                QVariantMap trMap = var.toMap();
+                QString imageUrl = trMap.value("artworkUrl").toString();
+                trMap["artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(imageUrl);
+                trMap["b_artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(".rsz.io").append(imageUrl).append("?blur=65");
+                trMap["streamUrl"] = ROOT_ENDPOINT + trMap.value("streamUrl").toString();
+                trMap["favourite"] = false;
 
-        QString filename = trMap.value("streamUrl").toString().split("/").last();
-        trMap["filename"] = filename;
+                QString filename = trMap.value("streamUrl").toString().split("/").last();
+                trMap["filename"] = filename;
 
-        updatedTracks.append(trMap);
+                updatedTracks.append(trMap);
 
-        Track* track = new Track(this);
-        track->fromMap(trMap);
-        tracksList.append(track);
+                Track* track = new Track(this);
+                track->fromMap(trMap);
+                tracksList.append(track);
+            }
+
+            m_tracks->appendTracks(tracksList);
+            foreach(Track* track, tracksList) {
+                loadImage(track->getId(), track->getArtworkUrl());
+                loadBlurImage(track->getId(), track->getBArtworkUrl());
+            }
+
+            emit loaded(updatedTracks);
     }
 
-    m_tracks->appendTracks(tracksList);
-    foreach(Track* track, tracksList) {
-        loadImage(track->getId(), track->getArtworkUrl());
-        loadBlurImage(track->getId(), track->getBArtworkUrl());
-    }
-
-    emit loaded(updatedTracks);
     reply->deleteLater();
+}
+
+void ApiController::onLoadError(QNetworkReply::NetworkError e) {
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
+    m_pToast->setBody(tr("Service is unavailable. Try later."));
+    m_pToast->show();
+    qDebug() << "===>>> ApiController#onLoadError: " << e << endl;
+    qDebug() << "===>>> ApiController#onLoadError: " << reply->errorString() << endl;
 }
 
 void ApiController::loadImage(const QString& id, const QString& path) {
@@ -97,8 +112,6 @@ void ApiController::loadImage(const QString& id, const QString& path) {
         qDebug() << "===>>> ApiController#loadImage - file exists: " << filepath << endl;
         m_tracks->setImagePath(id, filepath);
     } else {
-//        qDebug() << "===>>> ApiController#loadImage " << url << endl;
-
         QNetworkReply* reply = m_network->get(req);
         reply->setProperty("id", id);
         reply->setProperty("path", path);
@@ -162,8 +175,6 @@ void ApiController::loadBlurImage(const QString& id, const QString& path) {
         qDebug() << "===>>> ApiController#loadBlurImage - file exists: " << filepath << endl;
         m_tracks->setBlurImagePath(id, filepath);
     } else {
-//        qDebug() << "===>>> ApiController#loadBlurImage " << url << endl;
-
         QNetworkReply* reply = m_network->get(req);
         reply->setProperty("id", id);
         reply->setProperty("path", path);

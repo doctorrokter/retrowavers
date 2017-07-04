@@ -19,5 +19,6 @@
 
 #define TRACK_UPDATE_NOW_PLAYING "track.updateNowPlaying"
 #define TRACK_SCROBBLE "track.scrobble"
+#define TRACK_LOVE "track.love"
 
 #endif /* LASTFMCOMMON_HPP_ */

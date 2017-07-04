@@ -21,14 +21,17 @@ public:
 
     Q_INVOKABLE void updateNowPlaying(const QString& artist, const QString& track);
     Q_INVOKABLE void scrobble(const QString& artist, const QString& track, const int& timestamp);
+    Q_INVOKABLE void love(const QString& artist, const QString& track);
 
     Q_SIGNALS:
         void nowPlayingUpdated();
         void scrobbled();
+        void loved();
 
 private slots:
     void onNowPlayingUpdated();
     void onScrobbled();
+    void onLoved();
     void onError(QNetworkReply::NetworkError e);
 
 private:
