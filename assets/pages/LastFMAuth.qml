@@ -32,14 +32,21 @@ Page {
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
             
+            attachedObjects: [
+                LayoutUpdateHandler {
+                    id: rootLUH
+                }
+            ]
+            
             layout: DockLayout {}
             
             ImageView {
                 imageSource: "asset:///images/blur.jpg"
-                horizontalAlignment: HorizontalAlignment.Fill
-                verticalAlignment: VerticalAlignment.Fill
                 scalingMethod: ScalingMethod.AspectFill
                 opacity: 0.3
+                
+                maxWidth: rootLUH.layoutFrame.width
+                maxHeight: rootLUH.layoutFrame.height
             }
             
             Container {

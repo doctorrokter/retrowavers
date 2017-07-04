@@ -167,6 +167,16 @@ Container {
         }
     }
     
+    function like(id) {
+        for (var i = 0; i < songsDataModel.size(); i++) {
+            var trackData = songsDataModel.value(i);
+            if (trackData.id === id) {
+                trackData.favourite = true;
+                songsDataModel.replace(i, trackData);
+            }
+        }
+    }
+    
     onCreationCompleted: {
 //        var data = [];
 //        data.push({title: "OGRE – Flex In", duration: 60000, favourite: false});
@@ -178,5 +188,6 @@ Container {
         _api.loaded.connect(addTracks);
         _tracksService.activeChanged.connect(root.onPlayed);
         _tracksService.imageChanged.connect(root.updateImagePath);
+        _tracksController.liked.connect(root.like);
     }
 }

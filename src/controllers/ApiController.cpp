@@ -63,19 +63,25 @@ void ApiController::onLoad() {
 
             foreach(QVariant var, tracks) {
                 QVariantMap trMap = var.toMap();
-                QString imageUrl = trMap.value("artworkUrl").toString();
-                trMap["artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(imageUrl);
-                trMap["b_artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(".rsz.io").append(imageUrl).append("?blur=65");
-                trMap["streamUrl"] = ROOT_ENDPOINT + trMap.value("streamUrl").toString();
-                trMap["favourite"] = false;
+                Track* track = m_tracks->findFavouriteById(trMap.value("id").toString());
+                if (track == NULL) {
+                    QString imageUrl = trMap.value("artworkUrl").toString();
+                    trMap["artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(imageUrl);
+                    trMap["b_artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(".rsz.io").append(imageUrl).append("?blur=65");
+                    trMap["streamUrl"] = ROOT_ENDPOINT + trMap.value("streamUrl").toString();
+                    trMap["favourite"] = false;
 
-                QString filename = trMap.value("streamUrl").toString().split("/").last();
-                trMap["filename"] = filename;
+                    QString filename = trMap.value("streamUrl").toString().split("/").last();
+                    trMap["filename"] = filename;
 
-                updatedTracks.append(trMap);
+                    updatedTracks.append(trMap);
 
-                Track* track = new Track(this);
-                track->fromMap(trMap);
+                    track = new Track(this);
+                    track->fromMap(trMap);
+                } else {
+                    qDebug() << "===>>> ApiController#onLoad track already favourite: " << track->getTitle() << endl;
+                    qDebug() << track->toMap() << endl;
+                }
                 tracksList.append(track);
             }
 

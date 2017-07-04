@@ -4,7 +4,7 @@
 <context>
     <name>ApiController</name>
     <message>
-        <location filename="../src/controllers/ApiController.cpp" line="96"/>
+        <location filename="../src/controllers/ApiController.cpp" line="102"/>
         <source>Service is unavailable. Try later.</source>
         <translation type="unfinished">Сервис временно недоступен. Попробуйте позже.</translation>
     </message>
@@ -20,27 +20,27 @@
 <context>
     <name>LastFMAuth</name>
     <message>
-        <location filename="../assets/pages/LastFMAuth.qml" line="73"/>
+        <location filename="../assets/pages/LastFMAuth.qml" line="80"/>
         <source>Sign out</source>
         <translation type="unfinished">Выйти</translation>
     </message>
     <message>
-        <location filename="../assets/pages/LastFMAuth.qml" line="94"/>
+        <location filename="../assets/pages/LastFMAuth.qml" line="101"/>
         <source>Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/LastFMAuth.qml" line="105"/>
+        <location filename="../assets/pages/LastFMAuth.qml" line="112"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/pages/LastFMAuth.qml" line="119"/>
+        <location filename="../assets/pages/LastFMAuth.qml" line="126"/>
         <source>Sign in</source>
         <translation type="unfinished">Войти</translation>
     </message>
     <message>
-        <location filename="../assets/pages/LastFMAuth.qml" line="179"/>
+        <location filename="../assets/pages/LastFMAuth.qml" line="186"/>
         <source>Error login. Check your credentials.</source>
         <translation type="unfinished">Ошибка входа. Проверьте логин/пароль и повторите вход.</translation>
     </message>
@@ -67,11 +67,19 @@
     </message>
 </context>
 <context>
+    <name>Player</name>
+    <message>
+        <location filename="../assets/components/Player.qml" line="222"/>
+        <source>Media player error: </source>
+        <translation type="unfinished">Ошибка медиа плеера: </translation>
+    </message>
+</context>
+<context>
     <name>TracksController</name>
     <message>
-        <location filename="../src/controllers/TracksController.cpp" line="37"/>
-        <location filename="../src/controllers/TracksController.cpp" line="65"/>
-        <location filename="../src/controllers/TracksController.cpp" line="80"/>
+        <location filename="../src/controllers/TracksController.cpp" line="43"/>
+        <location filename="../src/controllers/TracksController.cpp" line="71"/>
+        <location filename="../src/controllers/TracksController.cpp" line="86"/>
         <source>Nothing to play. Playlist is empty.</source>
         <translation type="unfinished">Плейлист пуст.</translation>
     </message>

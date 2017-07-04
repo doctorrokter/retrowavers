@@ -57,6 +57,13 @@
     </message>
 </context>
 <context>
+    <name>Player</name>
+    <message>
+        <source>Media player error: </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TracksController</name>
     <message>
         <source>Nothing to play. Playlist is empty.</source>

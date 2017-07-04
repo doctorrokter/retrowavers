@@ -1,6 +1,7 @@
 import bb.cascades 1.4
 import bb.multimedia 1.4
 import bb.device 1.4
+import bb.system 1.2
 import "../style"
 
 Container {
@@ -24,6 +25,7 @@ Container {
     property bool scrobblerEnabled: false
     
     property int fourMinutes: 60000 * 4
+    property int percentage: 0
     
     property int screenWidth: 1440
     property int screenHeight: 1440
@@ -115,10 +117,13 @@ Container {
         margin.bottomOffset: ui.du(1)
                 
         LikeButton {
+            id: likeButton
+            
             screenWidth: root.screenWidth
             screenHeight: root.screenHeight
             
             favourite: root.favourite
+            percentage: root.percentage
             
             visible: _tracksService.active !== undefined && _tracksService.active !== null
             horizontalAlignment: HorizontalAlignment.Center
@@ -212,6 +217,12 @@ Container {
                 _api.loaded.disconnect(player.nextAfterLoad);
             }
             
+            onError: {
+                nowplaying.revoke();
+                toast.body = (qsTr("Media player error: ") + Retranslate.onLocaleOrLanguageChanged) + mediaError;
+                toast.show();
+            }
+            
             onMediaStateChanged: {
                 if (mediaState === MediaState.Started) {
                     if (root.scrobblerEnabled) {
@@ -280,6 +291,10 @@ Container {
         
         DisplayInfo {
             id: display
+        },
+        
+        SystemToast {
+            id: toast
         }
     ]
     
@@ -311,7 +326,14 @@ Container {
             if (!root.asleep) {
                 root.setData(track);
             }
-            player.sourceUrl = track.streamUrl;
+            
+            if (track.favourite && track.localPath) {
+                player.sourceUrl = "file://" + track.localPath;
+                console.debug("===>>> Player: play from local " + track.localPath);
+            } else {
+                player.sourceUrl = track.streamUrl;
+            }
+            
             root.scrobbled = false;
             root.startTime = new Date().getTime() / 1000;
             root.durationMillis = track.duration;
@@ -353,6 +375,7 @@ Container {
         root.duration = getMediaTime(track.duration);
         root.cover = track.imagePath;
         root.favourite = track.favourite;
+        likeButton.percentage = 0;
     }
     
     function getArtistAndTrack(title) {
@@ -374,11 +397,25 @@ Container {
         return root.screenWidth === 1440 && root.screenHeight === 1440;
     }
     
+    function downloadProgress(id, sent, total) {
+        if (root.trackId === id) {
+            var percentage = parseInt((sent * 100) / total);
+            root.percentage = percentage;
+        }
+    }
+    
+    onPercentageChanged: {
+        if (!root.asleep) {
+            likeButton.percentage = percentage;
+        }
+    }
+    
     onCreationCompleted: {
         root.screenWidth = display.pixelSize.width;
         root.screenHeight = display.pixelSize.height;
         
         _tracksController.played.connect(root.play);
+        _tracksController.downloadProgress.connect(root.downloadProgress);
         Application.asleep.connect(root.stopRendering);
         Application.awake.connect(root.resumeRendering);
         _appConfig.settingsChanged.connect(root.updateSettings);

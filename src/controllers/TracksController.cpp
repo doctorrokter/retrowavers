@@ -22,6 +22,12 @@ TracksController::TracksController(TracksService* tracks, QObject* parent) : QOb
 
     m_pNetwork = new QNetworkAccessManager(this);
     m_pToast = new SystemToast(this);
+
+    foreach(Track* track, m_tracks->getFavouriteTracksList()) {
+        if (track->getLocalPath().compare("") == 0) {
+            download(track);
+        }
+    }
 }
 
 TracksController::~TracksController() {
@@ -135,14 +141,14 @@ void TracksController::onDownload() {
             dir.mkpath(tracksDir);
         }
 
-        Track* track = m_tracks->findById(id);
+        Track* track = m_tracks->findFavouriteById(id);
         QString filepath = tracksDir + "/" + track->getFilename();
         QFile file(filepath);
         if (file.open(QIODevice::WriteOnly)) {
             file.write(data);
             file.close();
             track->setLocalPath(filepath);
-            m_tracks->addFavourite(track);
+            qDebug() << "===>>> TracksController#onDownload track saved to: " << filepath << endl;
         } else {
             qDebug() << file.errorString() << endl;
         }
@@ -161,7 +167,5 @@ void TracksController::onDownloadError(QNetworkReply::NetworkError e) {
 void TracksController::onDownloadProgress(qint64 sent, qint64 total) {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(QObject::sender());
     QString trackId = reply->property("id").toString();
-//    qDebug() << "SENT: " << sent << " TOTAL: " << total << endl;
-    Q_UNUSED(sent);
-    Q_UNUSED(total);
+    emit downloadProgress(trackId, sent, total);
 }

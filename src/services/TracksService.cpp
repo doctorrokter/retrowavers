@@ -25,12 +25,14 @@ TracksService::TracksService(QObject* parent) : QObject(parent), m_active(NULL) 
             Track* track = new Track();
             track->fromMap(var.toMap());
             m_favouriteTracks.append(track);
+            qDebug() << track->toMap() << endl;
         }
         qDebug() << "Favourite tracks: " << m_favouriteTracks.size() << endl;
     }
 }
 
 TracksService::~TracksService() {
+    saveFavourite();
     m_active->deleteLater();
     foreach(Track* track, m_tracks) {
         track->deleteLater();
@@ -75,24 +77,23 @@ void TracksService::addFavourite(Track* track) {
     if (!exists) {
         m_favouriteTracks.append(track);
         emit favouriteTracksChanged(getFavouriteTracks());
-
-        QVariantList list;
-        foreach(Track* track, m_favouriteTracks) {
-            list.append(track->toMap());
-        }
-
-        JsonDataAccess jda;
-        QFile file(QDir::currentPath() + FAVORITE_TRACKS);
-        if (file.open(QIODevice::WriteOnly)) {
-            jda.save(QVariant(list), &file);
-            qDebug() << "Save favourite tracks: " << QDir::currentPath() + FAVORITE_TRACKS << endl;
-        }
+        saveFavourite();
     }
 }
 
 Track* TracksService::findById(const QString& id) {
     for (int i = 0; i < m_tracks.size(); i++) {
         Track* track = m_tracks.at(i);
+        if (track->getId().compare(id) == 0) {
+            return track;
+        }
+    }
+    return NULL;
+}
+
+Track* TracksService::findFavouriteById(const QString& id) {
+    for (int i = 0; i < m_favouriteTracks.size(); i++) {
+        Track* track = m_favouriteTracks.at(i);
         if (track->getId().compare(id) == 0) {
             return track;
         }
@@ -147,4 +148,18 @@ QList<Track*>& TracksService::getTracksList() {
 
 QList<Track*>& TracksService::getFavouriteTracksList() {
     return m_favouriteTracks;
+}
+
+void TracksService::saveFavourite() {
+    QVariantList list;
+    foreach(Track* track, m_favouriteTracks) {
+        list.append(track->toMap());
+    }
+
+    JsonDataAccess jda;
+    QFile file(QDir::currentPath() + FAVORITE_TRACKS);
+    if (file.open(QIODevice::WriteOnly)) {
+        jda.save(QVariant(list), &file);
+        qDebug() << "Save favourite tracks: " << QDir::currentPath() + FAVORITE_TRACKS << endl;
+    }
 }

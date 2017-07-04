@@ -130,10 +130,13 @@ void Track::fromMap(const QVariantMap& map) {
     m_duration = map.value("duration").toInt();
     m_artworkUrl = map.value("artworkUrl").toString();
     m_bArtworkUrl = map.value("b_artworkUrl", "").toString();
-    m_favourite = map.value("favourite", false).toBool();
     m_streamUrl = map.value("streamUrl").toString();
+    m_imagePath = map.value("imagePath", "").toString();
+    m_bImagePath = map.value("bImagePath", "").toString();
+    m_favourite = map.value("favourite", false).toBool();
     m_filename = map.value("filename", "").toString();
     m_localPath = map.value("localPath", "").toString();
+
 }
 
 void Track::swap(const Track& track) {

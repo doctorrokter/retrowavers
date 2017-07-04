@@ -35,6 +35,7 @@ public:
         void played(const QVariantMap& track);
         void liked(const QString& id);
         void downloaded(const QString& id);
+        void downloadProgress(const QString& id, qint64 sent, qint64 total);
 
 private slots:
     void onDownload();

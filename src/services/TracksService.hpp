@@ -26,6 +26,7 @@ public:
     Q_INVOKABLE QVariantList getTracks() const;
     Q_INVOKABLE void setTracks(const QVariantList& tracks);
     Q_INVOKABLE Track* findById(const QString& id);
+    Q_INVOKABLE Track* findFavouriteById(const QString& id);
     Q_INVOKABLE Track* getActive() const;
 
     Q_INVOKABLE QVariantList getFavouriteTracks() const;
@@ -50,6 +51,8 @@ private:
     QList<Track*> m_tracks;
     QList<Track*> m_favouriteTracks;
     Track* m_active;
+
+    void saveFavourite();
 };
 
 #endif /* TRACKSSERVICE_HPP_ */
