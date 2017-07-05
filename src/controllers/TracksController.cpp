@@ -150,7 +150,6 @@ int TracksController::getPlayerMode() const { return m_playerMode; }
 void TracksController::setPlayerMode(const int& playerMode) {
     if (m_playerMode != playerMode) {
         m_playerMode = playerMode;
-        m_index = 0;
         emit playerModeChanged(m_playerMode);
     }
 }

@@ -90,7 +90,11 @@ bool TracksService::removeFavourite(const QString& id) {
                 qDebug() << " Removing file: " << track->getLocalPath() << endl;
                 file.remove();
             }
-            track->deleteLater();
+
+            if (!m_tracks.contains(track)) {
+                track->deleteLater();
+            }
+
             saveFavourite();
             return true;
         }
