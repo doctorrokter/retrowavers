@@ -139,6 +139,13 @@ void TracksController::like() {
     }
 }
 
+void TracksController::removeFavourite(const QVariantMap& track) {
+    QString id = track.value("id").toString();
+    if (m_tracks->removeFavourite(id)) {
+        emit favouriteTrackRemoved(id);
+    }
+}
+
 int TracksController::getPlayerMode() const { return m_playerMode; }
 void TracksController::setPlayerMode(const int& playerMode) {
     if (m_playerMode != playerMode) {

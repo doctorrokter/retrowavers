@@ -56,12 +56,12 @@
 <context>
     <name>List</name>
     <message>
-        <location filename="../assets/components/List.qml" line="124"/>
+        <location filename="../assets/components/List.qml" line="147"/>
         <source>Playlist</source>
         <translation type="unfinished">Плейлист</translation>
     </message>
     <message>
-        <location filename="../assets/components/List.qml" line="125"/>
+        <location filename="../assets/components/List.qml" line="148"/>
         <source>Favourite</source>
         <translation type="unfinished">Избранное</translation>
     </message>

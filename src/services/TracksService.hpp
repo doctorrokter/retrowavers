@@ -35,6 +35,7 @@ public:
     int count() const;
     void appendTracks(const QList<Track*>& tracks);
     void addFavourite(Track* track);
+    bool removeFavourite(const QString& id);
     void setImagePath(const QString& id, const QString& imagePath);
     void setBlurImagePath(const QString& id, const QString& imagePath);
     QList<Track*>& getTracksList();

@@ -38,6 +38,7 @@ public:
     Q_INVOKABLE bool next();
     Q_INVOKABLE bool prev();
     Q_INVOKABLE void like();
+    Q_INVOKABLE void removeFavourite(const QVariantMap& track);
 
     Q_INVOKABLE int getPlayerMode() const;
     Q_INVOKABLE void setPlayerMode(const int& playerMode);
@@ -48,6 +49,7 @@ public:
         void downloaded(const QString& id);
         void downloadProgress(const QString& id, qint64 sent, qint64 total);
         void playerModeChanged(const int& playerMode);
+        void favouriteTrackRemoved(const QString& id);
 
 private slots:
     void onDownload();

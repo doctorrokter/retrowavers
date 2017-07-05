@@ -6,6 +6,7 @@
  */
 
 #include "Track.hpp"
+#include <QDebug>
 
 Track::Track(QObject* parent) : QObject(parent), m_id(""), m_duration(0), m_artworkUrl(""), m_bArtworkUrl(""),
 m_streamUrl(""), m_title(""), m_imagePath(""), m_bImagePath(""), m_favourite(false), m_filename(""), m_localPath("") {}
@@ -14,7 +15,9 @@ Track::Track(const Track& track) : QObject(track.parent()) {
     swap(track);
 }
 
-Track::~Track() {}
+Track::~Track() {
+    qDebug() << "Deleting track: " << m_title << endl;
+}
 
 bool Track::operator==(const Track& track) {
     return m_id.compare(track.getId()) == 0 && m_title.compare(track.getTitle()) == 0;

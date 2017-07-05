@@ -81,6 +81,24 @@ void TracksService::addFavourite(Track* track) {
     }
 }
 
+bool TracksService::removeFavourite(const QString& id) {
+    Track* track = findFavouriteById(id);
+    if (track != NULL) {
+        if (m_favouriteTracks.removeOne(track)) {
+            QFile file(track->getLocalPath());
+            if (file.exists()) {
+                qDebug() << " Removing file: " << track->getLocalPath() << endl;
+                file.remove();
+            }
+            track->deleteLater();
+            saveFavourite();
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+
 Track* TracksService::findById(const QString& id) {
     for (int i = 0; i < m_tracks.size(); i++) {
         Track* track = m_tracks.at(i);

@@ -55,16 +55,6 @@ Container {
             }
         ]
         
-        shortcuts: [
-            Shortcut {
-                key: "l"
-                
-                onTriggered: {
-                    scaleHeartUp.play();
-                }
-            }
-        ]
-        
         attachedObjects: [
             ScaleTransition {
                 id: scaleHeartUp

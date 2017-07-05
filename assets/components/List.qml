@@ -64,6 +64,29 @@ Container {
         listItemComponents: [
             ListItemComponent {
                 CustomListItem {
+                    contextActions: [
+                        ActionSet {
+                            DeleteActionItem {
+                                id: deleteAction
+                                
+                                onTriggered: {
+                                    var track = ListItemData;
+                                    _tracksController.removeFavourite(track);
+                                }
+                                
+                                shortcuts: [
+                                    Shortcut {
+                                        key: "d"
+                                        
+                                        onTriggered: {
+                                            deleteAction.triggered();
+                                        }
+                                    }
+                                ]
+                            }
+                        }    
+                    ]
+                    
                     Container {
                         layout: StackLayout {
                             orientation: LayoutOrientation.LeftToRight
@@ -197,6 +220,15 @@ Container {
         }
     }
     
+    function removeFavourite(id) {
+        for (var i = 0; i < songsDataModel.size(); i++) {
+            var track = songsDataModel.value(i);
+            if (track.id === id) {
+                songsDataModel.removeAt(i);
+            }
+        }
+    }
+    
     onCreationCompleted: {
 //        var data = [];
 //        data.push({title: "OGRE – Flex In", duration: 60000, favourite: false});
@@ -210,5 +242,6 @@ Container {
         _tracksService.imageChanged.connect(root.updateImagePath);
         _tracksController.liked.connect(root.like);
         _tracksController.playerModeChanged.connect(root.playerModeChanged);
+        _tracksController.favouriteTrackRemoved.connect(root.removeFavourite);
     }
 }
