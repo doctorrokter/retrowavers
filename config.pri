@@ -56,6 +56,7 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/cover.jpg) \
         $$quote($$BASEDIR/assets/images/heart_empty.png) \
         $$quote($$BASEDIR/assets/images/heart_filled.png) \
+        $$quote($$BASEDIR/assets/images/ic_blackberry.png) \
         $$quote($$BASEDIR/assets/images/ic_feedback.png) \
         $$quote($$BASEDIR/assets/images/ic_next.png) \
         $$quote($$BASEDIR/assets/images/ic_pause.png) \

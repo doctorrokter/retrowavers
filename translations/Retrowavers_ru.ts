@@ -96,5 +96,10 @@
         <source>Send feedback</source>
         <translation type="unfinished">Обратная связь</translation>
     </message>
+    <message>
+        <location filename="../assets/main.qml" line="55"/>
+        <source>Rate app</source>
+        <translation type="unfinished">Оценить приложение</translation>
+    </message>
 </context>
 </TS>

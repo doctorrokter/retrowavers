@@ -1,5 +1,5 @@
 1
-35
+36
 components/Cassette.qml
 components/Cover.qml
 components/LikeButton.qml
@@ -19,6 +19,7 @@ images/cogwheel.png
 images/cover.jpg
 images/heart_empty.png
 images/heart_filled.png
+images/ic_blackberry.png
 images/ic_feedback.png
 images/ic_next.png
 images/ic_pause.png

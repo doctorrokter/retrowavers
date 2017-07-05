@@ -49,6 +49,15 @@ NavigationPane {
                 onTriggered: {
                     invokeFeedback.trigger(invokeFeedback.query.invokeActionId);
                 }
+            },
+            
+            ActionItem {
+                title: qsTr("Rate app") + Retranslate.onLocaleOrLanguageChanged
+                imageSource: "asset:///images/ic_blackberry.png"
+                
+                onTriggered: {
+                    bbwInvoke.trigger(bbwInvoke.query.invokeActionId);
+                }
             }
         ]
     }
@@ -215,6 +224,15 @@ NavigationPane {
                 uri: "mailto:retrowavers.bbapp@gmail.com?subject=Retrowavers:%20Feedback"
                 invokeActionId: "bb.action.SENDEMAIL"
                 invokeTargetId: "sys.pim.uib.email.hybridcomposer"
+            }
+        },
+        
+        Invocation {
+            id: bbwInvoke
+            query {
+                uri: "appworld://content/60003994"
+                invokeActionId: "bb.action.OPEN"
+                invokeTargetId: "sys.appworld"
             }
         }
     ]

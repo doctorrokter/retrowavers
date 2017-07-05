@@ -80,5 +80,9 @@
         <source>LastFM account</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Rate app</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
