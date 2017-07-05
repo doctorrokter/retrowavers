@@ -63,7 +63,7 @@ void TracksService::appendTracks(const QList<Track*>& tracks) {
     m_tracks.append(tracks);
     QVariantList tracksMaps;
     foreach(Track* track, tracks) {
-        m_tracks.append(track);
+        tracksMaps.append(track->toMap());
     }
     emit tracksChanged(tracksMaps);
 }
