@@ -10,6 +10,8 @@ Container {
     property string option1: "Playlist"
     property string option2: "Favourite"
     property int height: rootLUH.layoutFrame.height
+    property bool option1Enabled: true
+    property bool option2Enabled: true
              
     horizontalAlignment: HorizontalAlignment.Fill
     verticalAlignment: VerticalAlignment.Top
@@ -23,10 +25,12 @@ Container {
             options: [
                 Option {
                     text: option1
+                    enabled: root.option1Enabled
                 },
                 
                 Option {
                     text: option2
+                    enabled: root.option2Enabled
                 }
             ]
             

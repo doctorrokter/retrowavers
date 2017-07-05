@@ -1,6 +1,7 @@
 config-pri.hash=80DCF323B92E8FC525251705D569948F
 config-pri.version=2.0
 eclipse.preferences.version=1
+white-list.PlayerMode=
 white-list._api=
 white-list._appConfig=
 white-list._lastFM=

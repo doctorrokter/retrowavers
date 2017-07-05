@@ -4,7 +4,7 @@
 <context>
     <name>ApiController</name>
     <message>
-        <location filename="../src/controllers/ApiController.cpp" line="102"/>
+        <location filename="../src/controllers/ApiController.cpp" line="107"/>
         <source>Service is unavailable. Try later.</source>
         <translation type="unfinished">Сервис временно недоступен. Попробуйте позже.</translation>
     </message>
@@ -56,14 +56,14 @@
 <context>
     <name>List</name>
     <message>
-        <location filename="../assets/components/List.qml" line="123"/>
+        <location filename="../assets/components/List.qml" line="124"/>
         <source>Playlist</source>
         <translation type="unfinished">Плейлист</translation>
     </message>
     <message>
-        <location filename="../assets/components/List.qml" line="124"/>
+        <location filename="../assets/components/List.qml" line="125"/>
         <source>Favourite</source>
-        <translation type="unfinished">Любимые</translation>
+        <translation type="unfinished">Избранное</translation>
     </message>
 </context>
 <context>
@@ -77,9 +77,9 @@
 <context>
     <name>TracksController</name>
     <message>
-        <location filename="../src/controllers/TracksController.cpp" line="43"/>
-        <location filename="../src/controllers/TracksController.cpp" line="71"/>
-        <location filename="../src/controllers/TracksController.cpp" line="86"/>
+        <location filename="../src/controllers/TracksController.cpp" line="46"/>
+        <location filename="../src/controllers/TracksController.cpp" line="91"/>
+        <location filename="../src/controllers/TracksController.cpp" line="114"/>
         <source>Nothing to play. Playlist is empty.</source>
         <translation type="unfinished">Плейлист пуст.</translation>
     </message>

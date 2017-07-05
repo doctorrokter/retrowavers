@@ -44,6 +44,7 @@ void myMessageOutput(QtMsgType type, const char* msg) {  // <-- ADD THIS
 
 Q_DECL_EXPORT int main(int argc, char **argv) {
     qmlRegisterType<QTimer>("chachkouski.util", 1, 0, "Timer");
+    qmlRegisterType<TracksController>("chachkouski.enums", 1, 0, "PlayerMode");
     qRegisterMetaType<Track*>("Track*");
     qRegisterMetaType<TrackController*>("TrackController*");
     qmlRegisterUncreatableType<Track>("chachkouski.type", 1, 0, "track", "test");

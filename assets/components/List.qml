@@ -1,4 +1,5 @@
 import bb.cascades 1.4
+import chachkouski.enums 1.0
 import "../style"
 import "../components"
 
@@ -35,7 +36,7 @@ Container {
         attachedObjects: [
             ListScrollStateHandler {
                 onScrollingChanged: {
-                    if (atEnd) {
+                    if (atEnd && _tracksController.playerMode === PlayerMode.Playlist) {
                         if (!spinner.running) {
                             spinner.start();
                             _api.loaded.connect(songsList.loaded);
@@ -123,14 +124,15 @@ Container {
         option1: qsTr("Playlist") + Retranslate.onLocaleOrLanguageChanged
         option2: qsTr("Favourite") + Retranslate.onLocaleOrLanguageChanged
         
+        option1Enabled: true
+        option2Enabled: _tracksService.favouriteTracks.length !== 0
+        
         onOption1Selected: {
-            //            filmsContainer.visible = true;
-            //            cinemasContainer.visible = false;
+            _tracksController.playerMode = PlayerMode.Playlist;
         }
         
         onOption2Selected: {
-            //            filmsContainer.visible = false;
-            //            cinemasContainer.visible = true;
+            _tracksController.playerMode = PlayerMode.Favourite;
         }
     }
     
@@ -177,6 +179,24 @@ Container {
         }
     }
     
+    function playerModeChanged(playerMode) {
+        songsDataModel.clear();
+        if (playerMode === PlayerMode.Playlist) {
+            songsDataModel.append(_tracksService.tracks);
+        } else if (playerMode === PlayerMode.Favourite) {
+            songsDataModel.append(_tracksService.favouriteTracks);
+        }
+        
+        if (_tracksService.active !== undefined && _tracksService.active !== null) {
+            for (var i = 0; i < songsDataModel.size(); i++) {
+                var trackData = songsDataModel.value(i);
+                if (trackData.id === _tracksService.active.id) {
+                    songsList.select([i]);
+                }
+            }
+        }
+    }
+    
     onCreationCompleted: {
 //        var data = [];
 //        data.push({title: "OGRE – Flex In", duration: 60000, favourite: false});
@@ -189,5 +209,6 @@ Container {
         _tracksService.activeChanged.connect(root.onPlayed);
         _tracksService.imageChanged.connect(root.updateImagePath);
         _tracksController.liked.connect(root.like);
+        _tracksController.playerModeChanged.connect(root.playerModeChanged);
     }
 }

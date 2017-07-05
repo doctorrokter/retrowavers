@@ -14,7 +14,9 @@
 
 #define NOTIFICATION_KEY "Retrowavers"
 
-TracksController::TracksController(TracksService* tracks, QObject* parent) : QObject(parent), m_tracks(tracks), m_index(0) {
+TracksController::TracksController() {}
+
+TracksController::TracksController(TracksService* tracks, QObject* parent) : QObject(parent), m_tracks(tracks), m_index(0), m_favIndex(0), m_playerMode(0) {
     m_pNotification = new Notification(this);
     m_pNotification->setTitle(NOTIFICATION_KEY);
     m_pNotification->setType(NotificationType::AllAlertsOff);
@@ -39,58 +41,89 @@ TracksController::~TracksController() {
 
 bool TracksController::play(const QVariantMap& track) {
     m_index = 0;
+    m_favIndex = 0;
     if (m_tracks->count() == 0) {
         m_pToast->setBody(tr("Nothing to play. Playlist is empty."));
         m_pToast->show();
         return false;
     }
 
-    if (track.contains("id")) {
-        for (int i = 0; i < m_tracks->count(); i++) {
-            QString id = track.value("id").toString();
-            if (m_tracks->getTracksList().at(i)->getId().compare(id) == 0) {
-                m_index = i;
+    Track* pTrack = NULL;
 
-                Track* pTrack = m_tracks->findById(id);
-                m_tracks->setActive(pTrack);
-                notify(pTrack);
-                emit played(pTrack->toMap());
+    if (track.contains("id")) {
+        if (m_playerMode == Playlist) {
+            for (int i = 0; i < m_tracks->count(); i++) {
+                QString id = track.value("id").toString();
+                if (m_tracks->getTracksList().at(i)->getId().compare(id) == 0) {
+                    m_index = i;
+                    pTrack = m_tracks->findById(id);
+                }
+            }
+        } else {
+            for (int i = 0; i < m_tracks->getFavouriteTracksList().size(); i++) {
+                QString id = track.value("id").toString();
+                if (m_tracks->getFavouriteTracksList().at(i)->getId().compare(id) == 0) {
+                    m_favIndex = i;
+                    pTrack = m_tracks->findFavouriteById(id);
+                }
             }
         }
     } else {
-        Track* pTrack = m_tracks->getTracksList().at(m_index);
+        if (m_playerMode == Playlist) {
+            pTrack = m_tracks->getTracksList().at(m_index);
+        } else {
+            pTrack = m_tracks->getFavouriteTracksList().at(m_favIndex);
+        }
+    }
+
+    if (pTrack != NULL) {
         m_tracks->setActive(pTrack);
         notify(pTrack);
         emit played(pTrack->toMap());
     }
+
     return true;
 }
 
 bool TracksController::next() {
-    if (m_tracks->count() == 0) {
+    if (m_playerMode == Playlist) {
+        if (m_tracks->count() == 0) {
             m_pToast->setBody(tr("Nothing to play. Playlist is empty."));
             m_pToast->show();
             return false;
         }
 
-    if (m_index < (m_tracks->count() -1)) {
-        m_index++;
-        play(m_tracks->getTracks().at(m_index).toMap());
+        if (m_index < (m_tracks->count() - 1)) {
+            play(m_tracks->getTracks().at(m_index + 1).toMap());
+            return true;
+        }
+    } else {
+        if (m_favIndex < (m_tracks->getFavouriteTracksList().size() - 1)) {
+            play(m_tracks->getFavouriteTracks().at(m_favIndex + 1).toMap());
+        } else {
+            play(m_tracks->getFavouriteTracks().at(0).toMap());
+        }
         return true;
     }
     return false;
 }
 
 bool TracksController::prev() {
-    if (m_tracks->count() == 0) {
-        m_pToast->setBody(tr("Nothing to play. Playlist is empty."));
-        m_pToast->show();
-        return false;
-    }
+    if (m_playerMode == Playlist) {
+        if (m_tracks->count() == 0) {
+            m_pToast->setBody(tr("Nothing to play. Playlist is empty."));
+            m_pToast->show();
+            return false;
+        }
 
-    if (m_index != 0) {
-        m_index--;
-        play(m_tracks->getTracks().at(m_index).toMap());
+        if (m_index != 0) {
+            play(m_tracks->getTracks().at(m_index - 1).toMap());
+        }
+        return true;
+    } else {
+        if (m_favIndex != 0) {
+            play(m_tracks->getFavouriteTracks().at(m_favIndex - 1).toMap());
+        }
         return true;
     }
     return false;
@@ -103,6 +136,15 @@ void TracksController::like() {
         m_tracks->addFavourite(track);
         download(track);
         emit liked(track->getId());
+    }
+}
+
+int TracksController::getPlayerMode() const { return m_playerMode; }
+void TracksController::setPlayerMode(const int& playerMode) {
+    if (m_playerMode != playerMode) {
+        m_playerMode = playerMode;
+        m_index = 0;
+        emit playerModeChanged(m_playerMode);
     }
 }
 
