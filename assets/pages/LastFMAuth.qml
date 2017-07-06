@@ -127,8 +127,12 @@ Page {
                     color: ui.palette.primaryDark
                     
                     onClicked: {
-                        spinner.start();
-                        _lastFM.authenticate(username.text, password.text);
+                        if (_app.online) {
+                            spinner.start();
+                            _lastFM.authenticate(username.text, password.text);
+                        } else {
+                            _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
+                        }
                     }
                 }
             }

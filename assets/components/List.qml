@@ -38,9 +38,13 @@ Container {
                 onScrollingChanged: {
                     if (atEnd && _tracksController.playerMode === PlayerMode.Playlist) {
                         if (!spinner.running) {
-                            spinner.start();
-                            _api.loaded.connect(songsList.loaded);
-                            _api.load();
+                            if (_app.online) {
+                                spinner.start();
+                                _api.loaded.connect(songsList.loaded);
+                                _api.load();
+                            } else {
+                                _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
+                            }
                         }
                     }
                 }

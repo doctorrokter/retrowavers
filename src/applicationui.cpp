@@ -27,7 +27,11 @@ ApplicationUI::ApplicationUI() : QObject() {
     m_pTranslator = new QTranslator(this);
     m_pLocaleHandler = new LocaleHandler(this);
 
+    m_pToast = new SystemToast(this);
+
     m_pNetworkConf = new QNetworkConfigurationManager(this);
+    m_online = m_pNetworkConf->isOnline();
+
     m_pAppConfig = new AppConfig(this);
     m_tracks = new TracksService(this);
     m_tracksController = new TracksController(m_tracks, this);
@@ -66,6 +70,7 @@ ApplicationUI::~ApplicationUI() {
     m_lastFM->deleteLater();
     m_pAppConfig->deleteLater();
     m_pNetworkConf->deleteLater();
+    m_pToast->deleteLater();
 }
 
 void ApplicationUI::onSystemLanguageChanged() {
@@ -75,6 +80,11 @@ void ApplicationUI::onSystemLanguageChanged() {
     if (m_pTranslator->load(file_name, "app/native/qm")) {
         QCoreApplication::instance()->installTranslator(m_pTranslator);
     }
+}
+
+void ApplicationUI::toast(const QString& message) {
+    m_pToast->setBody(message);
+    m_pToast->show();
 }
 
 bool ApplicationUI::isOnline() const { return m_online; }

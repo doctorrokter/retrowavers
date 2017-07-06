@@ -24,6 +24,7 @@
 #include "services/TracksService.hpp"
 #include "config/AppConfig.hpp"
 #include <QNetworkConfigurationManager>
+#include <bb/system/SystemToast>
 
 namespace bb
 {
@@ -32,6 +33,8 @@ namespace bb
         class LocaleHandler;
     }
 }
+
+using namespace bb::system;
 
 class QTranslator;
 
@@ -47,6 +50,7 @@ public:
     ApplicationUI();
     virtual ~ApplicationUI();
 
+    Q_INVOKABLE void toast(const QString& message);
     bool isOnline() const;
 
     Q_SIGNALS:
@@ -65,6 +69,7 @@ private:
     TracksService* m_tracks;
     AppConfig* m_pAppConfig;
     QNetworkConfigurationManager* m_pNetworkConf;
+    SystemToast* m_pToast;
 
     bool m_online;
 };

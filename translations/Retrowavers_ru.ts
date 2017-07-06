@@ -40,7 +40,12 @@
         <translation type="unfinished">Войти</translation>
     </message>
     <message>
-        <location filename="../assets/pages/LastFMAuth.qml" line="186"/>
+        <location filename="../assets/pages/LastFMAuth.qml" line="134"/>
+        <source>No internet connection</source>
+        <translation type="unfinished">Нет соединения с интернет</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/LastFMAuth.qml" line="190"/>
         <source>Error login. Check your credentials.</source>
         <translation type="unfinished">Ошибка входа. Проверьте логин/пароль и повторите вход.</translation>
     </message>
@@ -56,12 +61,17 @@
 <context>
     <name>List</name>
     <message>
-        <location filename="../assets/components/List.qml" line="149"/>
+        <location filename="../assets/components/List.qml" line="46"/>
+        <source>No internet connection</source>
+        <translation type="unfinished">Нет соединения с интернет</translation>
+    </message>
+    <message>
+        <location filename="../assets/components/List.qml" line="153"/>
         <source>Playlist</source>
         <translation type="unfinished">Плейлист</translation>
     </message>
     <message>
-        <location filename="../assets/components/List.qml" line="150"/>
+        <location filename="../assets/components/List.qml" line="154"/>
         <source>Favourite</source>
         <translation type="unfinished">Избранное</translation>
     </message>
@@ -74,8 +84,8 @@
         <translation type="unfinished">Ошибка медиа плеера: </translation>
     </message>
     <message>
-        <location filename="../assets/components/Player.qml" line="350"/>
-        <location filename="../assets/components/Player.qml" line="419"/>
+        <location filename="../assets/components/Player.qml" line="345"/>
+        <location filename="../assets/components/Player.qml" line="413"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>
@@ -106,6 +116,11 @@
         <location filename="../assets/main.qml" line="55"/>
         <source>Rate app</source>
         <translation type="unfinished">Оценить приложение</translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="202"/>
+        <source>No internet connection</source>
+        <translation type="unfinished">Нет соединения с интернет</translation>
     </message>
 </context>
 </TS>

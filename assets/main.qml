@@ -190,12 +190,17 @@ NavigationPane {
             data.push({type: "list"});
             dataModel.append(data);
         
-            _api.load();
             _tracksService.activeChanged.connect(root.updateImageUrl);
         
             Application.thumbnail.connect(function() {
                 Application.setCover(cover);    
             });
+            
+            if (_app.online) {
+                _api.load();
+            } else {
+                _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
+            }
         }
     }
     

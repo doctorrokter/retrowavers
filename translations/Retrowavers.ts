@@ -37,6 +37,10 @@
         <source>Error login. Check your credentials.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No internet connection</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LastFMController</name>
@@ -53,6 +57,10 @@
     </message>
     <message>
         <source>Favourite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No internet connection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -86,6 +94,10 @@
     </message>
     <message>
         <source>Rate app</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No internet connection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

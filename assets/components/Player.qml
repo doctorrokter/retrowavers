@@ -220,8 +220,7 @@ Container {
             
             onError: {
                 nowplaying.revoke();
-                toast.body = (qsTr("Media player error: ") + Retranslate.onLocaleOrLanguageChanged) + mediaError;
-                toast.show();
+                _app.toast((qsTr("Media player error: ") + Retranslate.onLocaleOrLanguageChanged) + mediaError);
             }
             
             onMediaStateChanged: {
@@ -293,10 +292,6 @@ Container {
         
         DisplayInfo {
             id: display
-        },
-        
-        SystemToast {
-            id: toast
         }
     ]
     
@@ -347,8 +342,7 @@ Container {
         
         if (!_app.online && _tracksController.playerMode === PlayerMode.Playlist) {
             root.playing = false;
-            toast.body = qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged;
-            toast.show();
+            _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
         } else {
             if (player.mediaState === MediaState.Paused) {
                 nowplaying.play();
@@ -416,8 +410,7 @@ Container {
     function onlineChanged(online) {
         if (!online && _tracksController.playerMode === PlayerMode.Playlist) {
             nowplaying.revoke();
-            toast.body = qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged;
-            toast.show();
+            _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
         }
     }
     
@@ -430,6 +423,9 @@ Container {
     onCreationCompleted: {
         root.screenWidth = display.pixelSize.width;
         root.screenHeight = display.pixelSize.height;
+        
+        var lastFMKey = _appConfig.get("lastfm_key");
+        root.scrobblerEnabled = lastFMKey !== undefined && lastFMKey !== "";
         
         _tracksController.played.connect(root.play);
         _tracksController.downloadProgress.connect(root.downloadProgress);
