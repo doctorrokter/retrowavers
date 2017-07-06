@@ -42,7 +42,7 @@ TracksController::~TracksController() {
 bool TracksController::play(const QVariantMap& track) {
     m_index = 0;
     m_favIndex = 0;
-    if (m_tracks->count() == 0) {
+    if ((m_tracks->count() == 0 && m_playerMode == Playlist) || (m_tracks->getFavouriteTracksList().size() == 0 && m_playerMode == Favourite)) {
         m_pToast->setBody(tr("Nothing to play. Playlist is empty."));
         m_pToast->show();
         return false;

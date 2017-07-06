@@ -68,6 +68,7 @@ Container {
                         ActionSet {
                             DeleteActionItem {
                                 id: deleteAction
+                                enabled: ListItemData.favourite
                                 
                                 onTriggered: {
                                     var track = ListItemData;
@@ -76,6 +77,7 @@ Container {
                                 
                                 shortcuts: [
                                     Shortcut {
+                                        enabled: deleteAction.enabled
                                         key: "d"
                                         
                                         onTriggered: {
@@ -229,6 +231,12 @@ Container {
         }
     }
     
+    function onlineChanged(online) {
+        if (!online) {
+            spinner.stop();
+        }
+    }
+    
     onCreationCompleted: {
 //        var data = [];
 //        data.push({title: "OGRE – Flex In", duration: 60000, favourite: false});
@@ -243,5 +251,6 @@ Container {
         _tracksController.liked.connect(root.like);
         _tracksController.playerModeChanged.connect(root.playerModeChanged);
         _tracksController.favouriteTrackRemoved.connect(root.removeFavourite);
+        _app.onlineChanged.connect(root.onlineChanged);
     }
 }

@@ -56,12 +56,12 @@
 <context>
     <name>List</name>
     <message>
-        <location filename="../assets/components/List.qml" line="147"/>
+        <location filename="../assets/components/List.qml" line="149"/>
         <source>Playlist</source>
         <translation type="unfinished">Плейлист</translation>
     </message>
     <message>
-        <location filename="../assets/components/List.qml" line="148"/>
+        <location filename="../assets/components/List.qml" line="150"/>
         <source>Favourite</source>
         <translation type="unfinished">Избранное</translation>
     </message>
@@ -75,7 +75,7 @@
     </message>
     <message>
         <location filename="../assets/components/Player.qml" line="350"/>
-        <location filename="../assets/components/Player.qml" line="420"/>
+        <location filename="../assets/components/Player.qml" line="419"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>

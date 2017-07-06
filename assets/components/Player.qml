@@ -414,7 +414,6 @@ Container {
     }
     
     function onlineChanged(online) {
-        console.debug("Online status: ", online);
         if (!online && _tracksController.playerMode === PlayerMode.Playlist) {
             nowplaying.revoke();
             toast.body = qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged;
