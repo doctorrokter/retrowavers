@@ -23,6 +23,7 @@
 #include "controllers/lastfm/LastFMController.hpp"
 #include "services/TracksService.hpp"
 #include "config/AppConfig.hpp"
+#include <QNetworkConfigurationManager>
 
 namespace bb
 {
@@ -41,12 +42,19 @@ class QTranslator;
  */
 class ApplicationUI : public QObject {
     Q_OBJECT
+    Q_PROPERTY(bool online READ isOnline NOTIFY onlineChanged)
 public:
     ApplicationUI();
     virtual ~ApplicationUI();
 
+    bool isOnline() const;
+
+    Q_SIGNALS:
+        void onlineChanged(const bool& online);
+
 private slots:
     void onSystemLanguageChanged();
+    void onOnlineChanged(bool online);
 private:
     QTranslator* m_pTranslator;
     bb::cascades::LocaleHandler* m_pLocaleHandler;
@@ -56,6 +64,9 @@ private:
     LastFMController* m_lastFM;
     TracksService* m_tracks;
     AppConfig* m_pAppConfig;
+    QNetworkConfigurationManager* m_pNetworkConf;
+
+    bool m_online;
 };
 
 #endif /* ApplicationUI_HPP_ */

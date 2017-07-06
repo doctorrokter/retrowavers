@@ -2,6 +2,7 @@ import bb.cascades 1.4
 import bb.multimedia 1.4
 import bb.device 1.4
 import bb.system 1.2
+import chachkouski.enums 1.0
 import "../style"
 
 Container {
@@ -285,6 +286,7 @@ Container {
             }
             
             onRevoked: {
+                root.playing = false;
                 player.stop();
             }
         },
@@ -342,10 +344,17 @@ Container {
             root.artistName = parts.artist;
             root.trackName = parts.track;
         }
-        if (player.mediaState === MediaState.Paused) {
-            nowplaying.play();
+        
+        if (!_app.online && _tracksController.playerMode === PlayerMode.Playlist) {
+            root.playing = false;
+            toast.body = qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged;
+            toast.show();
         } else {
-            nowplaying.acquire();
+            if (player.mediaState === MediaState.Paused) {
+                nowplaying.play();
+            } else {
+                nowplaying.acquire();
+            }
         }
     }
     
@@ -404,6 +413,15 @@ Container {
         }
     }
     
+    function onlineChanged(online) {
+        console.debug("Online status: ", online);
+        if (!online && _tracksController.playerMode === PlayerMode.Playlist) {
+            nowplaying.revoke();
+            toast.body = qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged;
+            toast.show();
+        }
+    }
+    
     onPercentageChanged: {
         if (!root.asleep) {
             likeButton.percentage = percentage;
@@ -419,6 +437,7 @@ Container {
         Application.asleep.connect(root.stopRendering);
         Application.awake.connect(root.resumeRendering);
         _appConfig.settingsChanged.connect(root.updateSettings);
+        _app.onlineChanged.connect(root.onlineChanged);
         updateSettings();
     }    
 }

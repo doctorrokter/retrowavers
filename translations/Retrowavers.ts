@@ -62,6 +62,10 @@
         <source>Media player error: </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No internet connection</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TracksController</name>

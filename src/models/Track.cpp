@@ -16,7 +16,7 @@ Track::Track(const Track& track) : QObject(track.parent()) {
 }
 
 Track::~Track() {
-    qDebug() << "Deleting track: " << m_title << endl;
+//    qDebug() << "Deleting track: " << m_title << endl;
 }
 
 bool Track::operator==(const Track& track) {

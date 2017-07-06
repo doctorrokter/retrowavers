@@ -108,6 +108,7 @@ void ApiController::onLoadError(QNetworkReply::NetworkError e) {
     m_pToast->show();
     qDebug() << "===>>> ApiController#onLoadError: " << e << endl;
     qDebug() << "===>>> ApiController#onLoadError: " << reply->errorString() << endl;
+    reply->deleteLater();
 }
 
 void ApiController::loadImage(const QString& id, const QString& path) {

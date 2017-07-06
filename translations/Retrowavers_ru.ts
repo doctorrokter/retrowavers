@@ -69,9 +69,15 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="../assets/components/Player.qml" line="222"/>
+        <location filename="../assets/components/Player.qml" line="223"/>
         <source>Media player error: </source>
         <translation type="unfinished">Ошибка медиа плеера: </translation>
+    </message>
+    <message>
+        <location filename="../assets/components/Player.qml" line="350"/>
+        <location filename="../assets/components/Player.qml" line="420"/>
+        <source>No internet connection</source>
+        <translation type="unfinished">Нет соединения с интернет</translation>
     </message>
 </context>
 <context>

@@ -27,6 +27,7 @@ ApplicationUI::ApplicationUI() : QObject() {
     m_pTranslator = new QTranslator(this);
     m_pLocaleHandler = new LocaleHandler(this);
 
+    m_pNetworkConf = new QNetworkConfigurationManager(this);
     m_pAppConfig = new AppConfig(this);
     m_tracks = new TracksService(this);
     m_tracksController = new TracksController(m_tracks, this);
@@ -34,6 +35,8 @@ ApplicationUI::ApplicationUI() : QObject() {
     m_api = new ApiController(m_tracks, this);
 
     bool res = QObject::connect(m_pLocaleHandler, SIGNAL(systemLanguageChanged()), this, SLOT(onSystemLanguageChanged()));
+    Q_ASSERT(res);
+    res = QObject::connect(m_pNetworkConf, SIGNAL(onlineStateChanged(bool)), this, SLOT(onOnlineChanged(bool)));
     Q_ASSERT(res);
     Q_UNUSED(res);
 
@@ -62,6 +65,7 @@ ApplicationUI::~ApplicationUI() {
     m_tracksController->deleteLater();
     m_lastFM->deleteLater();
     m_pAppConfig->deleteLater();
+    m_pNetworkConf->deleteLater();
 }
 
 void ApplicationUI::onSystemLanguageChanged() {
@@ -70,5 +74,13 @@ void ApplicationUI::onSystemLanguageChanged() {
     QString file_name = QString("Retrowavers_%1").arg(locale_string);
     if (m_pTranslator->load(file_name, "app/native/qm")) {
         QCoreApplication::instance()->installTranslator(m_pTranslator);
+    }
+}
+
+bool ApplicationUI::isOnline() const { return m_online; }
+void ApplicationUI::onOnlineChanged(bool online) {
+    if (m_online != online) {
+        m_online = online;
+        emit onlineChanged(m_online);
     }
 }

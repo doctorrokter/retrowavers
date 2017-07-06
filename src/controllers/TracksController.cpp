@@ -16,7 +16,7 @@
 
 TracksController::TracksController() {}
 
-TracksController::TracksController(TracksService* tracks, QObject* parent) : QObject(parent), m_tracks(tracks), m_index(0), m_favIndex(0), m_playerMode(0) {
+TracksController::TracksController(TracksService* tracks, QObject* parent) : QObject(parent), m_tracks(tracks), m_index(0), m_favIndex(0), m_playerMode(Playlist) {
     m_pNotification = new Notification(this);
     m_pNotification->setTitle(NOTIFICATION_KEY);
     m_pNotification->setType(NotificationType::AllAlertsOff);
