@@ -17,6 +17,7 @@
 import bb.cascades 1.4
 import bb.multimedia 1.4
 import bb.system 1.2
+import chachkouski.util 1.0
 import "components"
 import "pages"
 
@@ -196,11 +197,12 @@ NavigationPane {
                 Application.setCover(cover);    
             });
             
-            if (_app.online) {
-                _api.load();
-            } else {
-                _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
-            }
+//            if (_app.online) {
+//                _api.load();
+//            } else {
+//                _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
+//            }
+            timer.start();
         }
     }
     
@@ -238,6 +240,21 @@ NavigationPane {
                 uri: "appworld://content/60003994"
                 invokeActionId: "bb.action.OPEN"
                 invokeTargetId: "sys.appworld"
+            }
+        },
+        
+        Timer {
+            id: timer
+            
+            interval: 1000
+            singleShot: true
+            
+            onTimeout: {
+                if (_app.online) {
+                    _api.load();
+                } else {
+                    _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
+                }
             }
         }
     ]

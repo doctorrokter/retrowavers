@@ -50,6 +50,13 @@
     </message>
 </context>
 <context>
+    <name>LikeButton</name>
+    <message>
+        <source>In order to add to favourite this, use double tap gesture</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>List</name>
     <message>
         <source>Playlist</source>

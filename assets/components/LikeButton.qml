@@ -48,6 +48,12 @@ Container {
         }
         
         gestureHandlers: [
+            TapHandler {
+                onTapped: {
+                    _app.toast(qsTr("In order to add to favourite this, use double tap gesture") + Retranslate.onLocaleOrLanguageChanged);
+                }    
+            },
+            
             DoubleTapHandler {
                 onDoubleTapped: {
                     scaleHeartUp.play();
