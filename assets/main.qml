@@ -187,6 +187,14 @@ NavigationPane {
                 root.imageUrl = blurBg;
             }
         }
+        
+        function changeBlurImage(id, imagePath) {
+            var track = _tracksService.active;
+            if (track && track.id === id) {
+                cover.imageUrl = imagePath;
+                root.imageUrl = imagePath;
+            }
+        }
     
         onCreationCompleted: {
             var data = [];
@@ -195,6 +203,7 @@ NavigationPane {
             dataModel.append(data);
         
             _tracksService.activeChanged.connect(root.updateImageUrl);
+            _tracksService.blurImageChanged.connect(root.changeBlurImage);
         
             Application.thumbnail.connect(function() {
                 Application.setCover(cover);    

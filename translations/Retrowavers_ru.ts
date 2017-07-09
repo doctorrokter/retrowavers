@@ -126,22 +126,22 @@
         <translation type="unfinished">Оценить приложение</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="277"/>
+        <location filename="../assets/main.qml" line="286"/>
         <source>Love this app?</source>
         <translation type="unfinished">Нравится приложение?</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="278"/>
+        <location filename="../assets/main.qml" line="287"/>
         <source>This app is free and will be free without any annoying ads and payments. But only one thing I would ask you is to leave a comment in BlackBerry World. It will help other people discover this app and increase my motivation to write other applications. Thanks for choosing this app!</source>
         <translation type="unfinished">Это приложение абсолютно бесплатно и будет бесплатным, без всяких надоедливых реклам и прочих платежей. Единственное, о чем я Вас попрошу, - это оставить отзыв в BlackBerry World. &quot;Отсутствие жалоб со стороны населения - лучшая награда за наш труд&quot; (с) Афоня.</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="284"/>
+        <location filename="../assets/main.qml" line="293"/>
         <source>Rate app!</source>
         <translation type="unfinished">Оценить!</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="288"/>
+        <location filename="../assets/main.qml" line="297"/>
         <source>Not now</source>
         <translation type="unfinished">Не сейчас</translation>
     </message>
@@ -151,7 +151,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="269"/>
+        <location filename="../assets/main.qml" line="278"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>

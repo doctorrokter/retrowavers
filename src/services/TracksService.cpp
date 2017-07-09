@@ -159,14 +159,14 @@ void TracksService::setBlurImagePath(const QString& id, const QString& imagePath
     foreach(Track* track, m_tracks) {
         if (track->getId().compare(id) == 0) {
             track->setBImagePath("file://" + imagePath);
-            emit imageChanged(id, imagePath);
+            emit blurImageChanged(id, track->getBImagePath());
         }
     }
 
     foreach(Track* track, m_favouriteTracks) {
         if (track->getId().compare(id) == 0) {
             track->setBImagePath("file://" + imagePath);
-            emit imageChanged(id, imagePath);
+            emit blurImageChanged(id, track->getBImagePath());
         }
     }
 }
