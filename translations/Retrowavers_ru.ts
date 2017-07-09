@@ -62,8 +62,8 @@
     <name>LikeButton</name>
     <message>
         <location filename="../assets/components/LikeButton.qml" line="53"/>
-        <source>In order to add to favourite this, use double tap gesture</source>
-        <translation type="unfinished">Используйте двойное нажатие, чтобы добавить трек в избранное</translation>
+        <source>In order to add to favourite this, use fast double tap gesture</source>
+        <translation type="unfinished">Используйте быстрое двойное нажатие, чтобы добавить трек в избранное</translation>
     </message>
 </context>
 <context>
@@ -121,12 +121,37 @@
         <translation type="unfinished">Обратная связь</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="56"/>
+        <location filename="../assets/main.qml" line="58"/>
         <source>Rate app</source>
         <translation type="unfinished">Оценить приложение</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="256"/>
+        <location filename="../assets/main.qml" line="277"/>
+        <source>Love this app?</source>
+        <translation type="unfinished">Нравится приложение?</translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="278"/>
+        <source>This app is free and will be free without any annoying ads and payments. But only one thing I would ask you is to leave a comment in BlackBerry World. It will help other people discover this app and increase my motivation to write other applications. Thanks for choosing this app!</source>
+        <translation type="unfinished">Это приложение абсолютно бесплатно и будет бесплатным, без всяких надоедливых реклам и прочих платежей. Единственное, о чем я Вас попрошу, - это оставить отзыв в BlackBerry World. &quot;Отсутствие жалоб со стороны населения - лучшая награда за наш труд&quot; (с) Афоня.</translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="284"/>
+        <source>Rate app!</source>
+        <translation type="unfinished">Оценить!</translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="288"/>
+        <source>Not now</source>
+        <translation type="unfinished">Не сейчас</translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="213"/>
+        <source></source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="269"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>

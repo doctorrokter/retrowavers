@@ -52,7 +52,7 @@
 <context>
     <name>LikeButton</name>
     <message>
-        <source>In order to add to favourite this, use double tap gesture</source>
+        <source>In order to add to favourite this, use fast double tap gesture</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -92,11 +92,15 @@
 <context>
     <name>main</name>
     <message>
-        <source>Send feedback</source>
-        <translation type="unfinished"></translation>
+        <source></source>
+        <translation></translation>
     </message>
     <message>
         <source>LastFM account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send feedback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -105,6 +109,22 @@
     </message>
     <message>
         <source>No internet connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Love this app?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rate app!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This app is free and will be free without any annoying ads and payments. But only one thing I would ask you is to leave a comment in BlackBerry World. It will help other people discover this app and increase my motivation to write other applications. Thanks for choosing this app!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

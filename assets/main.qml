@@ -53,10 +53,13 @@ NavigationPane {
             },
             
             ActionItem {
+                id: rateAppAction
+                
                 title: qsTr("Rate app") + Retranslate.onLocaleOrLanguageChanged
                 imageSource: "asset:///images/ic_blackberry.png"
                 
                 onTriggered: {
+                    _appConfig.set("app_rated", "true");
                     bbwInvoke.trigger(bbwInvoke.query.invokeActionId);
                 }
             }
@@ -197,12 +200,22 @@ NavigationPane {
                 Application.setCover(cover);    
             });
             
-//            if (_app.online) {
-//                _api.load();
-//            } else {
-//                _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
-//            }
             timer.start();
+            
+            var startCount = _appConfig.get("start_count");
+            if (startCount === "") {
+                startCount = 1;
+            } else {
+                startCount = parseInt(startCount);
+                startCount++;
+            }
+            
+            var appRated = _appConfig.get("app_rated");
+            if ((startCount === 2 || startCount % 5 === 0) && (appRated === "" || appRated === "false")) {
+                dialog.show();
+            }
+            
+            _appConfig.set("start_count", startCount);
         }
     }
     
@@ -254,6 +267,30 @@ NavigationPane {
                     _api.load();
                 } else {
                     _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
+                }
+            }
+        },
+        
+        SystemDialog {
+            id: dialog
+            
+            title: qsTr("Love this app?") + Retranslate.onLocaleOrLanguageChanged
+            body: dialog.body = qsTr("This app is free and will be free without any annoying ads and payments. " + 
+                "But only one thing I would ask you is to leave a comment in BlackBerry World. " +
+                "It will help other people discover this app and increase my motivation to write other applications. " +
+                "Thanks for choosing this app!") + Retranslate.onLocaleOrLanguageChanged
+            
+            confirmButton {
+                label: qsTr("Rate app!") + Retranslate.onLocaleOrLanguageChanged
+            }
+            
+            cancelButton {
+                label: qsTr("Not now") + Retranslate.onLocaleOrLanguageChanged
+            }
+            
+            onFinished: {
+                if (value === 2) {
+                    rateAppAction.triggered();
                 }
             }
         }
