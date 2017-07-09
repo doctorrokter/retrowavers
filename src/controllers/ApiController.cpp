@@ -67,12 +67,7 @@ void ApiController::onLoad() {
                 if (track == NULL) {
                     QString imageUrl = trMap.value("artworkUrl").toString();
                     trMap["artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(imageUrl);
-
-                    if (imageUrl.endsWith(".png", Qt::CaseInsensitive)) {
-                        trMap["b_artworkUrl"] = QString(ROOT_IMAGE_ENDPOINT).append(".rsz.io").append(imageUrl).append("?blur=65");
-                    } else {
-                        trMap["b_artworkUrl"] = QString("https://i.scaley.io/b65/retrowave.ru").append(imageUrl);
-                    }
+                    trMap["bArtworkUrl"] = QString(IMAGE_PROCESSOR_URL).append("/blur/65/retrowave.ru").append(imageUrl);
                     trMap["streamUrl"] = ROOT_ENDPOINT + trMap.value("streamUrl").toString();
                     trMap["favourite"] = false;
 

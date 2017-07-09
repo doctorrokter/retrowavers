@@ -14,5 +14,6 @@
 #define IMAGES "/data/images"
 #define TRACKS "/data/tracks"
 #define FAVORITE_TRACKS "/data/favourite.json"
+#define IMAGE_PROCESSOR_URL "https://retrowavers.herokuapp.com"
 
 #endif /* COMMON_HPP_ */

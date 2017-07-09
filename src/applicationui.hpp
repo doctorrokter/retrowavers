@@ -72,6 +72,8 @@ private:
     SystemToast* m_pToast;
 
     bool m_online;
+
+    void cleanDir(const QString& path);
 };
 
 #endif /* ApplicationUI_HPP_ */

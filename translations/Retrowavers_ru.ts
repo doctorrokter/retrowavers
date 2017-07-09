@@ -4,7 +4,7 @@
 <context>
     <name>ApiController</name>
     <message>
-        <location filename="../src/controllers/ApiController.cpp" line="107"/>
+        <location filename="../src/controllers/ApiController.cpp" line="102"/>
         <source>Service is unavailable. Try later.</source>
         <translation type="unfinished">Сервис временно недоступен. Попробуйте позже.</translation>
     </message>

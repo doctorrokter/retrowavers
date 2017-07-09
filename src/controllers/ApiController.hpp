@@ -24,6 +24,8 @@ public:
     virtual ~ApiController();
 
     Q_INVOKABLE void load();
+    void loadImage(const QString& id, const QString& path);
+    void loadBlurImage(const QString& id, const QString& path);
 
     Q_SIGNALS:
         void loaded(const QVariantList& songs);
@@ -41,9 +43,6 @@ private:
 
     TracksService* m_tracks;
     SystemToast* m_pToast;
-
-    void loadImage(const QString& id, const QString& path);
-    void loadBlurImage(const QString& id, const QString& path);
 };
 
 #endif /* APICONTROLLER_HPP_ */

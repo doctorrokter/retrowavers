@@ -132,7 +132,7 @@ void Track::fromMap(const QVariantMap& map) {
     m_title = map.value("title").toString();
     m_duration = map.value("duration").toInt();
     m_artworkUrl = map.value("artworkUrl").toString();
-    m_bArtworkUrl = map.value("b_artworkUrl", "").toString();
+    m_bArtworkUrl = map.value("bArtworkUrl", "").toString();
     m_streamUrl = map.value("streamUrl").toString();
     m_imagePath = map.value("imagePath", "").toString();
     m_bImagePath = map.value("bImagePath", "").toString();

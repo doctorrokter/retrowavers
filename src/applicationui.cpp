@@ -20,6 +20,9 @@
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/LocaleHandler>
+#include <QDir>
+#include <QFile>
+#include "Common.hpp"
 
 using namespace bb::cascades;
 
@@ -27,16 +30,32 @@ ApplicationUI::ApplicationUI() : QObject() {
     m_pTranslator = new QTranslator(this);
     m_pLocaleHandler = new LocaleHandler(this);
 
+    QDir dir(QDir::currentPath() + IMAGES);
+    if (!dir.exists(QDir::currentPath() + IMAGES)) {
+        dir.mkdir(QDir::currentPath() + IMAGES);
+    }
+
+    m_pAppConfig = new AppConfig(this);
     m_pToast = new SystemToast(this);
 
     m_pNetworkConf = new QNetworkConfigurationManager(this);
     m_online = m_pNetworkConf->isOnline();
 
-    m_pAppConfig = new AppConfig(this);
     m_tracks = new TracksService(this);
     m_tracksController = new TracksController(m_tracks, this);
     m_lastFM = new LastFMController(m_pAppConfig, this);
     m_api = new ApiController(m_tracks, this);
+
+    if (m_pAppConfig->get("changed_image_processor").toString().isEmpty()) {
+        cleanDir(QDir::currentPath() + IMAGES);
+        foreach(Track* track, m_tracks->getFavouriteTracksList()) {
+            track->setBArtworkUrl(QString(IMAGE_PROCESSOR_URL).append("/blur/65/").append(track->getArtworkUrl()));
+            track->setBImagePath("");
+            qDebug() << "Download blur: " << track->getBArtworkUrl() << endl;
+            m_api->loadBlurImage(track->getId(), track->getBArtworkUrl());
+        }
+        m_pAppConfig->set("changed_image_processor", true);
+    }
 
     bool res = QObject::connect(m_pLocaleHandler, SIGNAL(systemLanguageChanged()), this, SLOT(onSystemLanguageChanged()));
     Q_ASSERT(res);
@@ -92,5 +111,25 @@ void ApplicationUI::onOnlineChanged(bool online) {
     if (m_online != online) {
         m_online = online;
         emit onlineChanged(m_online);
+    }
+}
+
+void ApplicationUI::cleanDir(const QString& path) {
+    QDir dir(path);
+
+    qDebug() << "Clean dir: " << path << endl;
+
+    if (dir.exists(path)) {
+        QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden | QDir::AllDirs | QDir::Files, QDir::DirsFirst);
+        Q_FOREACH(QFileInfo info, list) {
+            if (info.isDir()) {
+                cleanDir(info.absoluteFilePath());
+            } else {
+                if (info.fileName().startsWith("b_")) {
+                    qDebug() << "Remove file: " << info.fileName() << endl;
+                    QFile::remove(info.absoluteFilePath());
+                }
+            }
+        }
     }
 }

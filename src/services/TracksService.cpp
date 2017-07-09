@@ -162,6 +162,13 @@ void TracksService::setBlurImagePath(const QString& id, const QString& imagePath
             emit imageChanged(id, imagePath);
         }
     }
+
+    foreach(Track* track, m_favouriteTracks) {
+        if (track->getId().compare(id) == 0) {
+            track->setBImagePath("file://" + imagePath);
+            emit imageChanged(id, imagePath);
+        }
+    }
 }
 
 QList<Track*>& TracksService::getTracksList() {
