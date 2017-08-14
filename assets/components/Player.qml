@@ -28,7 +28,7 @@ Container {
     property int fourMinutes: 60000 * 4
     property int percentage: 0
     
-    property int screenWidth: 1440
+    property int screenWidth: 14403
     property int screenHeight: 1440
     
     horizontalAlignment: HorizontalAlignment.Fill
@@ -47,6 +47,26 @@ Container {
             margin.topOffset: ui.du(10)
             preferredWidth: ui.du(70)
             preferredHeight: ui.du(18)
+        }
+    }
+    
+    Container {
+        horizontalAlignment: HorizontalAlignment.Fill
+        verticalAlignment: VerticalAlignment.Top
+        
+        layout: DockLayout {}
+        
+        ImageView {
+            horizontalAlignment: HorizontalAlignment.Right
+            imageSource: "asset:///images/ic_settings.png"
+            
+            gestureHandlers: [
+                TapHandler {
+                    onTapped: {
+                        controlsContainer.shown = !controlsContainer.shown;
+                    }
+                }
+            ]
         }
     }
     
@@ -349,6 +369,19 @@ Container {
             } else {
                 nowplaying.acquire();
             }
+        }
+    }
+    
+    Controls {
+        id: controlsContainer
+        shown: true
+        imageSize: {
+            if (root.deviceIsSmall()) {
+                return 10;
+            } else if (root.deviceIsBig()) {
+                return 15
+            }
+            return 13;
         }
     }
     

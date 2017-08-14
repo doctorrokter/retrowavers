@@ -90,6 +90,28 @@
     </message>
 </context>
 <context>
+    <name>VKController</name>
+    <message>
+        <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Record created on the wall</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VkAuth</name>
+    <message>
+        <source>VK Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <source></source>

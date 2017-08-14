@@ -25,6 +25,7 @@
 #include "models/Track.hpp"
 #include "vendor/Console.hpp"
 #include "controllers/lastfm/TrackController.hpp"
+#include "controllers/VKController.hpp"
 
 using namespace bb::cascades;
 
@@ -47,6 +48,7 @@ Q_DECL_EXPORT int main(int argc, char **argv) {
     qmlRegisterType<TracksController>("chachkouski.enums", 1, 0, "PlayerMode");
     qRegisterMetaType<Track*>("Track*");
     qRegisterMetaType<TrackController*>("TrackController*");
+    qRegisterMetaType<VKController*>("VKController*");
     qmlRegisterUncreatableType<Track>("chachkouski.type", 1, 0, "track", "test");
     qmlRegisterUncreatableType<TrackController>("chachkouski.type", 1, 0, "trackC", "test");
 

@@ -43,6 +43,7 @@ ApplicationUI::ApplicationUI() : QObject() {
 
     m_tracks = new TracksService(this);
     m_tracksController = new TracksController(m_tracks, this);
+    m_pVKController = new VKController(this);
     m_lastFM = new LastFMController(m_pAppConfig, this);
     m_api = new ApiController(m_tracks, this);
 
@@ -72,6 +73,7 @@ ApplicationUI::ApplicationUI() : QObject() {
     rootContext->setContextProperty("_api", m_api);
     rootContext->setContextProperty("_tracksService", m_tracks);
     rootContext->setContextProperty("_tracksController", m_tracksController);
+    rootContext->setContextProperty("_vkController", m_pVKController);
     rootContext->setContextProperty("_lastFM", m_lastFM);
     rootContext->setContextProperty("_appConfig", m_pAppConfig);
 
@@ -86,6 +88,7 @@ ApplicationUI::~ApplicationUI() {
     m_api->deleteLater();
     m_tracks->deleteLater();
     m_tracksController->deleteLater();
+    m_pVKController->deleteLater();
     m_lastFM->deleteLater();
     m_pAppConfig->deleteLater();
     m_pNetworkConf->deleteLater();

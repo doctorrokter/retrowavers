@@ -1,6 +1,7 @@
 1
-36
+43
 components/Cassette.qml
+components/Controls.qml
 components/Cover.qml
 components/LikeButton.qml
 components/List.qml
@@ -20,6 +21,7 @@ images/cover.jpg
 images/heart_empty.png
 images/heart_filled.png
 images/ic_blackberry.png
+images/ic_facebook.png
 images/ic_feedback.png
 images/ic_next.png
 images/ic_pause.png
@@ -28,11 +30,16 @@ images/ic_play.png
 images/ic_play_2.png
 images/ic_previous.png
 images/ic_reload.png
+images/ic_settings.png
+images/ic_share.png
 images/ic_sign_out.png
+images/ic_twitter.png
+images/ic_vk.png
 images/Lastfm_logo.png
 images/logo.png
 images/palms-bg.png
 main.qml
 pages/HelpPage.qml
 pages/LastFMAuth.qml
+sheets/VkAuth.qml
 style/RetroTextStyleDefinition.qml

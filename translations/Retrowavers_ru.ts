@@ -87,13 +87,13 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="../assets/components/Player.qml" line="223"/>
+        <location filename="../assets/components/Player.qml" line="243"/>
         <source>Media player error: </source>
         <translation type="unfinished">Ошибка медиа плеера: </translation>
     </message>
     <message>
-        <location filename="../assets/components/Player.qml" line="345"/>
-        <location filename="../assets/components/Player.qml" line="413"/>
+        <location filename="../assets/components/Player.qml" line="365"/>
+        <location filename="../assets/components/Player.qml" line="446"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>
@@ -106,6 +106,32 @@
         <location filename="../src/controllers/TracksController.cpp" line="114"/>
         <source>Nothing to play. Playlist is empty.</source>
         <translation type="unfinished">Плейлист пуст.</translation>
+    </message>
+</context>
+<context>
+    <name>VKController</name>
+    <message>
+        <location filename="../src/controllers/VKController.cpp" line="37"/>
+        <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
+        <translation type="unfinished">Слушаю в Retrowavers: The Legacy на моем смартфоне BlackBerry 10</translation>
+    </message>
+    <message>
+        <location filename="../src/controllers/VKController.cpp" line="59"/>
+        <source>Record created on the wall</source>
+        <translation type="unfinished">Запись создана на стене</translation>
+    </message>
+</context>
+<context>
+    <name>VkAuth</name>
+    <message>
+        <location filename="../assets/sheets/VkAuth.qml" line="22"/>
+        <source>VK Login</source>
+        <translation type="unfinished">Вход в VK</translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/VkAuth.qml" line="25"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Отмена</translation>
     </message>
 </context>
 <context>

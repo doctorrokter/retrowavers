@@ -20,6 +20,7 @@
 #include <QObject>
 #include "controllers/ApiController.hpp"
 #include "controllers/TracksController.hpp"
+#include "controllers/VKController.hpp"
 #include "controllers/lastfm/LastFMController.hpp"
 #include "services/TracksService.hpp"
 #include "config/AppConfig.hpp"
@@ -65,6 +66,7 @@ private:
 
     ApiController* m_api;
     TracksController* m_tracksController;
+    VKController* m_pVKController;
     LastFMController* m_lastFM;
     TracksService* m_tracks;
     AppConfig* m_pAppConfig;

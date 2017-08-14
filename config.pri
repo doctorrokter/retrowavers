@@ -37,6 +37,7 @@ simulator {
 config_pri_assets {
     OTHER_FILES += \
         $$quote($$BASEDIR/assets/components/Cassette.qml) \
+        $$quote($$BASEDIR/assets/components/Controls.qml) \
         $$quote($$BASEDIR/assets/components/Cover.qml) \
         $$quote($$BASEDIR/assets/components/LikeButton.qml) \
         $$quote($$BASEDIR/assets/components/List.qml) \
@@ -57,6 +58,7 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/heart_empty.png) \
         $$quote($$BASEDIR/assets/images/heart_filled.png) \
         $$quote($$BASEDIR/assets/images/ic_blackberry.png) \
+        $$quote($$BASEDIR/assets/images/ic_facebook.png) \
         $$quote($$BASEDIR/assets/images/ic_feedback.png) \
         $$quote($$BASEDIR/assets/images/ic_next.png) \
         $$quote($$BASEDIR/assets/images/ic_pause.png) \
@@ -65,12 +67,17 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/ic_play_2.png) \
         $$quote($$BASEDIR/assets/images/ic_previous.png) \
         $$quote($$BASEDIR/assets/images/ic_reload.png) \
+        $$quote($$BASEDIR/assets/images/ic_settings.png) \
+        $$quote($$BASEDIR/assets/images/ic_share.png) \
         $$quote($$BASEDIR/assets/images/ic_sign_out.png) \
+        $$quote($$BASEDIR/assets/images/ic_twitter.png) \
+        $$quote($$BASEDIR/assets/images/ic_vk.png) \
         $$quote($$BASEDIR/assets/images/logo.png) \
         $$quote($$BASEDIR/assets/images/palms-bg.png) \
         $$quote($$BASEDIR/assets/main.qml) \
         $$quote($$BASEDIR/assets/pages/HelpPage.qml) \
         $$quote($$BASEDIR/assets/pages/LastFMAuth.qml) \
+        $$quote($$BASEDIR/assets/sheets/VkAuth.qml) \
         $$quote($$BASEDIR/assets/style/RetroTextStyleDefinition.qml)
 }
 
@@ -80,6 +87,7 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/config/AppConfig.cpp) \
         $$quote($$BASEDIR/src/controllers/ApiController.cpp) \
         $$quote($$BASEDIR/src/controllers/TracksController.cpp) \
+        $$quote($$BASEDIR/src/controllers/VKController.cpp) \
         $$quote($$BASEDIR/src/controllers/lastfm/LastFMController.cpp) \
         $$quote($$BASEDIR/src/controllers/lastfm/TrackController.cpp) \
         $$quote($$BASEDIR/src/main.cpp) \
@@ -93,6 +101,7 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/config/AppConfig.hpp) \
         $$quote($$BASEDIR/src/controllers/ApiController.hpp) \
         $$quote($$BASEDIR/src/controllers/TracksController.hpp) \
+        $$quote($$BASEDIR/src/controllers/VKController.hpp) \
         $$quote($$BASEDIR/src/controllers/lastfm/LastFMCommon.hpp) \
         $$quote($$BASEDIR/src/controllers/lastfm/LastFMController.hpp) \
         $$quote($$BASEDIR/src/controllers/lastfm/TrackController.hpp) \
@@ -157,6 +166,9 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../assets/pages/*.qml) \
         $$quote($$BASEDIR/../assets/pages/*.js) \
         $$quote($$BASEDIR/../assets/pages/*.qs) \
+        $$quote($$BASEDIR/../assets/sheets/*.qml) \
+        $$quote($$BASEDIR/../assets/sheets/*.js) \
+        $$quote($$BASEDIR/../assets/sheets/*.qs) \
         $$quote($$BASEDIR/../assets/style/*.qml) \
         $$quote($$BASEDIR/../assets/style/*.js) \
         $$quote($$BASEDIR/../assets/style/*.qs)
