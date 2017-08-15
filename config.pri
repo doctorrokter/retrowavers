@@ -77,6 +77,7 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/main.qml) \
         $$quote($$BASEDIR/assets/pages/HelpPage.qml) \
         $$quote($$BASEDIR/assets/pages/LastFMAuth.qml) \
+        $$quote($$BASEDIR/assets/sheets/FBAuth.qml) \
         $$quote($$BASEDIR/assets/sheets/VkAuth.qml) \
         $$quote($$BASEDIR/assets/style/RetroTextStyleDefinition.qml)
 }
@@ -86,6 +87,7 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/applicationui.cpp) \
         $$quote($$BASEDIR/src/config/AppConfig.cpp) \
         $$quote($$BASEDIR/src/controllers/ApiController.cpp) \
+        $$quote($$BASEDIR/src/controllers/FacebookController.cpp) \
         $$quote($$BASEDIR/src/controllers/TracksController.cpp) \
         $$quote($$BASEDIR/src/controllers/VKController.cpp) \
         $$quote($$BASEDIR/src/controllers/lastfm/LastFMController.cpp) \
@@ -100,6 +102,7 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/applicationui.hpp) \
         $$quote($$BASEDIR/src/config/AppConfig.hpp) \
         $$quote($$BASEDIR/src/controllers/ApiController.hpp) \
+        $$quote($$BASEDIR/src/controllers/FacebookController.hpp) \
         $$quote($$BASEDIR/src/controllers/TracksController.hpp) \
         $$quote($$BASEDIR/src/controllers/VKController.hpp) \
         $$quote($$BASEDIR/src/controllers/lastfm/LastFMCommon.hpp) \

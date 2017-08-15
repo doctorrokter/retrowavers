@@ -12,6 +12,7 @@ Container {
         horizontalAlignment: HorizontalAlignment.Fill
         maxHeight: ui.du(35)
         translationY: 0
+        background: ui.palette.background
     
         layout: DockLayout {}
     
@@ -27,6 +28,11 @@ Container {
             ComponentDefinition {
                 id: vkAuth
                 VkAuth {}
+            },
+            
+            ComponentDefinition {
+                id: fbAuth
+                FBAuth {}
             }
         ]
     
@@ -102,10 +108,39 @@ Container {
             }
         
             ImageView {
+                id: fbImage
+                
                 margin.leftOffset: ui.du(7)
                 imageSource: "asset:///images/ic_facebook.png"
                 maxWidth: ui.du(root.imageSize);
                 maxHeight: ui.du(root.imageSize);
+                
+                function shareWithFB() {
+                    console.debug("===>>> POST TO FB");
+                    if (_tracksService.active !== undefined) {
+                        var track = _tracksService.active.toMap();
+                        _fbController.share(track);
+                    }
+                }
+                
+                gestureHandlers: [
+                    TapHandler {
+                        onTapped: {
+                            if (_appConfig.get("fb_access_token") === "") {
+                                var fbSheet = fbAuth.createObject();
+                                fbSheet.accessTokenAndUserIdReceived.connect(function(accessToken, apiVersion) {
+                                        fbSheet.close();
+                                        _appConfig.set("fb_access_token", accessToken);
+                                        _appConfig.set("fb_api_version", apiVersion);
+                                        fbImage.shareWithFB();
+                                });
+                                fbSheet.open();
+                            } else {
+                                fbImage.shareWithFB();
+                            }
+                        }
+                    }
+                ]
             }
         
             ImageView {

@@ -9,6 +9,28 @@
     </message>
 </context>
 <context>
+    <name>FBAuth</name>
+    <message>
+        <source>Facebook Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FacebookController</name>
+    <message>
+        <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>FB status updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HelpPage</name>
     <message>
         <source>About</source>

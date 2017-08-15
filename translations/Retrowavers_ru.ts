@@ -10,6 +10,36 @@
     </message>
 </context>
 <context>
+    <name>FBAuth</name>
+    <message>
+        <location filename="../assets/sheets/FBAuth.qml" line="22"/>
+        <source>Facebook Login</source>
+        <translation type="unfinished">Вход в Facebook</translation>
+    </message>
+    <message>
+        <location filename="../assets/sheets/FBAuth.qml" line="25"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Отмена</translation>
+    </message>
+</context>
+<context>
+    <name>FacebookController</name>
+    <message>
+        <location filename="../src/controllers/FacebookController.cpp" line="34"/>
+        <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
+        <translation type="unfinished">Слушаю в Retrowavers: The Legacy на моем смартфоне BlackBerry 10</translation>
+    </message>
+    <message>
+        <location filename="../src/controllers/FacebookController.cpp" line="56"/>
+        <source>FB status updated</source>
+        <translation type="unfinished">Статус обновлён</translation>
+    </message>
+    <message>
+        <source>Record created on the wall</source>
+        <translation type="obsolete">Запись создана на стене</translation>
+    </message>
+</context>
+<context>
     <name>HelpPage</name>
     <message>
         <location filename="../assets/pages/HelpPage.qml" line="11"/>

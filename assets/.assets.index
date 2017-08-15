@@ -1,5 +1,5 @@
 1
-43
+44
 components/Cassette.qml
 components/Controls.qml
 components/Cover.qml
@@ -41,5 +41,6 @@ images/palms-bg.png
 main.qml
 pages/HelpPage.qml
 pages/LastFMAuth.qml
+sheets/FBAuth.qml
 sheets/VkAuth.qml
 style/RetroTextStyleDefinition.qml

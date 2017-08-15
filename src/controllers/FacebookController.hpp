@@ -1,12 +1,12 @@
 /*
- * VKController.hpp
+ * FacebookController.hpp
  *
- *  Created on: Aug 14, 2017
+ *  Created on: Aug 15, 2017
  *      Author: misha
  */
 
-#ifndef VKCONTROLLER_HPP_
-#define VKCONTROLLER_HPP_
+#ifndef FACEBOOKCONTROLLER_HPP_
+#define FACEBOOKCONTROLLER_HPP_
 
 #include <QObject>
 #include <QNetworkAccessManager>
@@ -16,11 +16,11 @@
 
 using namespace bb::system;
 
-class VKController: public QObject {
+class FacebookController: public QObject {
     Q_OBJECT
 public:
-    VKController(QObject* parent = 0);
-    virtual ~VKController();
+    FacebookController(QObject* parent = 0);
+    virtual ~FacebookController();
 
     Q_INVOKABLE void share(const QVariantMap& track) const;
 
@@ -28,12 +28,12 @@ public:
         void shared();
 
 private slots:
-        void onShare();
-        void onError(QNetworkReply::NetworkError e);
+    void onShare();
+    void onError(QNetworkReply::NetworkError e);
 
 private:
     QNetworkAccessManager* m_pNetwork;
     SystemToast* m_pToast;
 };
 
-#endif /* VKCONTROLLER_HPP_ */
+#endif /* FACEBOOKCONTROLLER_HPP_ */
