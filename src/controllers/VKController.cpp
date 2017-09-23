@@ -24,7 +24,7 @@ VKController::~VKController() {
     m_pToast->deleteLater();
 }
 
-void VKController::share(const QVariantMap& track) const {
+void VKController::share(const QVariantMap& track, const QString& message) const {
     Track t;
     t.fromMap(track);
 
@@ -34,7 +34,7 @@ void VKController::share(const QVariantMap& track) const {
     params.addQueryItem("access_token", AppConfig::getStatic("vk_access_token").toString());
     params.addQueryItem("attachments", t.getArtworkUrl());
     params.addQueryItem("v", AppConfig::getStatic("vk_api_version").toString());
-    params.addQueryItem("message", QString(t.getTitle() + "\n\n").append(tr("Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone")));
+    params.addQueryItem("message", message);
 
     QNetworkRequest req;
     req.setUrl(url);

@@ -25,9 +25,8 @@
 <context>
     <name>FacebookController</name>
     <message>
-        <location filename="../src/controllers/FacebookController.cpp" line="34"/>
         <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
-        <translation type="unfinished">Слушаю в Retrowavers: The Legacy на моем смартфоне BlackBerry 10</translation>
+        <translation type="obsolete">Слушаю в Retrowavers: The Legacy на моем смартфоне BlackBerry 10</translation>
     </message>
     <message>
         <location filename="../src/controllers/FacebookController.cpp" line="56"/>
@@ -117,13 +116,13 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="../assets/components/Player.qml" line="244"/>
+        <location filename="../assets/components/Player.qml" line="223"/>
         <source>Media player error: </source>
         <translation type="unfinished">Ошибка медиа плеера: </translation>
     </message>
     <message>
-        <location filename="../assets/components/Player.qml" line="366"/>
-        <location filename="../assets/components/Player.qml" line="447"/>
+        <location filename="../assets/components/Player.qml" line="345"/>
+        <location filename="../assets/components/Player.qml" line="413"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>
@@ -152,6 +151,29 @@
     </message>
 </context>
 <context>
+    <name>SharePage</name>
+    <message>
+        <location filename="../assets/pages/SharePage.qml" line="9"/>
+        <source>Share</source>
+        <translation type="unfinished">Поделиться</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SharePage.qml" line="44"/>
+        <source>Message</source>
+        <translation type="unfinished">Сообщение</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SharePage.qml" line="49"/>
+        <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
+        <translation type="unfinished">Слушаю в Retrowavers: The Legacy на моем смартфоне BlackBerry 10</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SharePage.qml" line="54"/>
+        <source>Share!</source>
+        <translation type="unfinished">Поделиться!</translation>
+    </message>
+</context>
+<context>
     <name>TracksController</name>
     <message>
         <location filename="../src/controllers/TracksController.cpp" line="47"/>
@@ -164,9 +186,8 @@
 <context>
     <name>VKController</name>
     <message>
-        <location filename="../src/controllers/VKController.cpp" line="37"/>
         <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
-        <translation type="unfinished">Слушаю в Retrowavers: The Legacy на моем смартфоне BlackBerry 10</translation>
+        <translation type="obsolete">Слушаю в Retrowavers: The Legacy на моем смартфоне BlackBerry 10</translation>
     </message>
     <message>
         <location filename="../src/controllers/VKController.cpp" line="59"/>
@@ -190,37 +211,52 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="67"/>
+        <location filename="../assets/main.qml" line="68"/>
         <source>LastFM account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="58"/>
+        <location filename="../assets/main.qml" line="59"/>
         <source>Send feedback</source>
         <translation type="unfinished">Обратная связь</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="48"/>
+        <location filename="../assets/main.qml" line="49"/>
         <source>Rate app</source>
         <translation type="unfinished">Оценить приложение</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="320"/>
+        <location filename="../assets/main.qml" line="151"/>
+        <source>Share with:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="153"/>
+        <source>VK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="163"/>
+        <source>Facebook</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="405"/>
         <source>Love this app?</source>
         <translation type="unfinished">Нравится приложение?</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="321"/>
+        <location filename="../assets/main.qml" line="406"/>
         <source>This app is free and will be free without any annoying ads and payments. But only one thing I would ask you is to leave a comment in BlackBerry World. It will help other people discover this app and increase my motivation to write other applications. Thanks for choosing this app!</source>
         <translation type="unfinished">Это приложение абсолютно бесплатно и будет бесплатным, без всяких надоедливых реклам и прочих платежей. Единственное, о чем я Вас попрошу, - это оставить отзыв в BlackBerry World. &quot;Отсутствие жалоб со стороны населения - лучшая награда за наш труд&quot; (с) Афоня.</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="327"/>
+        <location filename="../assets/main.qml" line="412"/>
         <source>Rate app!</source>
         <translation type="unfinished">Оценить!</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="331"/>
+        <location filename="../assets/main.qml" line="416"/>
         <source>Not now</source>
         <translation type="unfinished">Не сейчас</translation>
     </message>
@@ -230,7 +266,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="312"/>
+        <location filename="../assets/main.qml" line="397"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>

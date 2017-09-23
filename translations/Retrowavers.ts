@@ -22,10 +22,6 @@
 <context>
     <name>FacebookController</name>
     <message>
-        <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>FB status updated</source>
         <translation type="unfinished"></translation>
     </message>
@@ -124,6 +120,25 @@
     </message>
 </context>
 <context>
+    <name>SharePage</name>
+    <message>
+        <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Share!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TracksController</name>
     <message>
         <source>Nothing to play. Playlist is empty.</source>
@@ -132,10 +147,6 @@
 </context>
 <context>
     <name>VKController</name>
-    <message>
-        <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Record created on the wall</source>
         <translation type="unfinished"></translation>
@@ -188,6 +199,18 @@
     </message>
     <message>
         <source>This app is free and will be free without any annoying ads and payments. But only one thing I would ask you is to leave a comment in BlackBerry World. It will help other people discover this app and increase my motivation to write other applications. Thanks for choosing this app!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Share with:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Facebook</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

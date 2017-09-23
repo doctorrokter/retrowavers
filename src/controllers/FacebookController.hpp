@@ -22,7 +22,7 @@ public:
     FacebookController(QObject* parent = 0);
     virtual ~FacebookController();
 
-    Q_INVOKABLE void share(const QVariantMap& track) const;
+    Q_INVOKABLE void share(const QVariantMap& track, const QString& message) const;
 
     Q_SIGNALS:
         void shared();

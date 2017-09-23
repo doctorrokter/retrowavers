@@ -1,7 +1,6 @@
 1
 45
 components/Cassette.qml
-components/Controls.qml
 components/Cover.qml
 components/LikeButton.qml
 components/List.qml
@@ -42,6 +41,7 @@ main.qml
 pages/HelpPage.qml
 pages/LastFMAuth.qml
 pages/SettingsPage.qml
+pages/SharePage.qml
 sheets/FBAuth.qml
 sheets/VkAuth.qml
 style/RetroTextStyleDefinition.qml

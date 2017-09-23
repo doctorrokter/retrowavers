@@ -139,3 +139,7 @@ void ApplicationUI::cleanDir(const QString& path) {
         }
     }
 }
+
+void ApplicationUI::share(const QString& type) {
+    emit shareRequested(type);
+}

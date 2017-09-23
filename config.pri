@@ -37,7 +37,6 @@ simulator {
 config_pri_assets {
     OTHER_FILES += \
         $$quote($$BASEDIR/assets/components/Cassette.qml) \
-        $$quote($$BASEDIR/assets/components/Controls.qml) \
         $$quote($$BASEDIR/assets/components/Cover.qml) \
         $$quote($$BASEDIR/assets/components/LikeButton.qml) \
         $$quote($$BASEDIR/assets/components/List.qml) \
@@ -78,6 +77,7 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/pages/HelpPage.qml) \
         $$quote($$BASEDIR/assets/pages/LastFMAuth.qml) \
         $$quote($$BASEDIR/assets/pages/SettingsPage.qml) \
+        $$quote($$BASEDIR/assets/pages/SharePage.qml) \
         $$quote($$BASEDIR/assets/sheets/FBAuth.qml) \
         $$quote($$BASEDIR/assets/sheets/VkAuth.qml) \
         $$quote($$BASEDIR/assets/style/RetroTextStyleDefinition.qml)

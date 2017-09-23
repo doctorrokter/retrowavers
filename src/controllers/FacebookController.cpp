@@ -23,7 +23,7 @@ FacebookController::~FacebookController() {
     m_pToast->deleteLater();
 }
 
-void FacebookController::share(const QVariantMap& track) const {
+void FacebookController::share(const QVariantMap& track, const QString& message) const {
     Track t;
     t.fromMap(track);
 
@@ -31,7 +31,7 @@ void FacebookController::share(const QVariantMap& track) const {
     QUrl params;
     params.addQueryItem("access_token", AppConfig::getStatic("fb_access_token").toString());
     params.addQueryItem("link", t.getArtworkUrl());
-    params.addQueryItem("message", QString(t.getTitle() + "\n\n").append(tr("Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone")));
+    params.addQueryItem("message", message);
 
     QNetworkRequest req;
     req.setUrl(url);

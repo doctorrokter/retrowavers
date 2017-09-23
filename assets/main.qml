@@ -20,6 +20,7 @@ import bb.system 1.2
 import chachkouski.util 1.0
 import "components"
 import "pages"
+import "sheets"
 
 NavigationPane {
     id: navigation
@@ -115,7 +116,6 @@ NavigationPane {
                 property double width: 0
                 property double height: 0
                 property bool playing: true
-                property bool controlsShown: false
             
                 horizontalAlignment: HorizontalAlignment.Fill
                 verticalAlignment: VerticalAlignment.Fill
@@ -130,15 +130,6 @@ NavigationPane {
             
                 flickMode: FlickMode.SingleItem
                 
-                onTriggered: {
-                    rootList.controlsShown = !rootList.controlsShown;
-                    var data = dataModel.data(indexPath);
-                    console.debug("controls shown: ", rootList.controlsShown, " type: ", data.type);
-                    if (data.type === "player") {
-                        root.controlsShown = !root.controlsShown;
-                    }
-                }
-            
                 function itemType(data, indexPath) {
                     return data.type;
                 }
@@ -153,9 +144,32 @@ NavigationPane {
                             preferredWidth: ListItem.view.width
                             preferredHeight: ListItem.view.height
                             
-                            Player {
-                                controlsShown: ListItem.view.controlsShown
-                            }
+                            Player {}
+                            
+                            contextActions: [
+                                ActionSet {
+                                    title: qsTr("Share with:") + Retranslate.onLocaleOrLanguageChanged
+                                    ActionItem {
+                                        title: qsTr("VK") + Retranslate.onLocaleOrLanguageChanged
+                                        imageSource: "asset:///images/ic_vk.png"
+                                        enabled: _tracksService.active !== null && _tracksService.active !== undefined
+                                        
+                                        onTriggered: {
+                                            _app.share("vk");
+                                        }
+                                    }
+                                    
+                                    ActionItem {
+                                        title: qsTr("Facebook") + Retranslate.onLocaleOrLanguageChanged
+                                        imageSource: "asset:///images/ic_facebook.png"
+                                        enabled: _tracksService.active !== null && _tracksService.active !== undefined
+                                        
+                                        onTriggered: {
+                                            _app.share("fb");
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                 
@@ -173,12 +187,6 @@ NavigationPane {
                 ]
             }
             
-//            Controls {
-//                id: controlsContainer
-//                shown: root.controlsShown
-//                verticalAlignment: VerticalAlignment.Bottom
-//            }
-        
             attachedObjects: [
                 LayoutUpdateHandler {
                     id: rootLUH
@@ -224,6 +232,60 @@ NavigationPane {
                 root.imageUrl = imagePath;
             }
         }
+        
+        function openShareWithVk() {
+            var sp = sharePage.createObject();
+            sp.type = "vk";
+            sp.objectName = "share_page";
+            navigation.push(sp);
+        }
+        
+        function openShareWithFB() {
+            var sp = sharePage.createObject();
+            sp.type = "fb";
+            sp.objectName = "share_page";
+            navigation.push(sp);
+        }
+        
+        function shareWithVk() {
+            if (_appConfig.get("vk_access_token") === "") {
+                var vkSheet = vkAuth.createObject();
+                vkSheet.accessTokenAndUserIdReceived.connect(function(accessToken, userId, apiVersion) {
+                    vkSheet.close();
+                    _appConfig.set("vk_access_token", accessToken);
+                    _appConfig.set("vk_user_id", userId);
+                    _appConfig.set("vk_api_version", apiVersion);
+                    openShareWithVk();
+                });
+                vkSheet.open();
+            } else {
+                // open share page with vk option   
+                openShareWithVk();
+            }
+        }
+        
+        function shareWithFB() {
+            if (_appConfig.get("fb_access_token") === "") {
+                var fbSheet = fbAuth.createObject();
+                fbSheet.accessTokenAndUserIdReceived.connect(function(accessToken, apiVersion) {
+                    fbSheet.close();
+                    _appConfig.set("fb_access_token", accessToken);
+                    _appConfig.set("fb_api_version", apiVersion);
+                    openShareWithFB();
+                });
+                fbSheet.open();
+            } else {
+                // open share page with fb option
+                openShareWithFB();
+            }
+        }
+        
+        function onShare() {
+            var page = navigation.at(navigation.count() - 1);
+            if (page.objectName === "share_page") {
+                navigation.pop();
+            }
+        }
     
         onCreationCompleted: {
             var data = [];
@@ -233,6 +295,14 @@ NavigationPane {
         
             _tracksService.activeChanged.connect(root.updateImageUrl);
             _tracksService.blurImageChanged.connect(root.changeBlurImage);
+            _vkController.shared.connect(onShare);
+            _fbController.shared.connect(onShare);
+            _app.shareRequested.connect(function(type) {
+                switch (type) {
+                    case "vk": shareWithVk(); break;
+                    case "fb": shareWithFB(); break;
+                }    
+            });
         
             Application.thumbnail.connect(function() {
                 Application.setCover(cover);    
@@ -279,6 +349,21 @@ NavigationPane {
         ComponentDefinition {
             id: lastFm
             LastFMAuth {}    
+        },
+        
+        ComponentDefinition {
+            id: sharePage
+            SharePage {}
+        },
+        
+        ComponentDefinition {
+            id: vkAuth
+            VkAuth {}
+        },
+        
+        ComponentDefinition {
+            id: fbAuth
+            FBAuth {}
         },
         
         Invocation {

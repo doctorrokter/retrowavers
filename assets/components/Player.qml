@@ -17,7 +17,6 @@ Container {
     property string duration: ""
     property bool favourite: false
     
-    property bool controlsShown: false
     property bool asleep: false
     property bool scrobbled: false
     property int startTime: 0
@@ -50,26 +49,6 @@ Container {
             preferredHeight: ui.du(18)
         }
     }
-    
-//    Container {
-//        horizontalAlignment: HorizontalAlignment.Fill
-//        verticalAlignment: VerticalAlignment.Top
-//        
-//        layout: DockLayout {}
-//        
-//        ImageView {
-//            horizontalAlignment: HorizontalAlignment.Right
-//            imageSource: "asset:///images/ic_settings.png"
-//            
-//            gestureHandlers: [
-//                TapHandler {
-//                    onTapped: {
-//                        controlsContainer.shown = !controlsContainer.shown;
-//                    }
-//                }
-//            ]
-//        }
-//    }
     
     Cassette {
         id: cassette
@@ -372,19 +351,6 @@ Container {
             }
         }
     }
-    
-//    Controls {
-//        id: controlsContainer
-//        shown: root.controlsShown
-//        imageSize: {
-//            if (root.deviceIsSmall()) {
-//                return 10;
-//            } else if (root.deviceIsBig()) {
-//                return 15
-//            }
-//            return 13;
-//        }
-//    }
     
     function pause() {
         root.playing = false;

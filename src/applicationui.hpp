@@ -53,10 +53,12 @@ public:
     virtual ~ApplicationUI();
 
     Q_INVOKABLE void toast(const QString& message);
+    Q_INVOKABLE void share(const QString& type);
     bool isOnline() const;
 
     Q_SIGNALS:
         void onlineChanged(const bool& online);
+        void shareRequested(const QString& type);
 
 private slots:
     void onSystemLanguageChanged();
