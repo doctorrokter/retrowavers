@@ -105,6 +105,25 @@
     </message>
 </context>
 <context>
+    <name>SettingsPage</name>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Behaviour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hub notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last.fm scrobbling</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TracksController</name>
     <message>
         <source>Nothing to play. Playlist is empty.</source>

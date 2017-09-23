@@ -30,24 +30,24 @@ Sheet {
             }    
         }
         
-        Container {
+        ScrollView {
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
-            WebView {
-                id: webView     
-                
-                horizontalAlignment: HorizontalAlignment.Fill
-                verticalAlignment: VerticalAlignment.Fill
-                           
-                onUrlChanged: {
-                    console.debug(url);
-                    var urlStr = url + "";
-                    if (urlStr.indexOf("blank.html#access_token") !== -1) {
-                        var queryArray = urlStr.split("#")[1].split("&");
-                        authPage.accessTokenAndUserIdReceived(queryArray[0].split("=")[1], queryArray[2].split("=")[1], apiVersion);
+                WebView {
+                    id: webView     
+                    
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    verticalAlignment: VerticalAlignment.Fill
+                    
+                    onUrlChanged: {
+                        console.debug(url);
+                        var urlStr = url + "";
+                        if (urlStr.indexOf("blank.html#access_token") !== -1) {
+                            var queryArray = urlStr.split("#")[1].split("&");
+                            authPage.accessTokenAndUserIdReceived(queryArray[0].split("=")[1], queryArray[2].split("=")[1], apiVersion);
+                        }
                     }
                 }
-            }
         }
     }
     

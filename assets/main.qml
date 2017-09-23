@@ -29,17 +29,28 @@ NavigationPane {
             onTriggered: {
                 var hp = helpPage.createObject();
                 navigation.push(hp);
+                Application.menuEnabled = false;
             }            
+        }
+        
+        settingsAction: SettingsActionItem {
+            onTriggered: {
+                var sp = settingsPage.createObject();
+                navigation.push(sp);
+                Application.menuEnabled = false;
+            }
         }
         
         actions: [
             ActionItem {
-                title: qsTr("LastFM account") + Retranslate.onLocaleOrLanguageChanged
-                imageSource: "asset:///images/ic_sign_out.png"
+                id: rateAppAction
+                
+                title: qsTr("Rate app") + Retranslate.onLocaleOrLanguageChanged
+                imageSource: "asset:///images/ic_blackberry.png"
                 
                 onTriggered: {
-                    var fm = lastFm.createObject();
-                    navigation.push(fm);
+                    _appConfig.set("app_rated", "true");
+                    bbwInvoke.trigger(bbwInvoke.query.invokeActionId);
                 }
             },
             
@@ -53,14 +64,12 @@ NavigationPane {
             },
             
             ActionItem {
-                id: rateAppAction
-                
-                title: qsTr("Rate app") + Retranslate.onLocaleOrLanguageChanged
-                imageSource: "asset:///images/ic_blackberry.png"
+                title: qsTr("LastFM account") + Retranslate.onLocaleOrLanguageChanged
+                imageSource: "asset:///images/ic_sign_out.png"
                 
                 onTriggered: {
-                    _appConfig.set("app_rated", "true");
-                    bbwInvoke.trigger(bbwInvoke.query.invokeActionId);
+                    var fm = lastFm.createObject();
+                    navigation.push(fm);
                 }
             }
         ]
@@ -70,6 +79,7 @@ NavigationPane {
         id: root
     
         property string imageUrl: "asset:///images/blur.jpg"
+        property bool controlsShown: false
     
         Container {
         
@@ -105,6 +115,7 @@ NavigationPane {
                 property double width: 0
                 property double height: 0
                 property bool playing: true
+                property bool controlsShown: false
             
                 horizontalAlignment: HorizontalAlignment.Fill
                 verticalAlignment: VerticalAlignment.Fill
@@ -118,6 +129,15 @@ NavigationPane {
                 }
             
                 flickMode: FlickMode.SingleItem
+                
+                onTriggered: {
+                    rootList.controlsShown = !rootList.controlsShown;
+                    var data = dataModel.data(indexPath);
+                    console.debug("controls shown: ", rootList.controlsShown, " type: ", data.type);
+                    if (data.type === "player") {
+                        root.controlsShown = !root.controlsShown;
+                    }
+                }
             
                 function itemType(data, indexPath) {
                     return data.type;
@@ -132,7 +152,10 @@ NavigationPane {
                         
                             preferredWidth: ListItem.view.width
                             preferredHeight: ListItem.view.height
-                            Player {}
+                            
+                            Player {
+                                controlsShown: ListItem.view.controlsShown
+                            }
                         }
                     },
                 
@@ -149,6 +172,12 @@ NavigationPane {
                     }
                 ]
             }
+            
+//            Controls {
+//                id: controlsContainer
+//                shown: root.controlsShown
+//                verticalAlignment: VerticalAlignment.Bottom
+//            }
         
             attachedObjects: [
                 LayoutUpdateHandler {
@@ -240,6 +269,11 @@ NavigationPane {
         ComponentDefinition {
             id: helpPage
             HelpPage {}
+        },
+        
+        ComponentDefinition {
+            id: settingsPage
+            SettingsPage {}    
         },
         
         ComponentDefinition {

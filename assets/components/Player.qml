@@ -17,6 +17,7 @@ Container {
     property string duration: ""
     property bool favourite: false
     
+    property bool controlsShown: false
     property bool asleep: false
     property bool scrobbled: false
     property int startTime: 0
@@ -28,7 +29,7 @@ Container {
     property int fourMinutes: 60000 * 4
     property int percentage: 0
     
-    property int screenWidth: 14403
+    property int screenWidth: 1440
     property int screenHeight: 1440
     
     horizontalAlignment: HorizontalAlignment.Fill
@@ -50,25 +51,25 @@ Container {
         }
     }
     
-    Container {
-        horizontalAlignment: HorizontalAlignment.Fill
-        verticalAlignment: VerticalAlignment.Top
-        
-        layout: DockLayout {}
-        
-        ImageView {
-            horizontalAlignment: HorizontalAlignment.Right
-            imageSource: "asset:///images/ic_settings.png"
-            
-            gestureHandlers: [
-                TapHandler {
-                    onTapped: {
-                        controlsContainer.shown = !controlsContainer.shown;
-                    }
-                }
-            ]
-        }
-    }
+//    Container {
+//        horizontalAlignment: HorizontalAlignment.Fill
+//        verticalAlignment: VerticalAlignment.Top
+//        
+//        layout: DockLayout {}
+//        
+//        ImageView {
+//            horizontalAlignment: HorizontalAlignment.Right
+//            imageSource: "asset:///images/ic_settings.png"
+//            
+//            gestureHandlers: [
+//                TapHandler {
+//                    onTapped: {
+//                        controlsContainer.shown = !controlsContainer.shown;
+//                    }
+//                }
+//            ]
+//        }
+//    }
     
     Cassette {
         id: cassette
@@ -282,7 +283,7 @@ Container {
             onAcquired: {
                 var track = _tracksService.active;
                 nowplaying.iconUrl = track.imagePath;
-                nowplaying.setMetaData({"artist": root.artistName, "track": root.trackName});
+                nowplaying.setMetaData({"artist": root.artistName, "track": root.trackName, "duration": root.durationMillis});
                 player.play();
             }
             
@@ -372,18 +373,18 @@ Container {
         }
     }
     
-    Controls {
-        id: controlsContainer
-        shown: true
-        imageSize: {
-            if (root.deviceIsSmall()) {
-                return 10;
-            } else if (root.deviceIsBig()) {
-                return 15
-            }
-            return 13;
-        }
-    }
+//    Controls {
+//        id: controlsContainer
+//        shown: root.controlsShown
+//        imageSize: {
+//            if (root.deviceIsSmall()) {
+//                return 10;
+//            } else if (root.deviceIsBig()) {
+//                return 15
+//            }
+//            return 13;
+//        }
+//    }
     
     function pause() {
         root.playing = false;

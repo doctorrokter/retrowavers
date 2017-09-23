@@ -11,6 +11,7 @@
 #include <QUrl>
 #include <QDir>
 #include <QFile>
+#include "../config/AppConfig.hpp"
 
 #define NOTIFICATION_KEY "Retrowavers"
 
@@ -155,8 +156,11 @@ void TracksController::setPlayerMode(const int& playerMode) {
 }
 
 void TracksController::notify(Track* track) {
-    m_pNotification->setBody(track->getTitle());
-    m_pNotification->notify();
+    QString notifications = AppConfig::getStatic("notify_now_playing").toString();
+    if (notifications.compare("") == 0 || notifications.compare("true") == 0) {
+        m_pNotification->setBody(track->getTitle());
+        m_pNotification->notify();
+    }
 }
 
 void TracksController::download(Track* track) {

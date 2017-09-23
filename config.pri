@@ -77,6 +77,7 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/main.qml) \
         $$quote($$BASEDIR/assets/pages/HelpPage.qml) \
         $$quote($$BASEDIR/assets/pages/LastFMAuth.qml) \
+        $$quote($$BASEDIR/assets/pages/SettingsPage.qml) \
         $$quote($$BASEDIR/assets/sheets/FBAuth.qml) \
         $$quote($$BASEDIR/assets/sheets/VkAuth.qml) \
         $$quote($$BASEDIR/assets/style/RetroTextStyleDefinition.qml)

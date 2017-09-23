@@ -1,5 +1,6 @@
 import bb.cascades 1.4
 import "../sheets"
+import "../style"
 
 Container {
         id: root
@@ -10,7 +11,7 @@ Container {
     
         verticalAlignment: VerticalAlignment.Bottom
         horizontalAlignment: HorizontalAlignment.Fill
-        maxHeight: ui.du(35)
+        maxHeight: ui.du(25)
         translationY: 0
         background: ui.palette.background
     
@@ -33,6 +34,10 @@ Container {
             ComponentDefinition {
                 id: fbAuth
                 FBAuth {}
+            },
+            
+            RetroTextStyleDefinition {
+                id: textStyle
             }
         ]
     
@@ -48,7 +53,7 @@ Container {
             horizontalAlignment: HorizontalAlignment.Fill
             imageSource: root.backgroundImg
             scalingMethod: ScalingMethod.AspectFill
-            opacity: 0.75
+            opacity: 0.5
         }
 
         Container {
@@ -59,8 +64,10 @@ Container {
         margin.topOffset: ui.du(2)
         margin.rightOffset: ui.du(2)
     
-        Slider {
-            id: slider
+        Label {
+            horizontalAlignment: HorizontalAlignment.Center
+            text: "Share with:"
+            textStyle.base: textStyle.style
         }
     
         Container {
@@ -70,7 +77,7 @@ Container {
             layout: StackLayout {
                 orientation: LayoutOrientation.LeftToRight
             }
-        
+            
             ImageView {
                 id: vkImage
                 
@@ -79,7 +86,6 @@ Container {
                 maxHeight: ui.du(root.imageSize);
                 
                 function shareWithVk() {
-                    console.debug("===>>> POST TO VK");
                     if (_tracksService.active !== undefined) {
                         var track = _tracksService.active.toMap();
                         _vkController.share(track);
@@ -116,7 +122,6 @@ Container {
                 maxHeight: ui.du(root.imageSize);
                 
                 function shareWithFB() {
-                    console.debug("===>>> POST TO FB");
                     if (_tracksService.active !== undefined) {
                         var track = _tracksService.active.toMap();
                         _fbController.share(track);
@@ -143,12 +148,12 @@ Container {
                 ]
             }
         
-            ImageView {
-                margin.leftOffset: ui.du(7)
-                imageSource: "asset:///images/ic_twitter.png"
-                maxWidth: ui.du(root.imageSize);
-                maxHeight: ui.du(root.imageSize);
-            }
+//            ImageView {
+//                margin.leftOffset: ui.du(7)
+//                imageSource: "asset:///images/ic_twitter.png"
+//                maxWidth: ui.du(root.imageSize);
+//                maxHeight: ui.du(root.imageSize);
+//            }
         }
     }
         

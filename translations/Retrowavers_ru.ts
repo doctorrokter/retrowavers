@@ -117,23 +117,46 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="../assets/components/Player.qml" line="243"/>
+        <location filename="../assets/components/Player.qml" line="244"/>
         <source>Media player error: </source>
         <translation type="unfinished">Ошибка медиа плеера: </translation>
     </message>
     <message>
-        <location filename="../assets/components/Player.qml" line="365"/>
-        <location filename="../assets/components/Player.qml" line="446"/>
+        <location filename="../assets/components/Player.qml" line="366"/>
+        <location filename="../assets/components/Player.qml" line="447"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>
 </context>
 <context>
+    <name>SettingsPage</name>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="11"/>
+        <source>Settings</source>
+        <translation type="unfinished">Настройки</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="24"/>
+        <source>Behaviour</source>
+        <translation type="unfinished">Поведение</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="36"/>
+        <source>Hub notifications</source>
+        <translation type="unfinished">Нотификации в хаб</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="64"/>
+        <source>Last.fm scrobbling</source>
+        <translation type="unfinished">Скробблинг в Last.fm</translation>
+    </message>
+</context>
+<context>
     <name>TracksController</name>
     <message>
-        <location filename="../src/controllers/TracksController.cpp" line="46"/>
-        <location filename="../src/controllers/TracksController.cpp" line="91"/>
-        <location filename="../src/controllers/TracksController.cpp" line="114"/>
+        <location filename="../src/controllers/TracksController.cpp" line="47"/>
+        <location filename="../src/controllers/TracksController.cpp" line="92"/>
+        <location filename="../src/controllers/TracksController.cpp" line="115"/>
         <source>Nothing to play. Playlist is empty.</source>
         <translation type="unfinished">Плейлист пуст.</translation>
     </message>
@@ -167,37 +190,37 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="37"/>
+        <location filename="../assets/main.qml" line="67"/>
         <source>LastFM account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="47"/>
+        <location filename="../assets/main.qml" line="58"/>
         <source>Send feedback</source>
         <translation type="unfinished">Обратная связь</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="58"/>
+        <location filename="../assets/main.qml" line="48"/>
         <source>Rate app</source>
         <translation type="unfinished">Оценить приложение</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="286"/>
+        <location filename="../assets/main.qml" line="320"/>
         <source>Love this app?</source>
         <translation type="unfinished">Нравится приложение?</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="287"/>
+        <location filename="../assets/main.qml" line="321"/>
         <source>This app is free and will be free without any annoying ads and payments. But only one thing I would ask you is to leave a comment in BlackBerry World. It will help other people discover this app and increase my motivation to write other applications. Thanks for choosing this app!</source>
         <translation type="unfinished">Это приложение абсолютно бесплатно и будет бесплатным, без всяких надоедливых реклам и прочих платежей. Единственное, о чем я Вас попрошу, - это оставить отзыв в BlackBerry World. &quot;Отсутствие жалоб со стороны населения - лучшая награда за наш труд&quot; (с) Афоня.</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="293"/>
+        <location filename="../assets/main.qml" line="327"/>
         <source>Rate app!</source>
         <translation type="unfinished">Оценить!</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="297"/>
+        <location filename="../assets/main.qml" line="331"/>
         <source>Not now</source>
         <translation type="unfinished">Не сейчас</translation>
     </message>
@@ -207,7 +230,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="278"/>
+        <location filename="../assets/main.qml" line="312"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>
