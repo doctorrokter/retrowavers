@@ -213,6 +213,8 @@ Container {
         MediaPlayer {
             id: player
             
+            equalizerPreset: getEqualizer();
+            
             function nextAfterLoad() {
                 _tracksController.next();
                 _api.loaded.disconnect(player.nextAfterLoad);
@@ -390,6 +392,8 @@ Container {
     function updateSettings() {
         var lastFMKey = _appConfig.get("lastfm_key");
         root.scrobblerEnabled = lastFMKey !== undefined && lastFMKey !== "";
+        
+        player.equalizerPreset = getEqualizer();
     }
     
     function deviceIsSmall() {
@@ -411,6 +415,15 @@ Container {
         if (!online && _tracksController.playerMode === PlayerMode.Playlist) {
             nowplaying.revoke();
             _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
+        }
+    }
+    
+    function getEqualizer() {
+        var equalizer = _appConfig.get("equalizer");
+        if (equalizer === "") {
+            return EqualizerPreset.Off;
+        } else {
+            return parseInt(equalizer);
         }
     }
     

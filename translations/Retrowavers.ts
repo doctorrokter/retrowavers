@@ -118,6 +118,82 @@
         <source>Last.fm scrobbling</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Equalizer preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Airplain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bass Boost</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Treble Boost</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Voice Boost</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bass Lower</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Treble Lower</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Voice Lower</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Acoustic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Electronic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hip Hop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jazz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lounge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Piano</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rhythm And Blues</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spoken Word</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

@@ -116,13 +116,13 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="../assets/components/Player.qml" line="223"/>
+        <location filename="../assets/components/Player.qml" line="225"/>
         <source>Media player error: </source>
         <translation type="unfinished">Ошибка медиа плеера: </translation>
     </message>
     <message>
-        <location filename="../assets/components/Player.qml" line="345"/>
-        <location filename="../assets/components/Player.qml" line="413"/>
+        <location filename="../assets/components/Player.qml" line="347"/>
+        <location filename="../assets/components/Player.qml" line="417"/>
         <source>No internet connection</source>
         <translation type="unfinished">Нет соединения с интернет</translation>
     </message>
@@ -148,6 +148,101 @@
         <location filename="../assets/pages/SettingsPage.qml" line="64"/>
         <source>Last.fm scrobbling</source>
         <translation type="unfinished">Скробблинг в Last.fm</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="90"/>
+        <source>Equalizer preset</source>
+        <translation type="unfinished">Эквалайзер</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="98"/>
+        <source>Off</source>
+        <translation type="unfinished">Выкл.</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="103"/>
+        <source>Airplain</source>
+        <translation type="unfinished">В самолёте</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="108"/>
+        <source>Bass Boost</source>
+        <translation type="unfinished">Усилить низкие частоты</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="113"/>
+        <source>Treble Boost</source>
+        <translation type="unfinished">Усилить высокие частоты</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="118"/>
+        <source>Voice Boost</source>
+        <translation type="unfinished">Усилить звучание голоса</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="123"/>
+        <source>Bass Lower</source>
+        <translation type="unfinished">Уменьшить низкие частоты</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="128"/>
+        <source>Treble Lower</source>
+        <translation type="unfinished">Уменьшить высокие частоты</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="133"/>
+        <source>Voice Lower</source>
+        <translation type="unfinished">Уменьшить звучание голоса</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="138"/>
+        <source>Acoustic</source>
+        <translation type="unfinished">Акустика</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="143"/>
+        <source>Dance</source>
+        <translation type="unfinished">Танцевальная музыка</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="148"/>
+        <source>Electronic</source>
+        <translation type="unfinished">Электроника</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="153"/>
+        <source>Hip Hop</source>
+        <translation type="unfinished">Хип-хоп</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="158"/>
+        <source>Jazz</source>
+        <translation type="unfinished">Джаз</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="163"/>
+        <source>Lounge</source>
+        <translation type="unfinished">Лаунж</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="168"/>
+        <source>Piano</source>
+        <translation type="unfinished">Классика</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="173"/>
+        <source>Rhythm And Blues</source>
+        <translation type="unfinished">Ритм-энд-блюз</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="178"/>
+        <source>Rock</source>
+        <translation type="unfinished">Рок</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="183"/>
+        <source>Spoken Word</source>
+        <translation type="unfinished">Речь</translation>
     </message>
 </context>
 <context>
