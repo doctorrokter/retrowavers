@@ -264,7 +264,7 @@ Container {
             onAcquired: {
                 var track = _tracksService.active;
                 nowplaying.iconUrl = track.imagePath;
-                nowplaying.setMetaData({"artist": root.artistName, "track": root.trackName, "duration": root.durationMillis});
+                nowplaying.setMetaData({"artist": root.artistName, "track": root.trackName, "duration": root.durationMillis, "album": ""});
                 player.play();
             }
             
