@@ -30,6 +30,7 @@ public:
     Q_INVOKABLE Track* getActive() const;
 
     Q_INVOKABLE QVariantList getFavouriteTracks() const;
+    Q_INVOKABLE void saveFavouriteTracksToShared();
 
     void setActive(Track* track);
     int count() const;

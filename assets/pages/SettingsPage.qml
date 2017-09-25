@@ -187,10 +187,32 @@ Page {
                     }
                 }
                 
+//                Header {
+//                    topMargin: ui.du(2)
+//                    title: qsTr("Tools") + Retranslate.onLocaleOrLanguageChanged
+//                }
+//                
+//                Container {
+//                    leftPadding: ui.du(2.5)
+//                    rightPadding: ui.du(2.5)
+//                    topPadding: ui.du(2)
+//                    bottomPadding: ui.du(2)
+//                    horizontalAlignment: HorizontalAlignment.Fill
+//                    
+//                    Label {
+//                        text: qsTr("Save favourite tracks into \"shared\" directory on the device (permission required)") + Retranslate.onLocaleOrLanguageChanged
+//                        multiline: true
+//                    }
+//                    
+//                    Button {
+//                        text: qsTr("Save tracks") + Retranslate.onLocaleOrLanguageChanged
+//                        horizontalAlignment: HorizontalAlignment.Fill
+//                    }
+//                }
                 
                 Container {
                     horizontalAlignment: HorizontalAlignment.Fill
-                    minHeight: ui.du(20)
+                    minHeight: ui.du(12)
                 }
             }
         }

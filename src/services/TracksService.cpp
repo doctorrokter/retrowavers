@@ -142,6 +142,37 @@ QVariantList TracksService::getFavouriteTracks() const {
     return tracks;
 }
 
+void TracksService::saveFavouriteTracksToShared() {
+    QString tracksPath = QDir::currentPath() + TRACKS;
+    QDir tracks(tracksPath);
+    if (tracks.exists()) {
+        QString sharedPath = QDir::currentPath() + FAVOURITE_TRACKS_SHARED;
+        QDir retrowave(sharedPath);
+        if (!retrowave.exists()) {
+            retrowave.mkpath(sharedPath);
+        }
+
+        foreach(Track* track, m_favouriteTracks) {
+            QString title = track->getTitle();
+            QString filePath = sharedPath + "/" + title.replace(" ", "_");
+            QFile target(filePath);
+            if (target.exists()) {
+                target.remove();
+            }
+
+            QFile source(track->getLocalPath());
+            if(source.exists()) {
+                target.open(QIODevice::WriteOnly);
+                target.write(source.readAll());
+                target.close();
+                source.close();
+            } else {
+                qDebug() << "TracksService: wrong source file " << track->getLocalPath() << endl;
+            }
+        }
+    }
+}
+
 int TracksService::count() const {
     return m_tracks.size();
 }

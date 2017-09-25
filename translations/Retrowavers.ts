@@ -194,6 +194,10 @@
         <source>Spoken Word</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

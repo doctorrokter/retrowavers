@@ -244,6 +244,11 @@
         <source>Spoken Word</source>
         <translation type="unfinished">Речь</translation>
     </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="208"/>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

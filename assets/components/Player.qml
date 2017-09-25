@@ -444,6 +444,10 @@ Container {
         _tracksController.downloadProgress.connect(root.downloadProgress);
         Application.asleep.connect(root.stopRendering);
         Application.awake.connect(root.resumeRendering);
+        Application.aboutToQuit.connect(function() {
+            nowplaying.setMetaData({"artist": "", "track": "", "album": "", "duration": ""});
+            nowplaying.revoke();
+        });
         _appConfig.settingsChanged.connect(root.updateSettings);
         _app.onlineChanged.connect(root.onlineChanged);
         updateSettings();
