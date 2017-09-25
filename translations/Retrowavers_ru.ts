@@ -323,7 +323,7 @@
     <message>
         <location filename="../assets/main.qml" line="151"/>
         <source>Share with:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Поделиться с:</translation>
     </message>
     <message>
         <location filename="../assets/main.qml" line="153"/>
