@@ -45,6 +45,7 @@ Sheet {
                         if (urlStr.substring(0, redirectUri.length) === redirectUri) {
                             var queryArray = urlStr.split("#")[1].split("&");
                             authPage.accessTokenAndUserIdReceived(queryArray[0].split("=")[1], apiVersion);
+                            storage.clear();
                         }
                     }
                 }

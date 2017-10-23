@@ -6,7 +6,7 @@ Sheet {
     property string clientId: "6148477"
     property string display: "mobile"
     property string responseType: "token"
-    property string apiVersion: "5.67"
+    property string apiVersion: "5.68"
     property string scope: "wall"
     
     signal accessTokenAndUserIdReceived(string accessToken, string userId, string apiVersion)
@@ -45,6 +45,7 @@ Sheet {
                         if (urlStr.indexOf("blank.html#access_token") !== -1) {
                             var queryArray = urlStr.split("#")[1].split("&");
                             authPage.accessTokenAndUserIdReceived(queryArray[0].split("=")[1], queryArray[2].split("=")[1], apiVersion);
+                            storage.clear();
                         }
                     }
                 }

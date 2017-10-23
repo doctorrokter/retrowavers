@@ -130,119 +130,136 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="11"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="15"/>
         <source>Settings</source>
         <translation type="unfinished">Настройки</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="24"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="28"/>
         <source>Behaviour</source>
         <translation type="unfinished">Поведение</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="36"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="40"/>
         <source>Hub notifications</source>
         <translation type="unfinished">Нотификации в хаб</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="64"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="68"/>
         <source>Last.fm scrobbling</source>
         <translation type="unfinished">Скробблинг в Last.fm</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="90"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="94"/>
         <source>Equalizer preset</source>
         <translation type="unfinished">Эквалайзер</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="98"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="102"/>
         <source>Off</source>
         <translation type="unfinished">Выкл.</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="103"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="107"/>
         <source>Airplain</source>
         <translation type="unfinished">В самолёте</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="108"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="112"/>
         <source>Bass Boost</source>
         <translation type="unfinished">Усилить низкие частоты</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="113"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="117"/>
         <source>Treble Boost</source>
         <translation type="unfinished">Усилить высокие частоты</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="118"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="122"/>
         <source>Voice Boost</source>
         <translation type="unfinished">Усилить звучание голоса</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="123"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="127"/>
         <source>Bass Lower</source>
         <translation type="unfinished">Уменьшить низкие частоты</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="128"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="132"/>
         <source>Treble Lower</source>
         <translation type="unfinished">Уменьшить высокие частоты</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="133"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="137"/>
         <source>Voice Lower</source>
         <translation type="unfinished">Уменьшить звучание голоса</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="138"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="142"/>
         <source>Acoustic</source>
         <translation type="unfinished">Акустика</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="143"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="147"/>
         <source>Dance</source>
         <translation type="unfinished">Танцевальная музыка</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="148"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="152"/>
         <source>Electronic</source>
         <translation type="unfinished">Электроника</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="153"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="157"/>
         <source>Hip Hop</source>
         <translation type="unfinished">Хип-хоп</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="158"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="162"/>
         <source>Jazz</source>
         <translation type="unfinished">Джаз</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="163"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="167"/>
         <source>Lounge</source>
         <translation type="unfinished">Лаунж</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="168"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="172"/>
         <source>Piano</source>
         <translation type="unfinished">Классика</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="173"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="177"/>
         <source>Rhythm And Blues</source>
         <translation type="unfinished">Ритм-энд-блюз</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="178"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="182"/>
         <source>Rock</source>
         <translation type="unfinished">Рок</translation>
     </message>
     <message>
-        <location filename="../assets/pages/SettingsPage.qml" line="183"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="187"/>
         <source>Spoken Word</source>
         <translation type="unfinished">Речь</translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="196"/>
+        <source>Social networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="211"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="239"/>
+        <source>Sing out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/pages/SettingsPage.qml" line="226"/>
+        <location filename="../assets/pages/SettingsPage.qml" line="255"/>
+        <source>Sing in</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/pages/SettingsPage.qml" line="208"/>

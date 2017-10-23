@@ -198,6 +198,18 @@
         <source></source>
         <translation></translation>
     </message>
+    <message>
+        <source>Social networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sing out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sing in</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

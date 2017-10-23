@@ -1,8 +1,12 @@
 import bb.cascades 1.4
 import "../components"
+import "../sheets"
 
 Page {
     id: root
+    
+    signal fbAuthRequested()
+    signal vkAuthRequested()
     
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     actionBarVisibility: ChromeVisibility.Overlay
@@ -187,28 +191,75 @@ Page {
                     }
                 }
                 
-//                Header {
-//                    topMargin: ui.du(2)
-//                    title: qsTr("Tools") + Retranslate.onLocaleOrLanguageChanged
-//                }
-//                
-//                Container {
-//                    leftPadding: ui.du(2.5)
-//                    rightPadding: ui.du(2.5)
-//                    topPadding: ui.du(2)
-//                    bottomPadding: ui.du(2)
-//                    horizontalAlignment: HorizontalAlignment.Fill
-//                    
-//                    Label {
-//                        text: qsTr("Save favourite tracks into \"shared\" directory on the device (permission required)") + Retranslate.onLocaleOrLanguageChanged
-//                        multiline: true
-//                    }
-//                    
-//                    Button {
-//                        text: qsTr("Save tracks") + Retranslate.onLocaleOrLanguageChanged
-//                        horizontalAlignment: HorizontalAlignment.Fill
-//                    }
-//                }
+                Header {
+                    topMargin: ui.du(2)
+                    title: qsTr("Social networks") + Retranslate.onLocaleOrLanguageChanged
+                }
+                
+                Container {
+                    leftPadding: ui.du(2.5)
+                    rightPadding: ui.du(2.5)
+                    topPadding: ui.du(2)
+                    bottomPadding: ui.du(2)
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    
+                    Button {
+                        id: fbSignOut
+                        visible: _appConfig.get("fb_access_token") !== ""
+                        horizontalAlignment: HorizontalAlignment.Fill
+                        imageSource: "asset:///images/ic_facebook.png"
+                        text: qsTr("Sing out") + Retranslate.onLocaleOrLanguageChanged
+                        
+                        onClicked: {
+                            visible = false;
+                            _appConfig.set("fb_access_token", "");
+                            _appConfig.set("fb_api_version", "");
+                            fbSignIn.visible = true;
+                        }
+                    }
+                    
+                    Button {
+                        id: fbSignIn
+                        visible: _appConfig.get("fb_access_token") === ""
+                        horizontalAlignment: HorizontalAlignment.Fill
+                        imageSource: "asset:///images/ic_facebook.png"
+                        text: qsTr("Sing in") + Retranslate.onLocaleOrLanguageChanged
+                        
+                        onClicked: {
+                            var auth = fbAuth.createObject();
+                            auth.open();
+                        }
+                    }
+                    
+                    Button {
+                        id: vkSignOut
+                        visible: _appConfig.get("vk_access_token") !== ""
+                        horizontalAlignment: HorizontalAlignment.Fill
+                        imageSource: "asset:///images/ic_vk.png"
+                        text: qsTr("Sing out") + Retranslate.onLocaleOrLanguageChanged
+                        
+                        onClicked: {
+                            visible = false;
+                            _appConfig.set("vk_access_token", "");
+                            _appConfig.set("vk_user_id", "");
+                            _appConfig.set("vk_api_version", "");
+                            vkSingIn.visible = true;
+                        }
+                    }
+                    
+                    Button {
+                        id: vkSingIn
+                        visible: _appConfig.get("vk_access_token") === ""
+                        horizontalAlignment: HorizontalAlignment.Fill
+                        imageSource: "asset:///images/ic_vk.png"
+                        text: qsTr("Sing in") + Retranslate.onLocaleOrLanguageChanged
+                        
+                        onClicked: {
+                            var auth = vkAuth.createObject();
+                            auth.open();
+                        }
+                    }
+                }
                 
                 Container {
                     horizontalAlignment: HorizontalAlignment.Fill
@@ -217,6 +268,35 @@ Page {
             }
         }
     }
+    
+    attachedObjects: [
+        ComponentDefinition {
+            id: vkAuth
+            VkAuth {
+                onAccessTokenAndUserIdReceived: {
+                    _appConfig.set("vk_access_token", accessToken);
+                    _appConfig.set("vk_user_id", userId);
+                    _appConfig.set("vk_api_version", apiVersion);
+                    vkSingIn.visible = false;
+                    vkSignOut.visible = true;
+                    close();
+                }
+            }
+        },
+        
+        ComponentDefinition {
+            id: fbAuth
+            FBAuth {
+                onAccessTokenAndUserIdReceived: {
+                    _appConfig.set("fb_access_token", accessToken);
+                    _appConfig.set("fb_api_version", apiVersion);
+                    fbSignIn.visible = false;
+                    fbSignOut.visible = true;
+                    close();
+                }
+            }
+        }
+    ]
     
     function adjustNotification() {
         var notify = _appConfig.get("notify_now_playing");
