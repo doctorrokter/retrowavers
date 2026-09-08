@@ -10,6 +10,7 @@
 
 #include <QObject>
 #include <QVariantMap>
+#include <QStringList>
 
 class Track: public QObject {
     Q_OBJECT
@@ -19,6 +20,9 @@ class Track: public QObject {
     Q_PROPERTY(QString bArtworkUrl READ getBArtworkUrl WRITE setBArtworkUrl NOTIFY bArtworkUrlChanged)
     Q_PROPERTY(QString streamUrl READ getStreamUrl WRITE setStreamUrl NOTIFY streamUrlChanged)
     Q_PROPERTY(QString title READ getTitle WRITE setTitle NOTIFY titleChanged)
+    Q_PROPERTY(QString author READ getAuthor WRITE setAuthor NOTIFY authorChanged)
+    Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QStringList tags READ getTags WRITE setTags NOTIFY tagsChanged)
     Q_PROPERTY(QString imagePath READ getImagePath WRITE setImagePath NOTIFY imagePathChanged)
     Q_PROPERTY(QString bImagePath READ getBImagePath WRITE setBImagePath NOTIFY bImagePathChanged)
     Q_PROPERTY(bool favourite READ isFavourite WRITE setFavourite NOTIFY favouriteChanged)
@@ -49,6 +53,18 @@ public:
     Q_INVOKABLE const QString& getTitle() const;
     Q_INVOKABLE void setTitle(const QString& title);
 
+    // title is "author - name" for display and scrobbling; the parts are kept
+    // separately because the ID3 tag written into a downloaded file needs them
+    // apart (TPE1/TIT2/TCON), and the files served to us carry junk tags.
+    Q_INVOKABLE const QString& getAuthor() const;
+    Q_INVOKABLE void setAuthor(const QString& author);
+
+    Q_INVOKABLE const QString& getName() const;
+    Q_INVOKABLE void setName(const QString& name);
+
+    Q_INVOKABLE const QStringList& getTags() const;
+    Q_INVOKABLE void setTags(const QStringList& tags);
+
     Q_INVOKABLE const QString& getImagePath() const;
     Q_INVOKABLE void setImagePath(const QString& imagePath);
 
@@ -74,6 +90,9 @@ public:
         void bArtworkUrlChanged(const QString bArtworkUrl);
         void streamUrlChanged(const QString& streamUrl);
         void titleChanged(const QString& title);
+        void authorChanged(const QString& author);
+        void nameChanged(const QString& name);
+        void tagsChanged(const QStringList& tags);
         void imagePathChanged(const QString& imagePath);
         void bImagePathChanged(const QString& bImagePath);
         void favouriteChanged(const bool& favourite);
@@ -87,6 +106,9 @@ private:
     QString m_bArtworkUrl;
     QString m_streamUrl;
     QString m_title;
+    QString m_author;
+    QString m_name;
+    QStringList m_tags;
     QString m_imagePath;
     QString m_bImagePath;
     bool m_favourite;

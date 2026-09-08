@@ -12,6 +12,7 @@
 #include <QDir>
 #include <QFile>
 #include "../config/AppConfig.hpp"
+#include "../services/ArtworkProcessor.hpp"
 
 #define NOTIFICATION_KEY "Retrowavers"
 
@@ -25,6 +26,7 @@ TracksController::TracksController(TracksService* tracks, QObject* parent) : QOb
 
     m_pNetwork = new QNetworkAccessManager(this);
     m_pToast = new SystemToast(this);
+    m_library = new MusicLibrary(this);
 
     foreach(Track* track, m_tracks->getFavouriteTracksList()) {
         if (track->getLocalPath().compare("") == 0) {
@@ -187,22 +189,31 @@ void TracksController::onDownload() {
     if (reply->error() == QNetworkReply::NoError) {
         QByteArray data = reply->readAll();
 
-        QString tracksDir = QDir::currentPath() + TRACKS;
-        QDir dir(tracksDir);
-        if (!dir.exists()) {
-            dir.mkpath(tracksDir);
-        }
-
         Track* track = m_tracks->findFavouriteById(id);
-        QString filepath = tracksDir + "/" + track->getFilename();
-        QFile file(filepath);
-        if (file.open(QIODevice::WriteOnly)) {
-            file.write(data);
-            file.close();
-            track->setLocalPath(filepath);
-            qDebug() << "===>>> TracksController#onDownload track saved to: " << filepath << endl;
-        } else {
-            qDebug() << file.errorString() << endl;
+        if (track != NULL) {
+            // The downscaled cover is already on disk from playback, so the ID3
+            // tag gets real album art without fetching anything again.
+            QString cover = track->getImagePath();
+            if (cover.startsWith("file://")) {
+                cover = cover.mid(7);
+            }
+            if (cover.isEmpty() || !QFile::exists(cover)) {
+                // Liked within the first seconds of playback: imagePath is not set
+                // yet, but the render may already have landed under its known name.
+                cover = ArtworkProcessor::coverPathFor(track->getArtworkUrl());
+                if (!QFile::exists(cover)) {
+                    cover = "";
+                }
+            }
+
+            QString filepath = m_library->save(track, data, cover);
+            if (!filepath.isEmpty()) {
+                track->setLocalPath(filepath);
+                // Without this the path is lost on restart and the track is
+                // downloaded all over again.
+                m_tracks->saveFavourites();
+                emit downloaded(id);
+            }
         }
     }
 

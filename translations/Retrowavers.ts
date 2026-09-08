@@ -9,61 +9,41 @@
     </message>
 </context>
 <context>
-    <name>FBAuth</name>
-    <message>
-        <source>Facebook Login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>FacebookController</name>
-    <message>
-        <source>FB status updated</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>HelpPage</name>
     <message>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>LastFMAuth</name>
     <message>
-        <source>Sign out</source>
+        <source>Author: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Login</source>
+        <source>App: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Password</source>
+        <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sign in</source>
+        <source>OS: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Error login. Check your credentials.</source>
+        <source>Music</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No internet connection</source>
+        <source>The Playlist tab plays this station&apos;s catalogue, which carries on after the original retrowave.ru went offline.</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>LastFMController</name>
     <message>
-        <source>Logged in as </source>
+        <source>Radio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stations on the Radio tab come from these services:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -86,6 +66,14 @@
     </message>
     <message>
         <source>No internet connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Radio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back to services</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -112,10 +100,6 @@
     </message>
     <message>
         <source>Hub notifications</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Last.fm scrobbling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -198,60 +182,11 @@
         <source></source>
         <translation></translation>
     </message>
-    <message>
-        <source>Social networks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sing out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sing in</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SharePage</name>
-    <message>
-        <source>Now listening in Retrowavers: The Legacy app on my BlackBerry 10 smartphone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Share!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Share</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TracksController</name>
     <message>
         <source>Nothing to play. Playlist is empty.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VKController</name>
-    <message>
-        <source>Record created on the wall</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>VkAuth</name>
-    <message>
-        <source>VK Login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -262,47 +197,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>LastFM account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send feedback</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rate app</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No internet connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Love this app?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rate app!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Not now</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This app is free and will be free without any annoying ads and payments. But only one thing I would ask you is to leave a comment in BlackBerry World. It will help other people discover this app and increase my motivation to write other applications. Thanks for choosing this app!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Share with:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>VK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Facebook</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

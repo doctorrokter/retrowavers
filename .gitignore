@@ -1,34 +1,43 @@
-arm
-arm-p
-
-x86
-
-# Compiled Object files
-*.slo
-*.lo
+# --- BlackBerry 10 / Qt / Momentics build output ---
+arm/
+arm-p/
+x86/
+o-g/
+o.le-v7-g/
 *.o
 *.obj
-
-# Precompiled Headers
+moc_*.cpp
+*.moc
+*_gch/
 *.gch
-*.pch
+.settings/
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+# qmake / Momentics generated makefiles. The arm/ arm-p/ x86/ dirs are already ignored
+# above, so this pattern really only catches the root shim Makefile - keep THAT one: it
+# includes mk/cs-base.mk which defines the Device-Debug/Device-Release/Simulator targets.
+# translations/Makefile is the portable lupdate/lrelease wrapper (uses $(QNX_HOST)) and
+# is kept for the same reason.
+Makefile
+Makefile.*
+!/Makefile
+!/translations/Makefile
+*.pro.user
 
-# Fortran module files
-*.mod
-*.smod
+# Compiled translations: qmake pulls translations/Retrowavers.pro into the build and
+# runs lupdate + lrelease itself, so the .qm are produced on every build. (Note that
+# lupdate REWRITES the .ts as a side effect - keep "Build Automatically" off in
+# Momentics, or that turns into an endless rebuild loop.)
+*.qm
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# Packaged output
+*.bar
 
-# Executables
-*.exe
-*.out
-*.app
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+*~
+*.swp
+.idea/
+
+# --- BB10 device SSH keys (secret - never commit; see bb-shared/tools/bb-ssh.sh) ---
+id_bb*

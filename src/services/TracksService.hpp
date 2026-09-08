@@ -30,11 +30,24 @@ public:
     Q_INVOKABLE Track* getActive() const;
 
     Q_INVOKABLE QVariantList getFavouriteTracks() const;
-    Q_INVOKABLE void saveFavouriteTracksToShared();
+    void saveFavourites();
 
     void setActive(Track* track);
     int count() const;
     void appendTracks(const QList<Track*>& tracks);
+
+    // Drop the playlist when the source changes. The PLAYING track is kept alive
+    // even though it leaves the list - the player still holds it - and favourites
+    // belong to the other list, so neither is deleted here.
+    void clearTracks();
+
+    // One-shot upgrade of favourites saved by version 2.x, when tracks came from
+    // retrowave.ru and the blur from a web service. Returns how many were touched.
+    int migrateLegacyFavourites();
+
+    // A radio station moved on to the next song: patch the fields the source sent
+    // (title/author/name/artworkUrl) into the track it names.
+    void updateMetadata(const QString& id, const QVariantMap& fields);
     void addFavourite(Track* track);
     bool removeFavourite(const QString& id);
     void setImagePath(const QString& id, const QString& imagePath);
@@ -47,6 +60,7 @@ public:
         void favouriteTracksChanged(const QVariantList& favouriteTracks);
         void activeChanged(Track* track);
         void imageChanged(const QString& id, const QString& imagePath);
+        void metadataChanged(const QString& id, const QString& title);
         void blurImageChanged(const QString& id, const QString& imagePath);
 
 private:
@@ -54,7 +68,6 @@ private:
     QList<Track*> m_favouriteTracks;
     Track* m_active;
 
-    void saveFavourite();
 };
 
 #endif /* TRACKSSERVICE_HPP_ */

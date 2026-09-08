@@ -36,28 +36,19 @@ ApplicationUI::ApplicationUI() : QObject() {
     }
 
     m_pAppConfig = new AppConfig(this);
+    RW_TRACE("===>>> STEP 3: AppConfig");
     m_pToast = new SystemToast(this);
 
     m_pNetworkConf = new QNetworkConfigurationManager(this);
     m_online = m_pNetworkConf->isOnline();
 
     m_tracks = new TracksService(this);
+    RW_TRACE("===>>> STEP 4: TracksService");
     m_tracksController = new TracksController(m_tracks, this);
-    m_pVKController = new VKController(this);
-    m_pFBController = new FacebookController(this);
-    m_lastFM = new LastFMController(m_pAppConfig, this);
+    RW_TRACE("===>>> STEP 5: TracksController");
     m_api = new ApiController(m_tracks, this);
-
-    if (m_pAppConfig->get("changed_image_processor").toString().isEmpty()) {
-        cleanDir(QDir::currentPath() + IMAGES);
-        foreach(Track* track, m_tracks->getFavouriteTracksList()) {
-            track->setBArtworkUrl(QString(IMAGE_PROCESSOR_URL).append("/blur/65/").append(track->getArtworkUrl()));
-            track->setBImagePath("");
-            qDebug() << "Download blur: " << track->getBArtworkUrl() << endl;
-            m_api->loadBlurImage(track->getId(), track->getBArtworkUrl());
-        }
-        m_pAppConfig->set("changed_image_processor", true);
-    }
+    migrateFromLegacy();
+    RW_TRACE("===>>> STEP 6: ApiController");
 
     bool res = QObject::connect(m_pLocaleHandler, SIGNAL(systemLanguageChanged()), this, SLOT(onSystemLanguageChanged()));
     Q_ASSERT(res);
@@ -68,18 +59,17 @@ ApplicationUI::ApplicationUI() : QObject() {
     onSystemLanguageChanged();
 
     QmlDocument *qml = QmlDocument::create("asset:///main.qml").parent(this);
+    RW_TRACE("===>>> STEP 7: QmlDocument");
     QDeclarativeEngine* engine = QmlDocument::defaultDeclarativeEngine();
     QDeclarativeContext* rootContext = engine->rootContext();
     rootContext->setContextProperty("_app", this);
     rootContext->setContextProperty("_api", m_api);
     rootContext->setContextProperty("_tracksService", m_tracks);
     rootContext->setContextProperty("_tracksController", m_tracksController);
-    rootContext->setContextProperty("_vkController", m_pVKController);
-    rootContext->setContextProperty("_fbController", m_pFBController);
-    rootContext->setContextProperty("_lastFM", m_lastFM);
     rootContext->setContextProperty("_appConfig", m_pAppConfig);
 
     AbstractPane *root = qml->createRootObject<AbstractPane>();
+    RW_TRACE("===>>> STEP 8: root object");
     Application::instance()->setScene(root);
 }
 
@@ -90,12 +80,39 @@ ApplicationUI::~ApplicationUI() {
     m_api->deleteLater();
     m_tracks->deleteLater();
     m_tracksController->deleteLater();
-    m_pFBController->deleteLater();
-    m_pVKController->deleteLater();
-    m_lastFM->deleteLater();
     m_pAppConfig->deleteLater();
     m_pNetworkConf->deleteLater();
     m_pToast->deleteLater();
+}
+
+// Upgrading from 2.x leaves favourites pointing at a dead host and a cache full of
+// blurs fetched from a web service that no longer exists. Runs once, then never again.
+void ApplicationUI::migrateFromLegacy() {
+    if (!m_pAppConfig->get("migrated_v3").toString().isEmpty()) {
+        return;
+    }
+
+    int migrated = m_tracks->migrateLegacyFavourites();
+    removeLegacyBlurs(QDir::currentPath() + IMAGES);
+    m_pAppConfig->set("migrated_v3", "true");
+
+    qDebug() << "===>>> migrateFromLegacy: favourites migrated: " << migrated << endl;
+}
+
+// The old blurs were named "b_<something>.png"; nothing reads them any more, and the
+// on-device renderer uses its own names (<uuid>_b160_22.png), so these are dead weight.
+void ApplicationUI::removeLegacyBlurs(const QString& path) {
+    QDir dir(path);
+    if (!dir.exists()) {
+        return;
+    }
+
+    QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Files);
+    Q_FOREACH(QFileInfo info, list) {
+        if (info.fileName().startsWith("b_")) {
+            QFile::remove(info.absoluteFilePath());
+        }
+    }
 }
 
 void ApplicationUI::onSystemLanguageChanged() {
@@ -118,28 +135,4 @@ void ApplicationUI::onOnlineChanged(bool online) {
         m_online = online;
         emit onlineChanged(m_online);
     }
-}
-
-void ApplicationUI::cleanDir(const QString& path) {
-    QDir dir(path);
-
-    qDebug() << "Clean dir: " << path << endl;
-
-    if (dir.exists(path)) {
-        QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden | QDir::AllDirs | QDir::Files, QDir::DirsFirst);
-        Q_FOREACH(QFileInfo info, list) {
-            if (info.isDir()) {
-                cleanDir(info.absoluteFilePath());
-            } else {
-                if (info.fileName().startsWith("b_")) {
-                    qDebug() << "Remove file: " << info.fileName() << endl;
-                    QFile::remove(info.absoluteFilePath());
-                }
-            }
-        }
-    }
-}
-
-void ApplicationUI::share(const QString& type) {
-    emit shareRequested(type);
 }

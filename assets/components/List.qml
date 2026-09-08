@@ -8,6 +8,9 @@ Container {
     
     property int touchY: 0
     
+    // True while the list shows radio SERVICES rather than tracks or stations.
+    property bool showingServices: false
+    
     horizontalAlignment: HorizontalAlignment.Fill
     layout: DockLayout {}
     
@@ -22,9 +25,20 @@ Container {
         }
         
         onTriggered: {
+            var data = songsDataModel.data(indexPath);
+            
+            if (data.type === "source") {
+                root.selectSource(data.sourceId);   // show that service's stations
+                return;
+            }
+            
+            if (data.type === "back") {
+                root.showRadioSources();
+                return;
+            }
+            
             clearSelection();
             select(indexPath);
-            var data = songsDataModel.data(indexPath);
             _tracksController.play(data);
         }
         
@@ -36,7 +50,8 @@ Container {
         attachedObjects: [
             ListScrollStateHandler {
                 onScrollingChanged: {
-                    if (atEnd && _tracksController.playerMode === PlayerMode.Playlist) {
+                    if (atEnd && _tracksController.playerMode === PlayerMode.Playlist
+                            && !root.showingServices && _api.activeKind() === "catalog") {
                         if (!spinner.running) {
                             if (_app.online) {
                                 spinner.start();
@@ -122,6 +137,8 @@ Container {
                         }
                         
                         Label {
+                            // A radio station has no length; 00:00 would just be noise.
+                            visible: ListItemData.duration > 0
                             text: getMediaTime(ListItemData.duration)
                             textStyle.base: textStyle.style
                             textStyle.fontSize: FontSize.XXSmall
@@ -151,16 +168,22 @@ Container {
         id: subHeader
         
         option1: qsTr("Playlist") + Retranslate.onLocaleOrLanguageChanged
-        option2: qsTr("Favourite") + Retranslate.onLocaleOrLanguageChanged
+        option2: qsTr("Radio") + Retranslate.onLocaleOrLanguageChanged
+        option3: qsTr("Favourite") + Retranslate.onLocaleOrLanguageChanged
         
         option1Enabled: true
-        option2Enabled: _tracksService.favouriteTracks.length !== 0
+        option2Enabled: true
+        option3Enabled: _tracksService.favouriteTracks.length !== 0
         
         onOption1Selected: {
-            _tracksController.playerMode = PlayerMode.Playlist;
+            root.selectSource("rwr");
         }
         
         onOption2Selected: {
+            root.showRadioSources();
+        }
+        
+        onOption3Selected: {
             _tracksController.playerMode = PlayerMode.Favourite;
         }
     }
@@ -172,6 +195,94 @@ Container {
         horizontalAlignment: HorizontalAlignment.Center
         
         minWidth: ui.du(20)
+    }
+    
+    // The Radio tab lists the SERVICES (SomaFM, Nightride FM, ...). Picking one shows
+    // its own stations - stations from different services are never mixed together.
+    function showRadioSources() {
+        _tracksController.playerMode = PlayerMode.Playlist;
+        root.showingServices = true;
+        spinner.stop();
+        songsDataModel.clear();
+        
+        var sources = _api.sources();
+        for (var i = 0; i < sources.length; i++) {
+            if (sources[i].kind !== "radio") {
+                continue;
+            }
+            songsDataModel.append({
+                type: "source",
+                sourceId: sources[i].id,
+                title: sources[i].name,
+                duration: 0,
+                favourite: false
+            });
+        }
+    }
+    
+    // Sits at the top of a station list so there is a way back to the services.
+    function backRow() {
+        return {
+            type: "back",
+            title: qsTr("Back to services") + Retranslate.onLocaleOrLanguageChanged,
+            duration: 0,
+            favourite: false
+        };
+    }
+    
+    // The first two tabs pick a SOURCE, the third picks a mode within it - so both
+    // of the first two also leave favourites and go back to the playlist view.
+    function selectSource(sourceId) {
+        _tracksController.playerMode = PlayerMode.Playlist;
+        
+        // Re-picking the service we are already on is a no-op in C++ (no signal fires),
+        // so going back to the services and tapping the SAME one would leave the list
+        // showing service rows. Render its stations here instead.
+        if (_api.activeSource() === sourceId) {
+            showStations();
+            return;
+        }
+        
+        _api.selectSource(sourceId);
+    }
+    
+    // Draw the active source's list from what is already loaded, fetching only when
+    // there is nothing to draw.
+    function showStations() {
+        root.showingServices = false;
+        songsDataModel.clear();
+        if (_api.activeKind() === "radio") {
+            songsDataModel.append(backRow());
+        }
+        
+        var tracks = _tracksService.tracks;
+        if (tracks.length > 0) {
+            songsDataModel.append(tracks);
+            return;
+        }
+        
+        if (_app.online) {
+            spinner.start();
+            _api.loaded.connect(songsList.loaded);
+            _api.load();
+        }
+    }
+    
+    // The source changed under us: the C++ side has already dropped its tracks, so
+    // the model has to go too, and the new list is fetched from scratch.
+    function onSourceChanged(sourceId) {
+        root.showingServices = false;
+        songsDataModel.clear();
+        if (_api.activeKind() === "radio") {
+            songsDataModel.append(backRow());
+        }
+        if (_app.online) {
+            spinner.start();
+            _api.loaded.connect(songsList.loaded);
+            _api.load();
+        } else {
+            _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
+        }
     }
     
     function addTracks(tracks) {
@@ -209,8 +320,12 @@ Container {
     }
     
     function playerModeChanged(playerMode) {
+        root.showingServices = false;
         songsDataModel.clear();
         if (playerMode === PlayerMode.Playlist) {
+            if (_api.activeKind() === "radio") {
+                songsDataModel.append(backRow());
+            }
             songsDataModel.append(_tracksService.tracks);
         } else if (playerMode === PlayerMode.Favourite) {
             songsDataModel.append(_tracksService.favouriteTracks);
@@ -250,11 +365,25 @@ Container {
 //        songsDataModel.append(data);
         songsDataModel.clear();
         _api.loaded.connect(addTracks);
+        _api.activeSourceChanged.connect(root.onSourceChanged);
         _tracksService.activeChanged.connect(root.onPlayed);
         _tracksService.imageChanged.connect(root.updateImagePath);
         _tracksController.liked.connect(root.like);
         _tracksController.playerModeChanged.connect(root.playerModeChanged);
         _tracksController.favouriteTrackRemoved.connect(root.removeFavourite);
         _app.onlineChanged.connect(root.onlineChanged);
+        
+        // Open on the source the app was last left on. Assigning the index fires the
+        // tab handler, which calls selectSource() - harmless, it is already active.
+        if (_api.activeKind() === "radio") {
+            // Assigning the index fires the tab handler, which lists the services -
+            // but we were left inside one, so put its station list back instead. The
+            // stations themselves arrive from the load() in main.qml.
+            subHeader.selectedIndex = 1;
+            songsDataModel.clear();
+            songsDataModel.append(backRow());
+        } else {
+            subHeader.selectedIndex = 0;
+        }
     }
 }

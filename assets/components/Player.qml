@@ -18,15 +18,14 @@ Container {
     property bool favourite: false
     
     property bool asleep: false
-    property bool scrobbled: false
-    property int startTime: 0
     property int durationMillis: 0
     property string artistName: ""
     property string trackName: ""
-    property bool scrobblerEnabled: false
     
-    property int fourMinutes: 60000 * 4
     property int percentage: 0
+
+    // Radio has no file behind it, so there is nothing to like or download.
+    property bool sourceCanDownload: true
     
     property int screenWidth: 1440
     property int screenHeight: 1440
@@ -105,8 +104,8 @@ Container {
             }
             
             function nextAfterLoad() {
-                _tracksController.next();
                 _api.loaded.disconnect(playerBottom.nextAfterLoad);
+                root.advanceOrWrap();
             }
         }
     }
@@ -126,12 +125,12 @@ Container {
             favourite: root.favourite
             percentage: root.percentage
             
-            visible: _tracksService.active !== undefined && _tracksService.active !== null
+            opacity: (root.sourceCanDownload && _tracksService.active !== undefined && _tracksService.active !== null) ? 1.0 : 0.0
+            enabled: root.sourceCanDownload
             horizontalAlignment: HorizontalAlignment.Center
             
             onLike: {
                 root.favourite = true;
-                _lastFM.track.love(root.artistName, root.trackName);
                 _tracksController.like();
             }
         }
@@ -156,6 +155,11 @@ Container {
         }
         
         Container {
+            // Live radio runs forever: no length to count towards, so the row reads
+            // empty rather than 00:00 - but it keeps its space, or the title below
+            // would slide down the screen.
+            opacity: root.durationMillis > 0 ? 1.0 : 0.0
+            
             margin.topOffset: ui.du(2.5)
             horizontalAlignment: HorizontalAlignment.Center
             layout: StackLayout {
@@ -216,21 +220,13 @@ Container {
             equalizerPreset: getEqualizer();
             
             function nextAfterLoad() {
-                _tracksController.next();
                 _api.loaded.disconnect(player.nextAfterLoad);
+                root.advanceOrWrap();
             }
             
             onError: {
                 nowplaying.revoke();
                 _app.toast((qsTr("Media player error: ") + Retranslate.onLocaleOrLanguageChanged) + mediaError);
-            }
-            
-            onMediaStateChanged: {
-                if (mediaState === MediaState.Started) {
-                    if (root.scrobblerEnabled) {
-                        _lastFM.track.updateNowPlaying(root.artistName, root.trackName);
-                    }
-                }
             }
             
             onPlaybackCompleted: {
@@ -242,14 +238,6 @@ Container {
                     root.currentTime = getMediaTime(position);
                 }
                 
-                if (root.scrobblerEnabled) {
-                    if (!root.scrobbled) {
-                        if (position >= (root.durationMillis / 2) || position >= root.fourMinutes) {
-                            root.scrobbled = true;
-                            _lastFM.track.scrobble(root.artistName, root.trackName, root.startTime);
-                        }
-                    }
-                }
             }
         },
         
@@ -306,6 +294,20 @@ Container {
         }
     }
     
+    // Called once a load() finished because we had run out of tracks. If there was
+    // nothing new to load, the catalogue is simply exhausted (it is ~94 tracks), so
+    // start it over rather than going quiet at the end of the list.
+    function advanceOrWrap() {
+        if (_tracksController.next()) {
+            return;
+        }
+        
+        var tracks = _tracksService.tracks;
+        if (tracks.length > 0) {
+            _tracksController.play(tracks[0]);
+        }
+    }
+    
     function prev() {
         nowplaying.revoke();
         _tracksController.prev();
@@ -333,8 +335,6 @@ Container {
                 player.sourceUrl = track.streamUrl;
             }
             
-            root.scrobbled = false;
-            root.startTime = new Date().getTime() / 1000;
             root.durationMillis = track.duration;
             
             var parts = getArtistAndTrack(track.title);
@@ -378,20 +378,45 @@ Container {
         root.title = track.title;
         root.currentTime = getMediaTime(player.position);
         root.duration = getMediaTime(track.duration);
-        root.cover = track.imagePath;
+        root.cover = track.imagePath !== "" ? track.imagePath : "asset:///images/cover.jpg";
         root.favourite = track.favourite;
         likeButton.percentage = 0;
     }
     
+    function updateCover(id, imagePath) {
+        if (root.trackId === id) {
+            root.cover = "file://" + imagePath;
+            nowplaying.iconUrl = "file://" + imagePath;
+        }
+    }
+    
     function getArtistAndTrack(title) {
-        var track = _tracksService.active.toMap();
-        var parts = track.title.split(" – ");
+        var parts = title.split(" – ");
+        if (parts.length < 2) {
+            return {artist: "", track: title};   // a radio station, not "artist - track"
+        }
         return {artist: parts[0].trim(), track: parts[1].trim()};
+    }
+
+    // A radio station moved on to the next song: the track object was patched in C++,
+    // here we refresh what is on screen and in the now-playing overlay.
+    function updateMetadata(id, title) {
+        if (root.trackId !== id) {
+            return;
+        }
+
+        root.title = title;
+        var parts = getArtistAndTrack(title);
+        root.artistName = parts.artist;
+        root.trackName = parts.track;
+        nowplaying.setMetaData({"artist": root.artistName, "track": root.trackName, "duration": root.durationMillis, "album": ""});
+    }
+
+    function updateSource() {
+        root.sourceCanDownload = _api.canDownload();
     }
     
     function updateSettings() {
-        var lastFMKey = _appConfig.get("lastfm_key");
-        root.scrobblerEnabled = lastFMKey !== undefined && lastFMKey !== "";
         
         player.equalizerPreset = getEqualizer();
     }
@@ -437,10 +462,12 @@ Container {
         root.screenWidth = display.pixelSize.width;
         root.screenHeight = display.pixelSize.height;
         
-        var lastFMKey = _appConfig.get("lastfm_key");
-        root.scrobblerEnabled = lastFMKey !== undefined && lastFMKey !== "";
         
         _tracksController.played.connect(root.play);
+        _tracksService.imageChanged.connect(root.updateCover);
+        _tracksService.metadataChanged.connect(root.updateMetadata);
+        _api.activeSourceChanged.connect(root.updateSource);
+        updateSource();
         _tracksController.downloadProgress.connect(root.downloadProgress);
         Application.asleep.connect(root.stopRendering);
         Application.awake.connect(root.resumeRendering);

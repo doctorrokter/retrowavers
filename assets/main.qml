@@ -16,11 +16,9 @@
 
 import bb.cascades 1.4
 import bb.multimedia 1.4
-import bb.system 1.2
 import chachkouski.util 1.0
 import "components"
 import "pages"
-import "sheets"
 
 NavigationPane {
     id: navigation
@@ -42,38 +40,6 @@ NavigationPane {
             }
         }
         
-        actions: [
-            ActionItem {
-                id: rateAppAction
-                
-                title: qsTr("Rate app") + Retranslate.onLocaleOrLanguageChanged
-                imageSource: "asset:///images/ic_blackberry.png"
-                
-                onTriggered: {
-                    _appConfig.set("app_rated", "true");
-                    bbwInvoke.trigger(bbwInvoke.query.invokeActionId);
-                }
-            },
-            
-            ActionItem {
-                title: qsTr("Send feedback") + Retranslate.onLocaleOrLanguageChanged
-                imageSource: "asset:///images/ic_feedback.png"
-                
-                onTriggered: {
-                    invokeFeedback.trigger(invokeFeedback.query.invokeActionId);
-                }
-            },
-            
-            ActionItem {
-                title: qsTr("LastFM account") + Retranslate.onLocaleOrLanguageChanged
-                imageSource: "asset:///images/ic_sign_out.png"
-                
-                onTriggered: {
-                    var fm = lastFm.createObject();
-                    navigation.push(fm);
-                }
-            }
-        ]
     }
     
     Page {
@@ -146,30 +112,6 @@ NavigationPane {
                             
                             Player {}
                             
-                            contextActions: [
-                                ActionSet {
-                                    title: qsTr("Share with:") + Retranslate.onLocaleOrLanguageChanged
-                                    ActionItem {
-                                        title: qsTr("VK") + Retranslate.onLocaleOrLanguageChanged
-                                        imageSource: "asset:///images/ic_vk.png"
-                                        enabled: _tracksService.active !== null && _tracksService.active !== undefined
-                                        
-                                        onTriggered: {
-                                            _app.share("vk");
-                                        }
-                                    }
-                                    
-                                    ActionItem {
-                                        title: qsTr("Facebook") + Retranslate.onLocaleOrLanguageChanged
-                                        imageSource: "asset:///images/ic_facebook.png"
-                                        enabled: _tracksService.active !== null && _tracksService.active !== undefined
-                                        
-                                        onTriggered: {
-                                            _app.share("fb");
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     },
                 
@@ -233,60 +175,6 @@ NavigationPane {
             }
         }
         
-        function openShareWithVk() {
-            var sp = sharePage.createObject();
-            sp.type = "vk";
-            sp.objectName = "share_page";
-            navigation.push(sp);
-        }
-        
-        function openShareWithFB() {
-            var sp = sharePage.createObject();
-            sp.type = "fb";
-            sp.objectName = "share_page";
-            navigation.push(sp);
-        }
-        
-        function shareWithVk() {
-            if (_appConfig.get("vk_access_token") === "") {
-                var vkSheet = vkAuth.createObject();
-                vkSheet.accessTokenAndUserIdReceived.connect(function(accessToken, userId, apiVersion) {
-                    vkSheet.close();
-                    _appConfig.set("vk_access_token", accessToken);
-                    _appConfig.set("vk_user_id", userId);
-                    _appConfig.set("vk_api_version", apiVersion);
-                    openShareWithVk();
-                });
-                vkSheet.open();
-            } else {
-                // open share page with vk option   
-                openShareWithVk();
-            }
-        }
-        
-        function shareWithFB() {
-            if (_appConfig.get("fb_access_token") === "") {
-                var fbSheet = fbAuth.createObject();
-                fbSheet.accessTokenAndUserIdReceived.connect(function(accessToken, apiVersion) {
-                    fbSheet.close();
-                    _appConfig.set("fb_access_token", accessToken);
-                    _appConfig.set("fb_api_version", apiVersion);
-                    openShareWithFB();
-                });
-                fbSheet.open();
-            } else {
-                // open share page with fb option
-                openShareWithFB();
-            }
-        }
-        
-        function onShare() {
-            var page = navigation.at(navigation.count() - 1);
-            if (page.objectName === "share_page") {
-                navigation.pop();
-            }
-        }
-    
         onCreationCompleted: {
             var data = [];
             data.push({type: "player"});
@@ -295,35 +183,11 @@ NavigationPane {
         
             _tracksService.activeChanged.connect(root.updateImageUrl);
             _tracksService.blurImageChanged.connect(root.changeBlurImage);
-            _vkController.shared.connect(onShare);
-            _fbController.shared.connect(onShare);
-            _app.shareRequested.connect(function(type) {
-                switch (type) {
-                    case "vk": shareWithVk(); break;
-                    case "fb": shareWithFB(); break;
-                }    
-            });
-        
             Application.thumbnail.connect(function() {
                 Application.setCover(cover);    
             });
             
             timer.start();
-            
-            var startCount = _appConfig.get("start_count");
-            if (startCount === "") {
-                startCount = 1;
-            } else {
-                startCount = parseInt(startCount);
-                startCount++;
-            }
-            
-            var appRated = _appConfig.get("app_rated");
-            if ((startCount === 2 || startCount % 5 === 0) && (appRated === "" || appRated === "false")) {
-                dialog.show();
-            }
-            
-            _appConfig.set("start_count", startCount);
         }
     }
     
@@ -346,44 +210,6 @@ NavigationPane {
             SettingsPage {}    
         },
         
-        ComponentDefinition {
-            id: lastFm
-            LastFMAuth {}    
-        },
-        
-        ComponentDefinition {
-            id: sharePage
-            SharePage {}
-        },
-        
-        ComponentDefinition {
-            id: vkAuth
-            VkAuth {}
-        },
-        
-        ComponentDefinition {
-            id: fbAuth
-            FBAuth {}
-        },
-        
-        Invocation {
-            id: invokeFeedback
-            query {
-                uri: "mailto:retrowavers.bbapp@gmail.com?subject=Retrowavers:%20Feedback"
-                invokeActionId: "bb.action.SENDEMAIL"
-                invokeTargetId: "sys.pim.uib.email.hybridcomposer"
-            }
-        },
-        
-        Invocation {
-            id: bbwInvoke
-            query {
-                uri: "appworld://content/60003994"
-                invokeActionId: "bb.action.OPEN"
-                invokeTargetId: "sys.appworld"
-            }
-        },
-        
         Timer {
             id: timer
             
@@ -397,30 +223,7 @@ NavigationPane {
                     _app.toast(qsTr("No internet connection") + Retranslate.onLocaleOrLanguageChanged);
                 }
             }
-        },
-        
-        SystemDialog {
-            id: dialog
-            
-            title: qsTr("Love this app?") + Retranslate.onLocaleOrLanguageChanged
-            body: dialog.body = qsTr("This app is free and will be free without any annoying ads and payments. " + 
-                "But only one thing I would ask you is to leave a comment in BlackBerry World. " +
-                "It will help other people discover this app and increase my motivation to write other applications. " +
-                "Thanks for choosing this app!") + Retranslate.onLocaleOrLanguageChanged
-            
-            confirmButton {
-                label: qsTr("Rate app!") + Retranslate.onLocaleOrLanguageChanged
-            }
-            
-            cancelButton {
-                label: qsTr("Not now") + Retranslate.onLocaleOrLanguageChanged
-            }
-            
-            onFinished: {
-                if (value === 2) {
-                    rateAppAction.triggered();
-                }
-            }
         }
+        
     ]
 }

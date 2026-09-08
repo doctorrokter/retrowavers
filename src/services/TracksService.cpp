@@ -32,7 +32,7 @@ TracksService::TracksService(QObject* parent) : QObject(parent), m_active(NULL) 
 }
 
 TracksService::~TracksService() {
-    saveFavourite();
+    saveFavourites();
     m_active->deleteLater();
     foreach(Track* track, m_tracks) {
         track->deleteLater();
@@ -77,7 +77,7 @@ void TracksService::addFavourite(Track* track) {
     if (!exists) {
         m_favouriteTracks.append(track);
         emit favouriteTracksChanged(getFavouriteTracks());
-        saveFavourite();
+        saveFavourites();
     }
 }
 
@@ -95,7 +95,7 @@ bool TracksService::removeFavourite(const QString& id) {
                 track->deleteLater();
             }
 
-            saveFavourite();
+            saveFavourites();
             return true;
         }
         return false;
@@ -142,35 +142,73 @@ QVariantList TracksService::getFavouriteTracks() const {
     return tracks;
 }
 
-void TracksService::saveFavouriteTracksToShared() {
-    QString tracksPath = QDir::currentPath() + TRACKS;
-    QDir tracks(tracksPath);
-    if (tracks.exists()) {
-        QString sharedPath = QDir::currentPath() + FAVOURITE_TRACKS_SHARED;
-        QDir retrowave(sharedPath);
-        if (!retrowave.exists()) {
-            retrowave.mkpath(sharedPath);
-        }
-
-        foreach(Track* track, m_favouriteTracks) {
-            QString title = track->getTitle();
-            QString filePath = sharedPath + "/" + title.replace(" ", "_");
-            QFile target(filePath);
-            if (target.exists()) {
-                target.remove();
-            }
-
-            QFile source(track->getLocalPath());
-            if(source.exists()) {
-                target.open(QIODevice::WriteOnly);
-                target.write(source.readAll());
-                target.close();
-                source.close();
-            } else {
-                qDebug() << "TracksService: wrong source file " << track->getLocalPath() << endl;
-            }
+void TracksService::clearTracks() {
+    foreach(Track* track, m_tracks) {
+        if (track != m_active && !m_favouriteTracks.contains(track)) {
+            track->deleteLater();
         }
     }
+    m_tracks.clear();
+    emit tracksChanged(QVariantList());
+}
+
+int TracksService::migrateLegacyFavourites() {
+    int migrated = 0;
+
+    foreach(Track* track, m_favouriteTracks) {
+        if (track->getId().contains(":")) {
+            continue;   // already namespaced by a source (rwr:, soma:, ...)
+        }
+
+        // Old ids were bare numbers - and so are retrowave-radio.ru's, so without a
+        // namespace a legacy favourite could shadow a brand new track.
+        track->setId("legacy:" + track->getId());
+
+        // Both hosts are gone: retrowave.ru itself and the blur service it used.
+        // Clearing them stops the app from ever trying, and the blur is rendered on
+        // the device now anyway.
+        track->setBArtworkUrl("");
+        track->setBImagePath("");
+        if (track->getArtworkUrl().contains("retrowave.ru")) {
+            track->setArtworkUrl("");
+        }
+        if (track->getStreamUrl().contains("retrowave.ru")) {
+            track->setStreamUrl("");   // only the downloaded file can still play it
+        }
+
+        migrated++;
+    }
+
+    if (migrated > 0) {
+        saveFavourites();
+    }
+    return migrated;
+}
+
+void TracksService::updateMetadata(const QString& id, const QVariantMap& fields) {
+    Track* track = findById(id);
+    if (track == NULL) {
+        track = findFavouriteById(id);
+    }
+    if (track == NULL) {
+        return;
+    }
+
+    if (fields.contains("title")) {
+        track->setTitle(fields.value("title").toString());
+    }
+    if (fields.contains("author")) {
+        track->setAuthor(fields.value("author").toString());
+    }
+    if (fields.contains("name")) {
+        track->setName(fields.value("name").toString());
+    }
+    if (fields.contains("artworkUrl")) {
+        track->setArtworkUrl(fields.value("artworkUrl").toString());
+        track->setImagePath("");   // the old cover belongs to the previous song
+    }
+
+    emit metadataChanged(id, track->getTitle());
 }
 
 int TracksService::count() const {
@@ -180,6 +218,13 @@ int TracksService::count() const {
 void TracksService::setImagePath(const QString& id, const QString& imagePath) {
     foreach(Track* track, m_tracks) {
         if (track->getId().compare(id) == 0) {
+            track->setImagePath("file://" + imagePath);
+            emit imageChanged(id, imagePath);
+        }
+    }
+
+    foreach(Track* track, m_favouriteTracks) {
+        if (track->getId().compare(id) == 0 && !m_tracks.contains(track)) {
             track->setImagePath("file://" + imagePath);
             emit imageChanged(id, imagePath);
         }
@@ -210,7 +255,7 @@ QList<Track*>& TracksService::getFavouriteTracksList() {
     return m_favouriteTracks;
 }
 
-void TracksService::saveFavourite() {
+void TracksService::saveFavourites() {
     QVariantList list;
     foreach(Track* track, m_favouriteTracks) {
         list.append(track->toMap());

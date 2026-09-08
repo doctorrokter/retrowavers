@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QVariantMap>
 #include "../services/TracksService.hpp"
+#include "../services/MusicLibrary.hpp"
 #include <bb/platform/Notification>
 #include <bb/platform/NotificationType>
 #include <QNetworkAccessManager>
@@ -58,6 +59,7 @@ private slots:
 
 private:
     TracksService* m_tracks;
+    MusicLibrary* m_library;
     int m_index;
     int m_favIndex;
     int m_playerMode;

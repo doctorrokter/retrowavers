@@ -9,7 +9,7 @@
 #include <QDebug>
 
 Track::Track(QObject* parent) : QObject(parent), m_id(""), m_duration(0), m_artworkUrl(""), m_bArtworkUrl(""),
-m_streamUrl(""), m_title(""), m_imagePath(""), m_bImagePath(""), m_favourite(false), m_filename(""), m_localPath("") {}
+m_streamUrl(""), m_title(""), m_author(""), m_name(""), m_imagePath(""), m_bImagePath(""), m_favourite(false), m_filename(""), m_localPath("") {}
 
 Track::Track(const Track& track) : QObject(track.parent()) {
     swap(track);
@@ -71,6 +71,30 @@ void Track::setTitle(const QString& title) {
     }
 }
 
+const QString& Track::getAuthor() const { return m_author; }
+void Track::setAuthor(const QString& author) {
+    if (m_author.compare(author) != 0) {
+        m_author = author;
+        emit authorChanged(m_author);
+    }
+}
+
+const QString& Track::getName() const { return m_name; }
+void Track::setName(const QString& name) {
+    if (m_name.compare(name) != 0) {
+        m_name = name;
+        emit nameChanged(m_name);
+    }
+}
+
+const QStringList& Track::getTags() const { return m_tags; }
+void Track::setTags(const QStringList& tags) {
+    if (m_tags != tags) {
+        m_tags = tags;
+        emit tagsChanged(m_tags);
+    }
+}
+
 const QString& Track::getImagePath() const { return m_imagePath; }
 void Track::setImagePath(const QString& imagePath) {
     if (m_imagePath.compare(imagePath) != 0) {
@@ -115,6 +139,9 @@ QVariantMap Track::toMap() {
     QVariantMap map;
     map["id"] = m_id;
     map["title"] = m_title;
+    map["author"] = m_author;
+    map["name"] = m_name;
+    map["tags"] = m_tags;
     map["duration"] = m_duration;
     map["artworkUrl"] = m_artworkUrl;
     map["bArtworkUrl"] = m_bArtworkUrl;
@@ -130,6 +157,9 @@ QVariantMap Track::toMap() {
 void Track::fromMap(const QVariantMap& map) {
     m_id = map.value("id").toString();
     m_title = map.value("title").toString();
+    m_author = map.value("author", "").toString();
+    m_name = map.value("name", "").toString();
+    m_tags = map.value("tags").toStringList();
     m_duration = map.value("duration").toInt();
     m_artworkUrl = map.value("artworkUrl").toString();
     m_bArtworkUrl = map.value("bArtworkUrl", "").toString();
@@ -146,6 +176,9 @@ void Track::swap(const Track& track) {
     m_id = track.getId();
     m_duration = track.getDuration();
     m_title = track.getTitle();
+    m_author = track.getAuthor();
+    m_name = track.getName();
+    m_tags = track.getTags();
     m_artworkUrl = track.getArtworkUrl();
     m_bArtworkUrl = track.getBArtworkUrl();
     m_streamUrl = track.getStreamUrl();

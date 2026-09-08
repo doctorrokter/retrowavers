@@ -20,9 +20,6 @@
 #include <QObject>
 #include "controllers/ApiController.hpp"
 #include "controllers/TracksController.hpp"
-#include "controllers/VKController.hpp"
-#include "controllers/FacebookController.hpp"
-#include "controllers/lastfm/LastFMController.hpp"
 #include "services/TracksService.hpp"
 #include "config/AppConfig.hpp"
 #include <QNetworkConfigurationManager>
@@ -53,12 +50,10 @@ public:
     virtual ~ApplicationUI();
 
     Q_INVOKABLE void toast(const QString& message);
-    Q_INVOKABLE void share(const QString& type);
     bool isOnline() const;
 
     Q_SIGNALS:
         void onlineChanged(const bool& online);
-        void shareRequested(const QString& type);
 
 private slots:
     void onSystemLanguageChanged();
@@ -69,9 +64,6 @@ private:
 
     ApiController* m_api;
     TracksController* m_tracksController;
-    VKController* m_pVKController;
-    FacebookController* m_pFBController;
-    LastFMController* m_lastFM;
     TracksService* m_tracks;
     AppConfig* m_pAppConfig;
     QNetworkConfigurationManager* m_pNetworkConf;
@@ -79,7 +71,9 @@ private:
 
     bool m_online;
 
-    void cleanDir(const QString& path);
+    void migrateFromLegacy();
+    void removeLegacyBlurs(const QString& path);
+
 };
 
 #endif /* ApplicationUI_HPP_ */
