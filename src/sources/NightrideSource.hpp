@@ -2,65 +2,45 @@
  * NightrideSource - Nightride FM: eleven stations, all of them squarely in this
  * app's genre (synthwave, darksynth, chillsynth, spacesynth, horrorsynth...).
  *
- * Two conveniences and one quirk:
+ * The station list is hardcoded because there is no endpoint for it - only the
+ * metadata feed. That is no loss: the list changes about never, and hardcoding it
+ * gives a proper display name and genre per station.
  *
- *   - The streams are PLAIN HTTP (http://stream.nightride.fm/<id>.mp3), so
- *     mm-renderer fetches them without touching TLS at all.
- *
- *   - There is no station-list endpoint, so the list lives in this file. That is
- *     fine: it changes about never, and hardcoding it means a proper display name
- *     and genre per station instead of whatever an API would hand us.
- *
- *   - "What is on air" comes from /meta, which is a server-sent EVENT STREAM, not
- *     a request that ends. It opens with a snapshot of every station, so we read
- *     until the station we care about shows up and then abort the request - see
- *     onMetaReadyRead().
+ * The one thing this service does differently from every other radio here: /meta is
+ * a server-sent EVENT STREAM, not a request that ends. It opens with a snapshot of
+ * every station, so requestNowPlaying() is overridden to read until our station
+ * shows up and then abort the request.
  */
 
 #ifndef NIGHTRIDESOURCE_HPP_
 #define NIGHTRIDESOURCE_HPP_
 
-#include "ITrackSource.hpp"
+#include "RadioSource.hpp"
 
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QByteArray>
-#include <QVariantMap>
 
-class QTimer;
+class QNetworkReply;
 
-class NightrideSource: public ITrackSource {
+class NightrideSource: public RadioSource {
     Q_OBJECT
 public:
     NightrideSource(QObject* parent = 0);
-    virtual ~NightrideSource();
 
     QString id() const;
     QString name() const;
-    QString kind() const;
 
-    bool canList() const;
-    bool canDownload() const;
-
-    void loadMore();
-    void reset();
-    void setActiveTrack(const QString& trackId);
+protected:
+    void requestStations();
+    void requestNowPlaying(const QString& stationKey);
 
 private slots:
     void onMetaReadyRead();
     void onMetaFinished();
-    void onPollTimeout();
 
 private:
-    QNetworkAccessManager* m_network;
-    QTimer* m_poll;
-    bool m_delivered;
-    QString m_activeTrackId;
     QByteArray m_metaBuffer;
     QNetworkReply* m_metaReply;
 
-    QString stationOf(const QString& trackId) const;
-    void requestNowPlaying();
     void closeMetaReply();
 };
 

@@ -87,6 +87,8 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/sources/NightrideSource.cpp) \
         $$quote($$BASEDIR/src/sources/PlazaSource.cpp) \
         $$quote($$BASEDIR/src/sources/RetrowaveOneSource.cpp) \
+        $$quote($$BASEDIR/src/sources/RadioSource.cpp) \
+        $$quote($$BASEDIR/src/sources/IcecastSource.cpp) \
         $$quote($$BASEDIR/src/sources/RetrowaveRadioSource.cpp) \
         $$quote($$BASEDIR/src/sources/SomaFmSource.cpp) \
         $$quote($$BASEDIR/src/sources/SynthwaveRadioSource.cpp) \
@@ -108,6 +110,8 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/sources/NightrideSource.hpp) \
         $$quote($$BASEDIR/src/sources/PlazaSource.hpp) \
         $$quote($$BASEDIR/src/sources/RetrowaveOneSource.hpp) \
+        $$quote($$BASEDIR/src/sources/RadioSource.hpp) \
+        $$quote($$BASEDIR/src/sources/IcecastSource.hpp) \
         $$quote($$BASEDIR/src/sources/RetrowaveRadioSource.hpp) \
         $$quote($$BASEDIR/src/sources/SomaFmSource.hpp) \
         $$quote($$BASEDIR/src/sources/SynthwaveRadioSource.hpp) \
