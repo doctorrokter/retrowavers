@@ -84,11 +84,11 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/services/Id3Tagger.cpp) \
         $$quote($$BASEDIR/src/services/MusicLibrary.cpp) \
         $$quote($$BASEDIR/src/services/TracksService.cpp) \
+        $$quote($$BASEDIR/src/sources/IcecastSource.cpp) \
         $$quote($$BASEDIR/src/sources/NightrideSource.cpp) \
         $$quote($$BASEDIR/src/sources/PlazaSource.cpp) \
-        $$quote($$BASEDIR/src/sources/RetrowaveOneSource.cpp) \
         $$quote($$BASEDIR/src/sources/RadioSource.cpp) \
-        $$quote($$BASEDIR/src/sources/IcecastSource.cpp) \
+        $$quote($$BASEDIR/src/sources/RetrowaveOneSource.cpp) \
         $$quote($$BASEDIR/src/sources/RetrowaveRadioSource.cpp) \
         $$quote($$BASEDIR/src/sources/SomaFmSource.cpp) \
         $$quote($$BASEDIR/src/sources/SynthwaveRadioSource.cpp) \
@@ -107,25 +107,17 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/services/MusicLibrary.hpp) \
         $$quote($$BASEDIR/src/services/TracksService.hpp) \
         $$quote($$BASEDIR/src/sources/ITrackSource.hpp) \
+        $$quote($$BASEDIR/src/sources/IcecastSource.hpp) \
         $$quote($$BASEDIR/src/sources/NightrideSource.hpp) \
         $$quote($$BASEDIR/src/sources/PlazaSource.hpp) \
-        $$quote($$BASEDIR/src/sources/RetrowaveOneSource.hpp) \
         $$quote($$BASEDIR/src/sources/RadioSource.hpp) \
-        $$quote($$BASEDIR/src/sources/IcecastSource.hpp) \
+        $$quote($$BASEDIR/src/sources/RetrowaveOneSource.hpp) \
         $$quote($$BASEDIR/src/sources/RetrowaveRadioSource.hpp) \
         $$quote($$BASEDIR/src/sources/SomaFmSource.hpp) \
         $$quote($$BASEDIR/src/sources/SynthwaveRadioSource.hpp) \
         $$quote($$BASEDIR/src/sources/WaveRadioSource.hpp) \
         $$quote($$BASEDIR/src/vendor/Console.hpp)
 }
-
-INCLUDEPATH += $$quote($$BASEDIR/src/controllers) \
-    $$quote($$BASEDIR/src/services) \
-    $$quote($$BASEDIR/src/models) \
-    $$quote($$BASEDIR/src/sources) \
-    $$quote($$BASEDIR/src) \
-    $$quote($$BASEDIR/src/vendor) \
-    $$quote($$BASEDIR/src/config)
 
 CONFIG += precompile_header
 

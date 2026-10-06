@@ -1,0 +1,22 @@
+[Unit]
+Description=Retrowavers on-demand transcoder (lossless -> mp3)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/retrowavers/transcode-service.py --root /var/www/retrowave --bitrate 320k
+Restart=on-failure
+RestartSec=5
+
+# Runs as the web user: it reads the music library and writes only the mp3 cache
+# under the web root, so give www-data read access to the library and write access
+# to api/v1/stream.
+User=www-data
+Group=www-data
+
+# Only ever listens on loopback (nginx proxies to it), so it needs no exposure.
+PrivateTmp=yes
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target

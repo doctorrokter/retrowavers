@@ -1,0 +1,64 @@
+# Retrowavers catalogue.
+#
+# Static files plus one fallback: an mp3 that does not exist yet is produced from
+# the lossless original by transcode-service.py, then served from disk forever
+# after. See README.md.
+
+server {
+    listen 80;
+    server_name music.example.com;
+
+    root /var/www/retrowave;
+
+    # The app requests /tracks/shuffled?limit=25&sessionId=<uuid>. Both parameters
+    # matter to the ORIGINAL server (it uses sessionId to avoid repeating tracks),
+    # not to us: we answer the same full catalogue every time. That is enough
+    # because the app de-duplicates by track id and stops asking for more once a
+    # batch brings nothing new.
+    location = /api/v1/tracks/shuffled {
+        default_type application/json;
+        charset utf-8;
+        alias /var/www/retrowave/api/v1/tracks.json;
+    }
+
+    location = /api/v1/tracks {
+        default_type application/json;
+        charset utf-8;
+        alias /var/www/retrowave/api/v1/tracks.json;
+    }
+
+    # Audio. Cached mp3s are plain static files - nginx answers Range requests out
+    # of the box, which is what seeking needs. A miss means the track came from a
+    # FLAC nobody has played yet: hand it to the transcoder.
+    location /api/v1/stream/ {
+        try_files $uri @transcode;
+        add_header Cache-Control "public, max-age=2592000";
+    }
+
+    location @transcode {
+        proxy_pass http://127.0.0.1:8080;
+
+        # ffmpeg needs a moment on the first play of a track; the defaults would
+        # give up before a long one is done.
+        proxy_read_timeout 300s;
+        proxy_send_timeout 300s;
+
+        # Stream it out as it is produced rather than spooling the whole file.
+        proxy_buffering off;
+    }
+
+    location /api/v1/artwork/ {
+        add_header Cache-Control "public, max-age=2592000";
+    }
+}
+
+# --- On TLS ------------------------------------------------------------------
+# Plain http above is deliberate, and it is the easy path for BlackBerry 10:
+# mm-renderer fetches the audio itself and never sees the CA bundle the app
+# installs at startup, so an https stream depends on the device's own 2015-era
+# trust store. Every radio service the app talks to is plain http for this reason.
+#
+# If you do want https, Let's Encrypt works for the JSON and the artwork (those go
+# through Qt, which does see our bundle) - and the catalogue at retrowave-radio.ru
+# proves mm-renderer can usually cope with a modern chain too. Just know that this
+# is the part that can fail on an older device, not the API.
